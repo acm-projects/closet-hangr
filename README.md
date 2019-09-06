@@ -6,6 +6,7 @@ Follow through the information below to get started!
 
 ### Software & Language Prerequisites
 #### Flutter: [Documentation](https://flutter.dev/docs) 
+Important to use the documentation after installing so you can understand how to write your app!
 Installation:
 ```
 1) Head to the documentation link then click on "Get Started."
@@ -30,7 +31,7 @@ We'll be using VS Code as it supports most tech and languages.
 #### Dart: [Documentation](https://dart.dev/guides)
 This is the language for Flutter. It's similiar to Java and Java-Script. It's also brand new!
 
-#### Git
+#### Git [Cheat Sheet](https://www.atlassian.com/dam/jcr:8132028b-024f-4b6b-953e-e68fcce0c5fa/atlassian-git-cheatsheet.pdf)
 Required.
 
 ### Technology
@@ -45,3 +46,11 @@ Store user outfits, suggest outfits to other. Also to store and retrieve data.
 
 #### OAuth: [Link](https://oauth.net/2/)
 Verifying user crendentials/logins.
+
+## MVP (Minimum Viable Product)
+a.) User friendly interface. An example: using a Tinder-style interface: swipe left (dislike), swipe right (like), swipe down (save for later). Users can also post images.
+b.) Contain a login page and menu/account settings.
+c.) Have a tracker leaderboard for clothing:
+  i. Display most/least worn clothes
+d.) Storage for least used and least liked.
+e.) Match clothes based on user preferences, color palettes, and match user.

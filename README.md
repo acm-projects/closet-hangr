@@ -38,7 +38,10 @@ Required.
 We'll be using machine learning to detect colors from clothes. Here's a [blog explaining.](https://towardsdatascience.com/color-identification-in-images-machine-learning-application-b26e770c4c71)
 
 #### Postman
+Used for testing API calls. Here's a [blog](https://dev.to/steelwolf180/building-restful-api-with-flask-postman--pytest---part-2-read-time-10-mins-1d6d)
 
-#### AWS
+#### AWS: [Link](https://aws.amazon.com/s3/)
+Store user outfits, suggest outfits to other. Also to store and retrieve data.
 
-#### OAuth
+#### OAuth: [Link](https://oauth.net/2/)
+Verifying user crendentials/logins.

@@ -54,3 +54,9 @@ c.) Have a tracker leaderboard for clothing:
   i. Display most/least worn clothes
 d.) Storage for least used and least liked.
 e.) Match clothes based on user preferences, color palettes, and match user.
+
+## Stretch Goal (Only work on after MVP is achieved) (not in order)
+a.) Implement proactive outfits based on weekly forecasts.
+  i. An example: if it’s Winter, suggest sweaters. If it’s Summer, suggest tank tops.
+b.) Option to sell garments on eBay.
+c.) Blur users faces in images that are uploaded.

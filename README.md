@@ -1,4 +1,4 @@
-# Closet-Hangr
+# Closet Hangr
 Mobile app that keeps track of your clothing and find ideas for new outfit through artificial intelligence. The app will use artificial intelligence to help find match clothes of the user preferences or color palettes, and use a like/dislike system to improve the process in matching clothes. 
 
 ## Getting Started
@@ -48,15 +48,15 @@ Store user outfits, suggest outfits to other. Also to store and retrieve data.
 Verifying user crendentials/logins.
 
 ## MVP (Minimum Viable Product)
-a.) User friendly interface. An example: using a Tinder-style interface: swipe left (dislike), swipe right (like), swipe down (save for later). Users can also post images.
-b.) Contain a login page and menu/account settings.
-c.) Have a tracker leaderboard for clothing:
-  i. Display most/least worn clothes
-d.) Storage for least used and least liked.
-e.) Match clothes based on user preferences, color palettes, and match user.
+1. User friendly interface. An example: using a Tinder-style interface: swipe left (dislike), swipe right (like), swipe down (save for later). Users can also post images.
+2. Contain a login page and menu/account settings.
+3. Have a tracker leaderboard for clothing:
+   * Display most/least worn clothes
+4. Storage for least used and least liked.
+5. Match clothes based on user preferences, color palettes, and match user.
 
 ## Stretch Goal (Only work on after MVP is achieved) (not in order)
-a.) Implement proactive outfits based on weekly forecasts.
-  i. An example: if it’s Winter, suggest sweaters. If it’s Summer, suggest tank tops.
-b.) Option to sell garments on eBay.
-c.) Blur users faces in images that are uploaded.
+- Implement proactive outfits based on weekly forecasts.
+   * An example: if it’s Winter, suggest sweaters. If it’s Summer, suggest tank tops.
+- Option to sell garments on eBay.
+- Blur users faces in images that are uploaded.

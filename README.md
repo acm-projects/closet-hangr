@@ -5,32 +5,27 @@ Mobile app that keeps track of your clothing and find ideas for new outfit throu
 Follow through the information below to get started!
 
 ### Software & Language Prerequisites
-#### Flutter: [Documentation](https://flutter.dev/docs) 
-Important to use the documentation after installing so you can understand how to write your app!
-Flutter uses the language Dart, so it important for you to learn Dart before jumping to Flutter.
-However, if you want to challenge yourself then you can learn the language as you design the app.
+#### React Native: [Documentation](https://facebook.github.io/react-native/docs/getting-started) 
+Documentation on React Native. The documentation is definitely more robust compare the Flutter documentation, and this will also help y'all. 
+
 Installation:
 ```
-1) Head to the documentation link then click on "Get Started."
-2) Select your operating system and view the system requirement.
-3) Get the Flutter SDK: Follow the steps on Documentation
-4) Run flutter doctor to check on needed dependencies
-5) Optional: If you want to run Flutter commands in regular console then add Flutter to PATH environment.
-6) Install android studio, required for development for Android.
-7) You're set.
+Expo Cli
+1.) Have the latest [NodeJS](https://nodejs.org/en/download/) installed.
+2.) Once installed, write "npm install -g expo-cli" onto the command prompt.
+3.) After installed, write "expo init AwesomeProject" then select the template and name the project.
+4.) Then run "cd AwesomeProject", after that run "npm start"
 
 ```
-[Why Flutter](https://nevercode.io/blog/flutter-vs-react-native-a-developers-perspective/): Aside from the blog and [this blog](https://equaleyes.com/blog/2019/01/22/why-to-flutter/), I personally would be delighted to have knowledge on new technologies over existing ones. 
+[Why React Native](https://nevercode.io/blog/flutter-vs-react-native-a-developers-perspective/): It's a lot older and contains more documentations and usage so finding resources for this framework would be easier than Flutter.
 
-#### Dart: [Documentation](https://dart.dev/guides)
+#### Java Script: [Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 This is the language for Flutter. It's similiar to Java and Java-Script.
 
 #### VS Code: [Install](https://code.visualstudio.com/)
 We'll be using VS Code as it supports most tech and languages.
 ```
-1.) Install VS Code
-2.) Click on View > Command Palette. Then type install and seelct Extensions: Install Extensions.
-3.) Type flutter in search field, select Flutter and install. Dart will be installed as well.
+  Pending
 ```
 
 
@@ -41,8 +36,6 @@ Also get git for windows or mac.
 ### Technology
 #### Machine Learning
 We'll be using machine learning to detect colors from clothes. Here's a [blog explaining.](https://towardsdatascience.com/color-identification-in-images-machine-learning-application-b26e770c4c71)
-Here's [video](https://www.youtube.com/watch?v=DWsJc1xnOZo) explaining how ML works.
-Here' video about [ML in Flutter](https://www.youtube.com/watch?v=vT6gNFE0GBw)
 
 #### Postman
 Used for testing API calls. Here's a [blog](https://dev.to/steelwolf180/building-restful-api-with-flask-postman--pytest---part-2-read-time-10-mins-1d6d)

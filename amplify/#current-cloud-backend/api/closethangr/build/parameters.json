@@ -1,14 +1,3 @@
-{
-    "CreateAPIKey": 0,
-    "AppSyncApiName": "closethangr",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "DynamoDBEnableServerSideEncryption": "false",
-    "AuthCognitoUserPoolId": {
-        "Fn::GetAtt": [
-            "authclosethangr3185a411",
-            "Outputs.UserPoolId"
-        ]
-    },
-    "S3DeploymentBucket": "closethangr-laptop-20190925200621-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/29e39b00a79f59c1903ccaebe6b5ba02af59e876"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5588d5b066f343cd9f6e1709f8916f47e03493483773f0450a925d50180ad6ef
+size 483

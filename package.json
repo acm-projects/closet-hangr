@@ -1,30 +1,3 @@
-{
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
-  },
-  "dependencies": {
-    "aws-amplify": "^1.1.40",
-    "aws-amplify-react-native": "^2.1.19",
-    "aws-sdk": "^2.538.0",
-    "braces": "^2.3.1",
-    "expo": "^35.0.0",
-    "react": "16.8.3",
-    "react-dom": "16.8.3",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
-    "react-native-web": "^0.11.7",
-    "yarn": "^1.17.3"
-  },
-  "devDependencies": {
-    "babel-preset-expo": "^7.0.0",
-    "react-native-fs": "^2.12.1",
-    "react-native-sound": "^0.10.9",
-    "react-native-vector-icons": "^4.2.0",
-    "react-native-voice": "^0.2.6"
-  },
-  "private": true
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:69e638ce7fa1abe6e1a167d32d0af696eb86a79a61d966177668058a573edf7a
+size 846

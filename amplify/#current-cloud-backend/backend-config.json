@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:013d2f98f16ebc8c967825b1edd11b72323118385e0d29495de24e712f930934
-size 532
+{
+	"auth": {
+		"closethangr3185a411": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"api": {
+		"closethangr": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authclosethangr3185a411"
+						}
+					}
+				}
+			}
+		}
+	}
+}

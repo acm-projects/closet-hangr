@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:82a43f614881717e539665d144a716dc9547c51cb67e3aa202025743a2addfb8
-size 593
+{
+  "expo": {
+    "name": "closethangr",
+    "slug": "closethangr",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}

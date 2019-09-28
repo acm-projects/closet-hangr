@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7a5a44614a84ac90cc30272d0d8be65a04cf109e34818d0cc178cb15434a7f68
-size 890
+{
+    "laptop": {
+        "awscloudformation": {
+            "AuthRoleName": "closethangr-laptop-20190925200621-authRole",
+            "UnauthRoleArn": "arn:aws:iam::837676604892:role/closethangr-laptop-20190925200621-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::837676604892:role/closethangr-laptop-20190925200621-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "closethangr-laptop-20190925200621-deployment",
+            "UnauthRoleName": "closethangr-laptop-20190925200621-unauthRole",
+            "StackName": "closethangr-laptop-20190925200621",
+            "StackId": "arn:aws:cloudformation:us-east-2:837676604892:stack/closethangr-laptop-20190925200621/d8bd0db0-dff9-11e9-8ef8-0672668ff2ce"
+        },
+        "categories": {
+            "auth": {
+                "closethangr3185a411": {}
+            }
+        }
+    }
+}

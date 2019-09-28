@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:62f7fb1ee0114018c1f5541dc7ca53dcb6aafabab06cf1b30deef3f5c203299d
-size 290
+{
+    "AppSyncApiName": "closethangr",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authclosethangr3185a411",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

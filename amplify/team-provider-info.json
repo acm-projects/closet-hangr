@@ -1,0 +1,19 @@
+{
+    "laptop": {
+        "awscloudformation": {
+            "AuthRoleName": "closethangr-laptop-20190925200621-authRole",
+            "UnauthRoleArn": "arn:aws:iam::837676604892:role/closethangr-laptop-20190925200621-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::837676604892:role/closethangr-laptop-20190925200621-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "closethangr-laptop-20190925200621-deployment",
+            "UnauthRoleName": "closethangr-laptop-20190925200621-unauthRole",
+            "StackName": "closethangr-laptop-20190925200621",
+            "StackId": "arn:aws:cloudformation:us-east-2:837676604892:stack/closethangr-laptop-20190925200621/d8bd0db0-dff9-11e9-8ef8-0672668ff2ce"
+        },
+        "categories": {
+            "auth": {
+                "closethangr3185a411": {}
+            }
+        }
+    }
+}

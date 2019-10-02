@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "closethangr3185a411_identitypool_3185a411",
+    "identityPoolName": "closethangrddcd9d44_identitypool_ddcd9d44",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "closet3185a411",
-    "userPoolName": "closethangr3185a411_userpool_3185a411",
+    "resourceNameTruncated": "closetddcd9d44",
+    "userPoolName": "closethangrddcd9d44_userpool_ddcd9d44",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -26,9 +26,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "closet3185a411_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "closetddcd9d44_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "closethangr3185a411",
+    "resourceName": "closethangrddcd9d44",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [

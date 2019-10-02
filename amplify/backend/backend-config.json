@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"closethangr3185a411": {
+		"closethangrddcd9d44": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []
@@ -16,11 +16,17 @@
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authclosethangr3185a411"
+							"userPoolId": "authclosethangrddcd9d44"
 						}
 					}
 				}
 			}
+		}
+	},
+	"storage": {
+		"photostorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
 		}
 	}
 }

@@ -1,7 +1,47 @@
 type User {
   id: ID!
-  name: String!
-  description: String
+  username: String
+  firstName: String
+  lastName: String
+  sex: String
+  clothing(filter: ModelClothingFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelClothingConnection
+  outfits(filter: ModelOutfitFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOutfitConnection
+}
+
+type Clothing {
+  id: ID!
+  photo: Photo
+  type: String
+  primaryColor: String
+  secondaryColor: String
+  user: User
+  outfits(filter: ModelOutfitClothingFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOutfitClothingConnection
+}
+
+type OutfitClothing {
+  id: ID!
+  clothing: Clothing
+  outfit: Outfit
+}
+
+type Outfit {
+  id: ID!
+  user: User
+  clothing(filter: ModelOutfitClothingFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOutfitClothingConnection
+}
+
+type Photo {
+  id: ID!
+  clothing: Clothing
+  bucket: String!
+  fullsize: PhotoS3Info!
+  thumbnail: PhotoS3Info!
+}
+
+type PhotoS3Info {
+  key: String!
+  width: Int!
+  height: Int!
 }
 
 enum ModelSortDirection {
@@ -71,8 +111,10 @@ input ModelBooleanFilterInput {
 
 input ModelUserFilterInput {
   id: ModelIDFilterInput
-  name: ModelStringFilterInput
-  description: ModelStringFilterInput
+  username: ModelStringFilterInput
+  firstName: ModelStringFilterInput
+  lastName: ModelStringFilterInput
+  sex: ModelStringFilterInput
   and: [ModelUserFilterInput]
   or: [ModelUserFilterInput]
   not: ModelUserFilterInput
@@ -81,18 +123,28 @@ input ModelUserFilterInput {
 type Query {
   getUser(id: ID!): User
   listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getClothing(id: ID!): Clothing
+  listClothings(filter: ModelClothingFilterInput, limit: Int, nextToken: String): ModelClothingConnection
+  getOutfit(id: ID!): Outfit
+  listOutfits(filter: ModelOutfitFilterInput, limit: Int, nextToken: String): ModelOutfitConnection
+  getPhoto(id: ID!): Photo
+  listPhotos(filter: ModelPhotoFilterInput, limit: Int, nextToken: String): ModelPhotoConnection
 }
 
 input CreateUserInput {
   id: ID
-  name: String!
-  description: String
+  username: String
+  firstName: String
+  lastName: String
+  sex: String
 }
 
 input UpdateUserInput {
   id: ID!
-  name: String
-  description: String
+  username: String
+  firstName: String
+  lastName: String
+  sex: String
 }
 
 input DeleteUserInput {
@@ -103,10 +155,164 @@ type Mutation {
   createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(input: DeleteUserInput!): User
+  createClothing(input: CreateClothingInput!): Clothing
+  updateClothing(input: UpdateClothingInput!): Clothing
+  deleteClothing(input: DeleteClothingInput!): Clothing
+  createOutfitClothing(input: CreateOutfitClothingInput!): OutfitClothing
+  updateOutfitClothing(input: UpdateOutfitClothingInput!): OutfitClothing
+  deleteOutfitClothing(input: DeleteOutfitClothingInput!): OutfitClothing
+  createOutfit(input: CreateOutfitInput!): Outfit
+  updateOutfit(input: UpdateOutfitInput!): Outfit
+  deleteOutfit(input: DeleteOutfitInput!): Outfit
+  createPhoto(input: CreatePhotoInput!): Photo
+  updatePhoto(input: UpdatePhotoInput!): Photo
+  deletePhoto(input: DeletePhotoInput!): Photo
 }
 
 type Subscription {
   onCreateUser: User @aws_subscribe(mutations: ["createUser"])
   onUpdateUser: User @aws_subscribe(mutations: ["updateUser"])
   onDeleteUser: User @aws_subscribe(mutations: ["deleteUser"])
+  onCreateClothing: Clothing @aws_subscribe(mutations: ["createClothing"])
+  onUpdateClothing: Clothing @aws_subscribe(mutations: ["updateClothing"])
+  onDeleteClothing: Clothing @aws_subscribe(mutations: ["deleteClothing"])
+  onCreateOutfitClothing: OutfitClothing @aws_subscribe(mutations: ["createOutfitClothing"])
+  onUpdateOutfitClothing: OutfitClothing @aws_subscribe(mutations: ["updateOutfitClothing"])
+  onDeleteOutfitClothing: OutfitClothing @aws_subscribe(mutations: ["deleteOutfitClothing"])
+  onCreateOutfit: Outfit @aws_subscribe(mutations: ["createOutfit"])
+  onUpdateOutfit: Outfit @aws_subscribe(mutations: ["updateOutfit"])
+  onDeleteOutfit: Outfit @aws_subscribe(mutations: ["deleteOutfit"])
+  onCreatePhoto: Photo @aws_subscribe(mutations: ["createPhoto"])
+  onUpdatePhoto: Photo @aws_subscribe(mutations: ["updatePhoto"])
+  onDeletePhoto: Photo @aws_subscribe(mutations: ["deletePhoto"])
+}
+
+type ModelClothingConnection {
+  items: [Clothing]
+  nextToken: String
+}
+
+input ModelClothingFilterInput {
+  id: ModelIDFilterInput
+  type: ModelStringFilterInput
+  primaryColor: ModelStringFilterInput
+  secondaryColor: ModelStringFilterInput
+  and: [ModelClothingFilterInput]
+  or: [ModelClothingFilterInput]
+  not: ModelClothingFilterInput
+}
+
+input CreateClothingInput {
+  id: ID
+  type: String
+  primaryColor: String
+  secondaryColor: String
+  clothingPhotoId: ID
+  clothingUserId: ID
+}
+
+input UpdateClothingInput {
+  id: ID!
+  type: String
+  primaryColor: String
+  secondaryColor: String
+  clothingPhotoId: ID
+  clothingUserId: ID
+}
+
+input DeleteClothingInput {
+  id: ID
+}
+
+input ModelOutfitClothingFilterInput {
+  id: ModelIDFilterInput
+  and: [ModelOutfitClothingFilterInput]
+  or: [ModelOutfitClothingFilterInput]
+  not: ModelOutfitClothingFilterInput
+}
+
+input CreateOutfitClothingInput {
+  id: ID
+  outfitClothingClothingId: ID
+  outfitClothingOutfitId: ID
+}
+
+input UpdateOutfitClothingInput {
+  id: ID!
+  outfitClothingClothingId: ID
+  outfitClothingOutfitId: ID
+}
+
+input DeleteOutfitClothingInput {
+  id: ID
+}
+
+type ModelOutfitConnection {
+  items: [Outfit]
+  nextToken: String
+}
+
+input ModelOutfitFilterInput {
+  id: ModelIDFilterInput
+  and: [ModelOutfitFilterInput]
+  or: [ModelOutfitFilterInput]
+  not: ModelOutfitFilterInput
+}
+
+input CreateOutfitInput {
+  id: ID
+  outfitUserId: ID
+}
+
+input UpdateOutfitInput {
+  id: ID!
+  outfitUserId: ID
+}
+
+input DeleteOutfitInput {
+  id: ID
+}
+
+input PhotoS3InfoInput {
+  key: String!
+  width: Int!
+  height: Int!
+}
+
+type ModelPhotoConnection {
+  items: [Photo]
+  nextToken: String
+}
+
+input ModelPhotoFilterInput {
+  id: ModelIDFilterInput
+  bucket: ModelStringFilterInput
+  and: [ModelPhotoFilterInput]
+  or: [ModelPhotoFilterInput]
+  not: ModelPhotoFilterInput
+}
+
+input CreatePhotoInput {
+  id: ID
+  bucket: String!
+  fullsize: PhotoS3InfoInput!
+  thumbnail: PhotoS3InfoInput!
+  photoClothingId: ID
+}
+
+input UpdatePhotoInput {
+  id: ID!
+  bucket: String
+  fullsize: PhotoS3InfoInput
+  thumbnail: PhotoS3InfoInput
+  photoClothingId: ID
+}
+
+input DeletePhotoInput {
+  id: ID
+}
+
+type ModelOutfitClothingConnection {
+  items: [OutfitClothing]
+  nextToken: String
 }

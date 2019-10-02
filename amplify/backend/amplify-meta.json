@@ -12,25 +12,25 @@
 		}
 	},
 	"auth": {
-		"closethangr3185a411": {
+		"closethangrddcd9d44": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/closethangr-laptop-20190925200621-deployment/amplify-cfn-templates/auth/closethangr3185a411-cloudformation-template.yml",
-				"logicalId": "authclosethangr3185a411"
+				"s3TemplateURL": "https://s3.amazonaws.com/closethangr-laptop-20190925200621-deployment/amplify-cfn-templates/auth/closethangrddcd9d44-cloudformation-template.yml",
+				"logicalId": "authclosethangrddcd9d44"
 			},
-			"lastPushTimeStamp": "2019-09-28T02:29:54.405Z",
+			"lastPushTimeStamp": "2019-10-01T17:46:35.578Z",
 			"output": {
-				"AppClientSecret": "be8dbob3amrroq5hja4tu2jfnr6ve4tkrgb7i3grkm0i5ir41ki",
-				"UserPoolId": "us-east-2_F4CMMpVPF",
-				"AppClientIDWeb": "ajki95pfbofb4mgdqh9u742kn",
-				"AppClientID": "2bah6f4r1juepmiuibsv4rts7a",
-				"IdentityPoolId": "us-east-2:2a975945-b7d1-4086-9c87-3579656df1e9",
-				"IdentityPoolName": "closethangr3185a411_identitypool_3185a411__laptop",
-				"UserPoolName": "closethangr3185a411_userpool_3185a411"
+				"AppClientSecret": "cpoooe4t1ctekkc94doedvr6e6m3v6oiq4kvqksfiqqechh0mjg",
+				"UserPoolId": "us-east-2_tertWSFE9",
+				"AppClientIDWeb": "579vpape5gr6ve8eahaq3fhqqj",
+				"AppClientID": "4og2a93kri2sj2629bm3uo20fi",
+				"IdentityPoolId": "us-east-2:5a7181f8-7597-4d3e-92d8-ff97c43061e1",
+				"IdentityPoolName": "closethangrddcd9d44_identitypool_ddcd9d44__laptop",
+				"UserPoolName": "closethangrddcd9d44_userpool_ddcd9d44"
 			},
-			"lastPushDirHash": "3yhpyTJdza5wgLluuSa0HjSEeDM="
+			"lastPushDirHash": "xGQL+nzOqL+a9OpDAj4IMmXKgkc="
 		}
 	},
 	"api": {
@@ -43,19 +43,35 @@
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authclosethangr3185a411"
+							"userPoolId": "authclosethangrddcd9d44"
 						}
 					}
 				},
-				"GraphQLAPIIdOutput": "4fscj2fntnalfkwpzgnvxmzzli",
-				"GraphQLAPIEndpointOutput": "https://cbjeh52qpva6to5xv4pys64cvq.appsync-api.us-east-2.amazonaws.com/graphql"
+				"GraphQLAPIIdOutput": "nq6rp4rl7jc7jpteirlay3bxg4",
+				"GraphQLAPIEndpointOutput": "https://rmokxlbtgffqvmobeaurnw4yee.appsync-api.us-east-2.amazonaws.com/graphql"
 			},
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/closethangr-laptop-20190925200621-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiclosethangr"
 			},
-			"lastPushTimeStamp": "2019-09-28T02:29:54.405Z",
-			"lastPushDirHash": "KQlYxSXMtfmpEZyKQRh4sp/pmm8="
+			"lastPushTimeStamp": "2019-10-01T17:46:35.582Z",
+			"lastPushDirHash": "VfpGwONfwZCBdbGfiwBHiAToP/M="
+		}
+	},
+	"storage": {
+		"photostorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/closethangr-laptop-20190925200621-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storagephotostorage"
+			},
+			"lastPushTimeStamp": "2019-10-01T17:46:35.593Z",
+			"output": {
+				"BucketName": "closethangrb93058d0e60e41408013ab935fbdfac3-laptop",
+				"Region": "us-east-2"
+			},
+			"lastPushDirHash": "HryuanDGMVr4+F2aaBWZErnWsp0="
 		}
 	}
 }

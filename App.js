@@ -3,7 +3,6 @@
 */
 import React from 'react';
 import { Platform, Component, StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
-
 /*
   Amplify
 */
@@ -15,21 +14,19 @@ Amplify.configure({
       disabled: true
   }
 });
-
 /*
   Authentification
 */
 import Auth from '@aws-amplify/auth'
 import { withAuthenticator } from 'aws-amplify-react-native'
-
 /*
   Database
 */
-import API, { graphqlOperation } from '@aws-amplify/api'
+import API, { graphqlOperation, Storage } from '@aws-amplify/api'
 import * as queries from './src/graphql/queries';
 import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
-//Graphql Endpoint:  https://cbjeh52qpva6to5xv4pys64cvq.appsync-api.us-east-2.amazonaws.com/graphql
+import {v4 as uuid} from 'uuid';
 
 
 class App extends React.Component {
@@ -49,15 +46,14 @@ class App extends React.Component {
     event.preventDefault()
 
     const information = {
-      name,
-      description: "test of description"
-    }
-
+		username: name,
+		
+	 }
     
     const result = await API.graphql(graphqlOperation(mutations.createUser, {input: information}))
     const newUser = result.data.createUser
-    const updatedUser = [newUser, ...User]
-    this.setState({ User: updatedUser, name: "Carl" })
+	 const updatedUser = [newUser, ...User]
+    this.setState({ User: updatedUser, name: "" })
   }
   
   render() {

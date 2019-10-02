@@ -1,5 +1,45 @@
 type User @model {
   id: ID!
-  name: String!
-  description: String
+  username: String
+  firstName: String
+  lastName: String
+  sex: String
+  clothing: [Clothing] @connection (name: "UserClothing")
+  outfits: [Outfit] @connection (name: "UserOutfits")
+}
+
+type Clothing @model {
+  id: ID!
+  photo: Photo @connection (name: "ClothingPhoto")
+  type: String
+  primaryColor: String
+  secondaryColor: String
+  user: User @connection (name: "UserClothing")
+  outfits: [OutfitClothing] @connection (name: "ClothingOutfit")
+}
+
+type OutfitClothing @model (queries: null) {
+  id: ID!
+  clothing: Clothing @connection (name: "ClothingOutfit")
+  outfit: Outfit @connection(name: "OutfitClothing")
+}
+
+type Outfit @model {
+  id: ID!
+  user: User @connection (name: "UserOutfits")
+  clothing: [OutfitClothing] @connection (name: "OutfitClothing")
+}
+
+type Photo @model {
+  id: ID!
+  clothing: Clothing @connection(name: "ClothingPhoto")
+  bucket: String!
+  fullsize: PhotoS3Info!
+  thumbnail: PhotoS3Info!
+}
+
+type PhotoS3Info {
+    key: String!
+    width: Int!
+    height: Int!
 }

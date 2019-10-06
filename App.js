@@ -3,6 +3,8 @@
 */
 import React from 'react';
 import { Platform, Component, StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker'
 /*
   Amplify
 */
@@ -22,39 +24,74 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 /*
   Database
 */
-import API, { graphqlOperation, Storage } from '@aws-amplify/api'
+import API, { graphqlOperation } from '@aws-amplify/api'
+import {Storage} from 'aws-amplify'
 import * as queries from './src/graphql/queries';
 import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
 import {v4 as uuid} from 'uuid';
 
-
 class App extends React.Component {
-  state = {
-    name: "",
-    User: []
-  }
-
-  onChangeText = (key, val) => {
+	state = {
+		name: "",
+		User: [],
+	}
+	 
+	onChangeText = (key, val) => {
 		this.setState({ [key]: val })
 	}
 
-  addUser = async event => {
-    
-    const { name, User } = this.state
+	addUser = async event => {
 
-    event.preventDefault()
+		const { name, User } = this.state
 
-    const information = {
-		username: name,
-		
-	 }
-    
-    const result = await API.graphql(graphqlOperation(mutations.createUser, {input: information}))
-    const newUser = result.data.createUser
-	 const updatedUser = [newUser, ...User]
-    this.setState({ User: updatedUser, name: "" })
-  }
+		event.preventDefault()
+
+		const information = {
+			username: name,
+		}
+
+		const result = await API.graphql(graphqlOperation(mutations.createUser, {input: information}))
+		const newUser = result.data.createUser
+		const updatedUser = [newUser, ...User]
+		this.setState({ User: updatedUser, name: "" })
+
+		/*
+			ASKING FOR PERMISSIONS
+		*/
+		const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+		const { status2, permissions2 } = await Permissions.askAsync(Permissions.CAMERA);
+
+		/*
+			Calling the image picker
+		*/
+		//let result3 = await ImagePicker.launchImageLibraryAsync({
+		//	mediaTypes: ImagePicker.MediaTypeOptions.Images,
+		//	allowsEditing: true,
+		//	aspect: [3, 4],
+		// });
+		// console.log(result3)
+
+		 /*
+		 	Calling the Camera
+		 */
+		let result4 = await ImagePicker.launchCameraAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [3,4],
+		})
+		let uri = result4.uri;
+		//console.log(result4)
+
+		/*
+			Adding Files to S3 Test
+		*/
+		var splitKey = uri.split("/")
+		var key = splitKey[splitKey.length-1]
+		result2 = storeFileInS3(uri)
+		//const result5 = await Storage.get(key)
+		//console.log(result5)
+	}
   
   render() {
     return (
@@ -68,6 +105,7 @@ class App extends React.Component {
 				<TouchableOpacity onPress={this.addUser} style={styles.buttonContainer}>
 					<Text style={styles.buttonText}>Add +</Text>
 				</TouchableOpacity>
+				
 			</View>
     );
   }
@@ -101,3 +139,37 @@ const styles = StyleSheet.create({
 		fontSize: 24
 	}
 })
+
+const storeFileInS3 = async (
+	fileUri,
+	awsKey = null,
+	access = "public"
+ ) => {
+	const blob = await new Promise((resolve, reject) => {
+	  const xhr = new XMLHttpRequest();
+	  xhr.onload = function() {
+		 resolve(xhr.response);
+	  };
+	  xhr.onerror = function() {
+		reject(new TypeError("Network request failed"));
+	  };
+	  xhr.responseType = "blob";
+	  xhr.open("GET", fileUri, true);
+	  xhr.send(null);
+	});
+	const { name, type } = blob._data;
+	const options = {
+	  level: access,
+	  contentType: type
+	};
+	const key = awsKey || name;
+	try {
+	  const result = await Storage.put(key, blob, options);
+	  return {
+		 access,
+		 key: result.key
+	  };
+	} catch (err) {
+	  throw err;
+	}
+ };

@@ -51,6 +51,9 @@ class App extends React.Component {
 			username: name,
 		}
 
+		/*
+			Creating the user
+		*/
 		const result = await API.graphql(graphqlOperation(mutations.createUser, {input: information}))
 		const newUser = result.data.createUser
 		const updatedUser = [newUser, ...User]
@@ -65,12 +68,12 @@ class App extends React.Component {
 		/*
 			Calling the image picker
 		*/
-		//let result3 = await ImagePicker.launchImageLibraryAsync({
-		//	mediaTypes: ImagePicker.MediaTypeOptions.Images,
-		//	allowsEditing: true,
-		//	aspect: [3, 4],
-		// });
-		// console.log(result3)
+		let result3 = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [3, 4],
+		 });
+		 console.log(result3)
 
 		 /*
 		 	Calling the Camera
@@ -81,16 +84,16 @@ class App extends React.Component {
 			aspect: [3,4],
 		})
 		let uri = result4.uri;
-		//console.log(result4)
+		console.log(result4)
 
 		/*
 			Adding Files to S3 Test
 		*/
-		var splitKey = uri.split("/")
-		var key = splitKey[splitKey.length-1]
+		let splitKey = uri.split("/")
+		let key = splitKey[splitKey.length-1]
 		result2 = storeFileInS3(uri)
-		//const result5 = await Storage.get(key)
-		//console.log(result5)
+		const result5 = await Storage.get('public/05b73f62-ddff-45fb-9083-f72bef76c729.jpg', {level: 'public', download: true})
+		console.log(result5)
 	}
   
   render() {

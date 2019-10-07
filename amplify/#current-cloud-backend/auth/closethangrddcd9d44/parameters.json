@@ -1,6 +1,6 @@
 {
     "identityPoolName": "closethangrddcd9d44_identitypool_ddcd9d44",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "closetddcd9d44",
     "userPoolName": "closethangrddcd9d44_userpool_ddcd9d44",
     "autoVerifiedAttributes": [

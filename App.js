@@ -73,6 +73,7 @@ class App extends React.Component {
 			allowsEditing: true,
 			aspect: [3, 4],
 		 });
+		 let uri = result3.uri;
 		 console.log(result3)
 
 		 /*
@@ -83,16 +84,30 @@ class App extends React.Component {
 			allowsEditing: true,
 			aspect: [3,4],
 		})
-		let uri = result4.uri;
+		//let uri = result4.uri;
 		console.log(result4)
 
 		/*
 			Adding Files to S3 Test
 		*/
 		let splitKey = uri.split("/")
-		let key = splitKey[splitKey.length-1]
+		let key = String(splitKey[splitKey.length-1])
+		console.log(key)
 		result2 = storeFileInS3(uri)
-		const result5 = await Storage.get('public/05b73f62-ddff-45fb-9083-f72bef76c729.jpg', {level: 'public', download: true})
+
+		//Letting the database update
+		await sleep(2000);
+
+		/*
+			Listing the items in the user's folder
+		*/
+		await Storage.list('', {level: 'private'})
+		.then(result => console.log(result))
+		.catch(err => console.log(err));
+
+		//Getting the picture back
+		const result5 = await Storage.get(key, {level: 'private', download:false})
+		Storage.get()
 		console.log(result5)
 	}
   
@@ -146,7 +161,7 @@ const styles = StyleSheet.create({
 const storeFileInS3 = async (
 	fileUri,
 	awsKey = null,
-	access = "public"
+	access = "private"
  ) => {
 	const blob = await new Promise((resolve, reject) => {
 	  const xhr = new XMLHttpRequest();
@@ -163,7 +178,7 @@ const storeFileInS3 = async (
 	const { name, type } = blob._data;
 	const options = {
 	  level: access,
-	  contentType: type
+	  contentType: type,
 	};
 	const key = awsKey || name;
 	try {
@@ -176,3 +191,7 @@ const storeFileInS3 = async (
 	  throw err;
 	}
  };
+
+ function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+ }

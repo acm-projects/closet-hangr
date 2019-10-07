@@ -107,7 +107,6 @@ class App extends React.Component {
 
 		//Getting the picture back
 		const result5 = await Storage.get(key, {level: 'private', download:false})
-		Storage.get()
 		console.log(result5)
 	}
   

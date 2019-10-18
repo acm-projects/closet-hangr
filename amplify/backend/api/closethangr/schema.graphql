@@ -1,0 +1,32 @@
+type User @model {
+  id: ID!
+  username: String
+  firstName: String
+  lastName: String
+  sex: String
+  clothing: [Clothing] @connection (name: "UserClothing")
+  outfits: [Outfit] @connection (name: "UserOutfits")
+}
+
+type Clothing @model {
+  id: ID!
+  key: String!
+  top_or_bottom: String
+  type: String
+  primaryColor: String
+  secondaryColor: String
+  user: User @connection (name: "UserClothing")
+  outfits: [OutfitClothing] @connection (name: "ClothingOutfit")
+}
+
+type OutfitClothing @model (queries: null) {
+  id: ID!
+  clothing: Clothing @connection (name: "ClothingOutfit")
+  outfit: Outfit @connection(name: "OutfitClothing")
+}
+
+type Outfit @model {
+  id: ID!
+  user: User @connection (name: "UserOutfits")
+  clothing: [OutfitClothing] @connection (name: "OutfitClothing")
+}

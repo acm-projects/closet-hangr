@@ -1,0 +1,19 @@
+{
+    "noahlaptop": {
+        "awscloudformation": {
+            "AuthRoleName": "closethangr-noahlaptop-20191012020120-authRole",
+            "UnauthRoleArn": "arn:aws:iam::837676604892:role/closethangr-noahlaptop-20191012020120-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::837676604892:role/closethangr-noahlaptop-20191012020120-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "closethangr-noahlaptop-20191012020120-deployment",
+            "UnauthRoleName": "closethangr-noahlaptop-20191012020120-unauthRole",
+            "StackName": "closethangr-noahlaptop-20191012020120",
+            "StackId": "arn:aws:cloudformation:us-east-2:837676604892:stack/closethangr-noahlaptop-20191012020120/170e3820-ecbe-11e9-a0a8-02278d0d93fc"
+        },
+        "categories": {
+            "auth": {
+                "closethangrcc97ecd7": {}
+            }
+        }
+    }
+}

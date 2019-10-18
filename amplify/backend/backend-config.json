@@ -1,0 +1,32 @@
+{
+	"auth": {
+		"closethangrcc97ecd7": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"api": {
+		"closethangr": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authclosethangrcc97ecd7"
+						}
+					}
+				}
+			}
+		}
+	},
+	"storage": {
+		"photostorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}

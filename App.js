@@ -1,14 +1,10 @@
-/*
-  General
-*/
+//General
 import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 
-/*
-  Amplify
-*/
+//Amplify
 import Amplify from '@aws-amplify/core'
 import config from './src/aws-exports'
 Amplify.configure({
@@ -18,15 +14,52 @@ Amplify.configure({
   }
 });
 
-/*
-  Authentification
-*/
+
+//Authentification
 import { withAuthenticator, S3Image } from 'aws-amplify-react-native'
 
+//Backend
 import * as backendFunctions from './back_end_functions'
 
 //Font
 import * as Font from 'expo-font'
+
+// Navigation
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+
+// Pages
+import {signUpPage} from './signUpPage'
+import {confirmSignUpPage} from './confirmSignUpPage'
+import {signInPage} from './signInPage'
+
+//Stylesheet
+import styles from './styles'
+
+
+const AppNavigator = createStackNavigator({
+		SignUp: {
+			screen: signUpPage,
+		},
+		ConfirmSignUp: {
+			screen: confirmSignUpPage
+		},
+		SignIn: {
+			screen: signInPage
+		}
+	},
+	{
+		headerMode: 'none',
+		navigationOptions: {
+			headerVisible: false,
+		},
+		defaultNavigationOptions: {
+			gesturesEnabled: false,
+		},
+	}
+);
+ 
+export default createAppContainer(AppNavigator);
 
 /*
 class App extends Component {
@@ -119,434 +152,6 @@ export default withAuthenticator(App, { includeGreetings: true })
 
 */
 
-/*
-____ ___ ____ _   _   _   _ ____    ____   _    ____ _____ 
- / ___|_ _/ ___| \ | | | | | |  _ \  |  _ \ / \  / ___| ____|
- \___ \| | |  _|  \| | | | | | |_) | | |_) / _ \| |  _|  _|  
-  ___) | | |_| | |\  | | |_| |  __/  |  __/ ___ \ |_| | |___ 
- |____/___\____|_| \_|  \___/|_|     |_| /_/   \_\____|_____|
-                                                             
-*/
-/*
-export default class signUpPage extends Component {
-	componentDidMount() {
-		Font.loadAsync({
-		  'Aventir': require('./assets/fonts/Avenir.ttf'),
-		});
-	 }
-
-	constructor(props) {
-		super(props);
-		this.state = {email: '', username: '', password: ''};
-	 }
-
-	signUp = async event => {
-		backendFunctions.signUp(this.state.email, this.state.username, this.state.password)
-	}
-
-	 changeEmail = (newValue) => {
-		this.setState({
-		  email: newValue,
-		});
-	 }
-
-	 changeUsername = (newValue) => {
-		this.setState({
-		  username: newValue,
-		});
-	 }
-
-	 changePassword = (newValue) => {
-		 this.setState({
-			 password: newValue,
-		 })
-	 }
-
-	render() {
-	  return(
-		 <View style={styles.container}>
-			<View style = {styles.logoContainer}>
-			  <Logo />
-			  	<Text style={styles.title}>
-			  </Text>
-			</View>
-			<View style = {styles.fieldContainer}>
-			  <EmailField email = {this.state.email} changeEmail={this.changeEmail.bind(this)}/>
-			</View>
-			<View style = {styles.fieldContainer}>
-			  <UserNameField username = {this.state.username} changeUsername = {this.changeUsername.bind(this)}/>
-			</View>
-			<View style = {styles.fieldContainer}>
-				<PasswordField password = {this.state.password} changePassword = {this.changePassword.bind(this)}/>
-			</View>
-			<TouchableOpacity onPress={this.signUp} style={styles.signUpButton}>
-				<Text style={styles.regularText}>Sign Up</Text>
-			</TouchableOpacity>
-				<Text >
-					Already a member?
-				</Text>
-			<TouchableOpacity onPress={this.signUp} style={styles.signInButton}>
-				<Text style={styles.regularText}>Log in</Text>
-			</TouchableOpacity>
-		 </View>
-	  );
-	}
- }
- 
- export class Background extends Component {
-	render() {
-	  return(
-		 <View style={styles.container}>
-			<Logo hanger/>
-		 </View>
-	  );
-	}
- }
- 
- //This is the class for the Logo! Replace with the actual logo
- export class Logo extends Component {
-	render() {
-	  let pic = {
-		 uri: 'https://cdn4.vectorstock.com/i/1000x1000/21/33/hanger-icon-white-on-the-blue-background-vector-3452133.jpg'
-	  };//gonna crop this soon!! or replace with our own logo (png file)
-	  return (
-		 <Image
-		 style={styles.logo}
-		 source={pic} />
-	  );
-	}
- }
- 
- //EMAIL TEXT FIELD
- export class EmailField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-				maxLength={30}
-			  placeholder="        Email        "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeEmail(text)}
-			  value={this.props.email}
-			/>
-		 </View>
-	  );
-	}
- }
-
- //USERNAME TEXT FIELD
- export class UserNameField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-			  maxLength={20}
-			  placeholder="     Username    "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeUsername(text)}
-			  value={this.props.username}
-			/>
-		 </View>
-	  );
-	}
- }
-
-  
- // PASSWORD TEXT FIELD
- export class PasswordField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-			  maxLength={20}
-			  placeholder="    Password    "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changePassword(text)}
-			  value={this.props.password}
-			/>
-		 </View>
-	  );
-	}
- }
- */
-
-
-/*
-   ____ ___  _   _ _____ ___ ____  __  __   ____ ___ ____ _   _   _   _ ____    ____   _    ____ _____                                                      
-  / ___/ _ \| \ | |  ___|_ _|  _ \|  \/  | / ___|_ _/ ___| \ | | | | | |  _ \  |  _ \ / \  / ___| ____|                                                     
- | |  | | | |  \| | |_   | || |_) | |\/| | \___ \| | |  _|  \| | | | | | |_) | | |_) / _ \| |  _|  _|                                                       
- | |__| |_| | |\  |  _|  | ||  _ <| |  | |  ___) | | |_| | |\  | | |_| |  __/  |  __/ ___ \ |_| | |___                                                      
-  \____\___/|_| \_|_|   |___|_| \_\_|  |_| |____/___\____|_| \_|  \___/|_|     |_| /_/   \_\____|_____|                                                                                                                                                                                                             
-*/
-/*
-export default class confirmSignUpPage extends Component {
-	componentDidMount() {
-		Font.loadAsync({
-		  'Aventir': require('./assets/fonts/Avenir.ttf'),
-		});
-	 }
-
-	constructor(props) {
-		super(props);
-		this.state = {username: "", confirmationCode: ""};
-	 }
-
-	confirmSignUp = async event => {
-		backendFunctions.confirmSignUp(this.state.username, this.state.confirmationCode)
-	}
-
-	changeUsername = (newValue) => {
-		this.setState({
-		  username: newValue,
-		});
-	 }
-
-	 changeConfirmationCode = (newValue) => {
-		 this.setState({
-			 confirmationCode: newValue,
-		 })
-	 }
-
-	render() {
-	  return(
-		 <View style={styles.container}>
-			<View style = {styles.logoContainer}>
-			  <Logo />
-			  	<Text style={styles.title}>
-			  </Text>
-			</View>
-			<View style = {styles.fieldContainer}>
-			  <UserNameField username = {this.state.username} changeUsername = {this.changeUsername.bind(this)}/>
-			</View>
-			<View style = {styles.fieldContainer}>
-				<ConfirmationCodeField confirmationCode = {this.state.confirmationCode} changeConfirmationCode = {this.changeConfirmationCode.bind(this)}/>
-			</View>
-			<TouchableOpacity onPress={this.confirmSignUp} style={styles.signInButton}>
-				<Text style={styles.regularText}>Confirm Sign Up</Text>
-			</TouchableOpacity>
-		 </View>
-	  );
-	}
- }
- 
- export class Background extends Component {
-	render() {
-	  return(
-		 <View style={styles.container}>
-			<Logo hanger/>
-		 </View>
-	  );
-	}
- }
- 
- //This is the class for the Logo! Replace with the actual logo
- export class Logo extends Component {
-	render() {
-	  let pic = {
-		 uri: 'https://cdn4.vectorstock.com/i/1000x1000/21/33/hanger-icon-white-on-the-blue-background-vector-3452133.jpg'
-	  };//gonna crop this soon!! or replace with our own logo (png file)
-	  return (
-		 <Image
-		 style={styles.logo}
-		 source={pic} />
-	  );
-	}
- }
-
- //USERNAME TEXT FIELD
- export class UserNameField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-			  maxLength={20}
-			  placeholder="     Username    "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeUsername(text)}
-			  value={this.props.username}
-			/>
-		 </View>
-	  );
-	}
- }
-
-  
- // CONFIRMATION TEXT FIELD
- export class ConfirmationCodeField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-			  maxLength={20}
-			  placeholder="    Confirmation Code    "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeConfirmationCode(text)}
-			  value={this.props.confirmationCode}
-			/>
-		 </View>
-	  );
-	}
- }
-*/
-
-/*
-   ____ ___ ____ _   _   ___ _   _   ____   _    ____ _____ 
-  / ___|_ _/ ___| \ | | |_ _| \ | | |  _ \ / \  / ___| ____|
-  \___ \| | |  _|  \| |  | ||  \| | | |_) / _ \| |  _|  _|  
-   ___) | | |_| | |\  |  | || |\  | |  __/ ___ \ |_| | |___ 
-  |____/___\____|_| \_| |___|_| \_| |_| /_/   \_\____|_____|
-                                                            
-*/
-
-/*
-export default class signInPage extends Component {
-	componentDidMount() {
-		Font.loadAsync({
-		  'Aventir': require('./assets/fonts/Avenir.ttf'),
-		});
-	 }
-
-	constructor(props) {
-		super(props);
-		this.state = {username: '', password: ''};
-	 }
-
-	signIn = async event => {
-		backendFunctions.signIn(this.state.username, this.state.password)
-	}
-
-	 changeUsername = (newValue) => {
-		this.setState({
-		  username: newValue,
-		});
-	 }
-
-	 changePassword = (newValue) => {
-		 this.setState({
-			 password: newValue,
-		 })
-	 }
-
-	render() {
-	  return(
-		 <View style={styles.container}>
-			<View style = {styles.logoContainer}>
-			  <Logo />
-			  	<Text style={styles.title}>
-			  </Text>
-			</View>
-			<View style = {styles.fieldContainer}>
-			  <UserNameField username = {this.state.username} changeUsername = {this.changeUsername.bind(this)}/>
-			</View>
-			<View style = {styles.fieldContainer}>
-				<PasswordField password = {this.state.password} changePassword = {this.changePassword.bind(this)}/>
-			</View>
-			<TouchableOpacity onPress={this.signUp} style={styles.signUpButton}>
-				<Text style={styles.regularText}>Sign Up</Text>
-			</TouchableOpacity>
-			<TouchableOpacity onPress={this.signIn} style={styles.signInButton}>
-				<Text style={styles.regularText}>Sign in</Text>
-			</TouchableOpacity>
-		 </View>
-	  );
-	}
- }
- 
- export class Background extends Component {
-	render() {
-	  return(
-		 <View style={styles.container}>
-			<Logo hanger/>
-		 </View>
-	  );
-	}
- }
- 
- //This is the class for the Logo! Replace with the actual logo
- export class Logo extends Component {
-	render() {
-	  let pic = {
-		 uri: 'https://cdn4.vectorstock.com/i/1000x1000/21/33/hanger-icon-white-on-the-blue-background-vector-3452133.jpg'
-	  };//gonna crop this soon!! or replace with our own logo (png file)
-	  return (
-		 <Image
-		 style={styles.logo}
-		 source={pic} />
-	  );
-	}
- }
-
- //USERNAME TEXT FIELD
- export class UserNameField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-			  maxLength={20}
-			  placeholder="     Username    "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeUsername(text)}
-			  value={this.props.username}
-			/>
-		 </View>
-	  );
-	}
- }
-
-  
- // PASSWORD TEXT FIELD
- export class PasswordField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View>
-			<TextInput
-			  style={styles.inputText}
-			  maxLength={20}
-			  placeholder="    Password    "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changePassword(text)}
-			  value={this.props.password}
-			/>
-		 </View>
-	  );
-	}
- }
- */
-
  /*
      _    ____  ____     ____ _     ___ _____ _   _ ___ _   _  ____   ____   _    ____ _____                                                            
     / \  |  _ \|  _ \   / ___| |   / _ \_   _| | | |_ _| \ | |/ ___| |  _ \ / \  / ___| ____|                                                           
@@ -555,7 +160,7 @@ export default class signInPage extends Component {
  /_/   \_\____/|____/   \____|_____\___/ |_| |_| |_|___|_| \_|\____| |_| /_/   \_\____|_____|                                                           
                                                                                                                                                         
  */
-
+/*
  export default class addClothingPage extends Component {
 	componentDidMount() {
 		Font.loadAsync({
@@ -607,8 +212,9 @@ export default class signInPage extends Component {
 		)
 	}
  }
+ */
  
-
+/*
  const styles = StyleSheet.create({
 	container: {
 		 flex: 1,
@@ -679,4 +285,4 @@ export default class signInPage extends Component {
 		alignItems: "center"
 	  }
  })
- 
+ */

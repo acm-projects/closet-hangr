@@ -1,9 +1,3 @@
-//General
-import React, { Component } from 'react';
-import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
-import * as Permissions from 'expo-permissions'
-import * as ImagePicker from 'expo-image-picker'
-
 //Amplify
 import Amplify from '@aws-amplify/core'
 import config from './src/aws-exports'
@@ -18,34 +12,27 @@ Amplify.configure({
 //Authentification
 import { withAuthenticator, S3Image } from 'aws-amplify-react-native'
 
-//Backend
-import * as backendFunctions from './back_end_functions'
-
-//Font
-import * as Font from 'expo-font'
-
 // Navigation
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
+//Font
+import * as Font from 'expo-font'
+
 // Pages
-import {signUpPage} from './signUpPage'
-import {confirmSignUpPage} from './confirmSignUpPage'
-import {signInPage} from './signInPage'
-
-//Stylesheet
-import styles from './styles'
-
+import {signUpScreen} from './signUpScreen'
+import {confirmSignUpScreen} from './confirmSignUpScreen'
+import {signInScreen} from './signInScreen'
 
 const AppNavigator = createStackNavigator({
 		SignUp: {
-			screen: signUpPage,
+			screen: signUpScreen,
 		},
 		ConfirmSignUp: {
-			screen: confirmSignUpPage
+			screen: confirmSignUpScreen
 		},
 		SignIn: {
-			screen: signInPage
+			screen: signInScreen
 		}
 	},
 	{

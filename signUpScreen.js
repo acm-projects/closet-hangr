@@ -1,17 +1,16 @@
+
 /*
-   ____ ___  _   _ _____ ___ ____  __  __   ____ ___ ____ _   _   _   _ ____    ____   _    ____ _____                                                      
-  / ___/ _ \| \ | |  ___|_ _|  _ \|  \/  | / ___|_ _/ ___| \ | | | | | |  _ \  |  _ \ / \  / ___| ____|                                                     
- | |  | | | |  \| | |_   | || |_) | |\/| | \___ \| | |  _|  \| | | | | | |_) | | |_) / _ \| |  _|  _|                                                       
- | |__| |_| | |\  |  _|  | ||  _ <| |  | |  ___) | | |_| | |\  | | |_| |  __/  |  __/ ___ \ |_| | |___                                                      
-  \____\___/|_| \_|_|   |___|_| \_\_|  |_| |____/___\____|_| \_|  \___/|_|     |_| /_/   \_\____|_____|                                                                                                                                                                                                             
+____ ___ ____ _   _   _   _ ____    ____   _    ____ _____ 
+ / ___|_ _/ ___| \ | | | | | |  _ \  |  _ \ / \  / ___| ____|
+ \___ \| | |  _|  \| | | | | | |_) | | |_) / _ \| |  _|  _|  
+  ___) | | |_| | |\  | | |_| |  __/  |  __/ ___ \ |_| | |___ 
+ |____/___\____|_| \_|  \___/|_|     |_| /_/   \_\____|_____|
+                                                             
 */
 
 //General
 import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
-import * as Permissions from 'expo-permissions'
-import * as ImagePicker from 'expo-image-picker'
-
 //Amplify
 import Amplify from '@aws-amplify/core'
 import config from './src/aws-exports'
@@ -21,22 +20,15 @@ Amplify.configure({
       disabled: true
   }
 });
-
 //Backend
 import * as backendFunctions from './back_end_functions'
-
 //Font
 import * as Font from 'expo-font'
-
-// Navigation
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
 //Stylesheet
 import styles from './styles'
 
 
-export class confirmSignUpPage extends Component {
+export class signUpScreen extends React.Component {
 	componentDidMount() {
 		Font.loadAsync({
 		  'Aventir': require('./assets/fonts/Avenir.ttf'),
@@ -45,24 +37,35 @@ export class confirmSignUpPage extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {username: "", confirmationCode: ""};
+		this.state = {email: '', username: '', password: ''};
 	 }
 
-	confirmSignUp = async event => {
-		backendFunctions.confirmSignUp(this.state.username, this.state.confirmationCode)
+	signUp = async event => {
+      backendFunctions.signUp(this.state.email, this.state.username, this.state.password)
+      this.props.navigation.navigate('ConfirmSignUp')
 	}
 
-	changeUsername = (newValue) => {
+	 changeEmail = (newValue) => {
+		this.setState({
+		  email: newValue,
+		});
+	 }
+
+	 changeUsername = (newValue) => {
 		this.setState({
 		  username: newValue,
 		});
 	 }
 
-	 changeConfirmationCode = (newValue) => {
+	 changePassword = (newValue) => {
 		 this.setState({
-			 confirmationCode: newValue,
+			 password: newValue,
 		 })
-	 }
+    }
+    
+    navigateToSignInPage = async event => {
+       this.props.navigation.navigate('SignIn')
+    }
 
 	render() {
 	  return(
@@ -70,16 +73,26 @@ export class confirmSignUpPage extends Component {
 			<View style = {styles.logoContainer}>
 			  <Logo />
 			  	<Text style={styles.title}>
+					  Closet-Hangr
 			  </Text>
+			</View>
+			<View style = {styles.fieldContainer}>
+			  <EmailField email = {this.state.email} changeEmail={this.changeEmail.bind(this)}/>
 			</View>
 			<View style = {styles.fieldContainer}>
 			  <UserNameField username = {this.state.username} changeUsername = {this.changeUsername.bind(this)}/>
 			</View>
 			<View style = {styles.fieldContainer}>
-				<ConfirmationCodeField confirmationCode = {this.state.confirmationCode} changeConfirmationCode = {this.changeConfirmationCode.bind(this)}/>
+				<PasswordField password = {this.state.password} changePassword = {this.changePassword.bind(this)}/>
 			</View>
-			<TouchableOpacity onPress={this.confirmSignUp} style={styles.signInButton}>
-				<Text style={styles.regularText}>Confirm Sign Up</Text>
+			<TouchableOpacity onPress={this.signUp} style={styles.signUpButton}>
+				<Text style={styles.regularText}>Sign Up</Text>
+			</TouchableOpacity>
+				<Text >
+					Already a member?
+				</Text>
+			<TouchableOpacity onPress={this.navigateToSignInPage} style={styles.signInButton}>
+				<Text style={styles.regularText}>Go To Sign in</Text>
 			</TouchableOpacity>
 		 </View>
 	  );
@@ -109,6 +122,28 @@ export class confirmSignUpPage extends Component {
 	  );
 	}
  }
+ 
+ //EMAIL TEXT FIELD
+ export class EmailField extends Component {
+	constructor(props) {
+	  super(props);
+	}
+ 
+	render() {
+	  return (
+		 <View style={styles.fieldContainer}>
+			<TextInput
+			  style={styles.inputText}
+				maxLength={30}
+			  placeholder="        Email        "
+			  placeholderTextColor={'#2a78a0'}
+			  onChangeText={(text) => this.props.changeEmail(text)}
+			  value={this.props.email}
+			/>
+		 </View>
+	  );
+	}
+ }
 
  //USERNAME TEXT FIELD
  export class UserNameField extends Component {
@@ -133,8 +168,8 @@ export class confirmSignUpPage extends Component {
  }
 
   
- // CONFIRMATION TEXT FIELD
- export class ConfirmationCodeField extends Component {
+ // PASSWORD TEXT FIELD
+ export class PasswordField extends Component {
 	constructor(props) {
 	  super(props);
 	}
@@ -145,17 +180,18 @@ export class confirmSignUpPage extends Component {
 			<TextInput
 			  style={styles.inputText}
 			  maxLength={20}
-			  placeholder="    Confirmation Code    "
+			  placeholder="    Password    "
 			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeConfirmationCode(text)}
-			  value={this.props.confirmationCode}
+			  onChangeText={(text) => this.props.changePassword(text)}
+			  value={this.props.password}
 			/>
 		 </View>
 	  );
 	}
  }
-
- /*
+ 
+/*
+ 
  const styles = StyleSheet.create({
 	container: {
 		 flex: 1,
@@ -214,7 +250,8 @@ export class confirmSignUpPage extends Component {
 		padding: 10,
 		borderRadius: 5,
 		width: 100,
-		alignItems: "center"
+      alignItems: "center",
+      borderRadius: 25,
 	  },
 	  signInButton: {
 		backgroundColor: "#34495e",

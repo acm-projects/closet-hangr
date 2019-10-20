@@ -23,7 +23,6 @@ const BORDER_RADIUS = 25;
 		 height: 150,
 		 width: 180,
 		 borderWidth: 15,
-		 borderColor: '#96c3da',
 	  },
 	  title: {
 		 color: COLOR_TEXT,
@@ -38,11 +37,13 @@ const BORDER_RADIUS = 25;
 	  fieldContainer: { 
 		 margin: 2,
 		 padding: 5.5,
-		 height: 60,
-		 width: 1000,
+		 height: 50,
+		 width: 250,
 		 textAlign: 'left',
 		 alignItems: 'center',
 		 justifyContent: 'center',
+		 backgroundColor: COLOR_SECONDARY,
+		 borderRadius: BORDER_RADIUS
 	  },
 	  regularText: {
 		 fontFamily: FONT_NORMAL,
@@ -52,11 +53,9 @@ const BORDER_RADIUS = 25;
 	  inputText: {
 		fontFamily: FONT_NORMAL,
 		 fontSize: 14,
-		 color: '#3199ce',
+		 color: COLOR_TEXT,
 		 padding: 10,
-		 backgroundColor: '#FFF',
-		 borderWidth: 4,
-		 borderColor: '#96c3da',
+		 backgroundColor: COLOR_SECONDARY,
 	  },
 	  signUpButton: {
 		backgroundColor: COLOR_PRIMARY,

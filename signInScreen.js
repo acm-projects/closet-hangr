@@ -1,19 +1,14 @@
-
 /*
-____ ___ ____ _   _   _   _ ____    ____   _    ____ _____ 
- / ___|_ _/ ___| \ | | | | | |  _ \  |  _ \ / \  / ___| ____|
- \___ \| | |  _|  \| | | | | | |_) | | |_) / _ \| |  _|  _|  
-  ___) | | |_| | |\  | | |_| |  __/  |  __/ ___ \ |_| | |___ 
- |____/___\____|_| \_|  \___/|_|     |_| /_/   \_\____|_____|
-                                                             
+  ____ ___ ____ _   _   ___ _   _   ____   ____ ____  _____ _____ _   _ 
+ / ___|_ _/ ___| \ | | |_ _| \ | | / ___| / ___|  _ \| ____| ____| \ | |
+ \___ \| | |  _|  \| |  | ||  \| | \___ \| |   | |_) |  _| |  _| |  \| |
+  ___) | | |_| | |\  |  | || |\  |  ___) | |___|  _ <| |___| |___| |\  |
+ |____/___\____|_| \_| |___|_| \_| |____/ \____|_| \_\_____|_____|_| \_|
 */
 
 //General
 import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
-import * as Permissions from 'expo-permissions'
-import * as ImagePicker from 'expo-image-picker'
-
 //Amplify
 import Amplify from '@aws-amplify/core'
 import config from './src/aws-exports'
@@ -23,22 +18,16 @@ Amplify.configure({
       disabled: true
   }
 });
-
 //Backend
 import * as backendFunctions from './back_end_functions'
-
 //Font
 import * as Font from 'expo-font'
-
-// Navigation
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
 //Stylesheet
 import styles from './styles'
 
 
-export class signUpPage extends React.Component {
+
+export class signInScreen extends Component {
 	componentDidMount() {
 		Font.loadAsync({
 		  'Aventir': require('./assets/fonts/Avenir.ttf'),
@@ -47,19 +36,12 @@ export class signUpPage extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {email: '', username: '', password: ''};
+		this.state = {username: '', password: ''};
 	 }
 
-	signUp = async event => {
-      backendFunctions.signUp(this.state.email, this.state.username, this.state.password)
-      this.props.navigation.navigate('ConfirmSignUp')
+	signIn = async event => {
+		backendFunctions.signIn(this.state.username, this.state.password)
 	}
-
-	 changeEmail = (newValue) => {
-		this.setState({
-		  email: newValue,
-		});
-	 }
 
 	 changeUsername = (newValue) => {
 		this.setState({
@@ -71,11 +53,11 @@ export class signUpPage extends React.Component {
 		 this.setState({
 			 password: newValue,
 		 })
-    }
-    
-    navigateToSignInPage = async event => {
-       this.props.navigation.navigate('SignIn')
-    }
+	 }
+
+	 navigateToSignUpPage = async event => {
+		 this.props.navigation.navigate('SignUp')
+	 }
 
 	render() {
 	  return(
@@ -83,11 +65,7 @@ export class signUpPage extends React.Component {
 			<View style = {styles.logoContainer}>
 			  <Logo />
 			  	<Text style={styles.title}>
-					  Closet-Hangr
 			  </Text>
-			</View>
-			<View style = {styles.fieldContainer}>
-			  <EmailField email = {this.state.email} changeEmail={this.changeEmail.bind(this)}/>
 			</View>
 			<View style = {styles.fieldContainer}>
 			  <UserNameField username = {this.state.username} changeUsername = {this.changeUsername.bind(this)}/>
@@ -95,15 +73,16 @@ export class signUpPage extends React.Component {
 			<View style = {styles.fieldContainer}>
 				<PasswordField password = {this.state.password} changePassword = {this.changePassword.bind(this)}/>
 			</View>
-			<TouchableOpacity onPress={this.signUp} style={styles.signUpButton}>
-				<Text style={styles.regularText}>Sign Up</Text>
+			<TouchableOpacity onPress={this.signIn} style={styles.signInButton}>
+				<Text style={styles.regularText}>Sign in</Text>
 			</TouchableOpacity>
-				<Text >
-					Already a member?
-				</Text>
-			<TouchableOpacity onPress={this.navigateToSignInPage} style={styles.signInButton}>
-				<Text style={styles.regularText}>Go To Sign in</Text>
+			<Text style = {styles.regularText}>
+				Not Signed Up?
+			</Text>
+			<TouchableOpacity onPress={this.navigateToSignUpPage} style={styles.signUpButton}>
+				<Text style={styles.regularText}>Go To Sign Up</Text>
 			</TouchableOpacity>
+
 		 </View>
 	  );
 	}
@@ -129,28 +108,6 @@ export class signUpPage extends React.Component {
 		 <Image
 		 style={styles.logo}
 		 source={pic} />
-	  );
-	}
- }
- 
- //EMAIL TEXT FIELD
- export class EmailField extends Component {
-	constructor(props) {
-	  super(props);
-	}
- 
-	render() {
-	  return (
-		 <View style={styles.fieldContainer}>
-			<TextInput
-			  style={styles.inputText}
-				maxLength={30}
-			  placeholder="        Email        "
-			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changeEmail(text)}
-			  value={this.props.email}
-			/>
-		 </View>
 	  );
 	}
  }
@@ -186,7 +143,7 @@ export class signUpPage extends React.Component {
  
 	render() {
 	  return (
-		 <View style={styles.fieldContainer}>
+		 <View>
 			<TextInput
 			  style={styles.inputText}
 			  maxLength={20}
@@ -200,8 +157,7 @@ export class signUpPage extends React.Component {
 	}
  }
  
-/*
- 
+ /*
  const styles = StyleSheet.create({
 	container: {
 		 flex: 1,
@@ -260,8 +216,7 @@ export class signUpPage extends React.Component {
 		padding: 10,
 		borderRadius: 5,
 		width: 100,
-      alignItems: "center",
-      borderRadius: 25,
+		alignItems: "center"
 	  },
 	  signInButton: {
 		backgroundColor: "#34495e",

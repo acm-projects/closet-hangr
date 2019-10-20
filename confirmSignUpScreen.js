@@ -1,10 +1,10 @@
 /*
-   ____ ___ ____ _   _   ___ _   _   ____   _    ____ _____ 
-  / ___|_ _/ ___| \ | | |_ _| \ | | |  _ \ / \  / ___| ____|
-  \___ \| | |  _|  \| |  | ||  \| | | |_) / _ \| |  _|  _|  
-   ___) | | |_| | |\  |  | || |\  | |  __/ ___ \ |_| | |___ 
-  |____/___\____|_| \_| |___|_| \_| |_| /_/   \_\____|_____|
-                                                            
+   ____ ___  _   _ _____ ___ ____  __  __   ____ ___ ____ _   _   _   _ ____    ____   ____ ____  _____ _____ _   _                                                                                                                                                                                                             
+  / ___/ _ \| \ | |  ___|_ _|  _ \|  \/  | / ___|_ _/ ___| \ | | | | | |  _ \  / ___| / ___|  _ \| ____| ____| \ | |                                                                                                                                                                                                            
+ | |  | | | |  \| | |_   | || |_) | |\/| | \___ \| | |  _|  \| | | | | | |_) | \___ \| |   | |_) |  _| |  _| |  \| |                                                                                                                                                                                                            
+ | |__| |_| | |\  |  _|  | ||  _ <| |  | |  ___) | | |_| | |\  | | |_| |  __/   ___) | |___|  _ <| |___| |___| |\  |                                                                                                                                                                                                            
+  \____\___/|_| \_|_|   |___|_| \_\_|  |_| |____/___\____|_| \_|  \___/|_|     |____/ \____|_| \_\_____|_____|_| \_|                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                
 */
 
 //General
@@ -12,7 +12,6 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
-
 //Amplify
 import Amplify from '@aws-amplify/core'
 import config from './src/aws-exports'
@@ -22,23 +21,15 @@ Amplify.configure({
       disabled: true
   }
 });
-
 //Backend
 import * as backendFunctions from './back_end_functions'
-
 //Font
 import * as Font from 'expo-font'
-
-// Navigation
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
 //Stylesheet
 import styles from './styles'
 
 
-
-export class signInPage extends Component {
+export class confirmSignUpScreen extends Component {
 	componentDidMount() {
 		Font.loadAsync({
 		  'Aventir': require('./assets/fonts/Avenir.ttf'),
@@ -47,27 +38,23 @@ export class signInPage extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {username: '', password: ''};
+		this.state = {username: "", confirmationCode: ""};
 	 }
 
-	signIn = async event => {
-		backendFunctions.signIn(this.state.username, this.state.password)
+	confirmSignUp = async event => {
+		backendFunctions.confirmSignUp(this.state.username, this.state.confirmationCode)
 	}
 
-	 changeUsername = (newValue) => {
+	changeUsername = (newValue) => {
 		this.setState({
 		  username: newValue,
 		});
 	 }
 
-	 changePassword = (newValue) => {
+	 changeConfirmationCode = (newValue) => {
 		 this.setState({
-			 password: newValue,
+			 confirmationCode: newValue,
 		 })
-	 }
-
-	 navigateToSignUpPage = async event => {
-		 this.props.navigation.navigate('SignUp')
 	 }
 
 	render() {
@@ -82,18 +69,11 @@ export class signInPage extends Component {
 			  <UserNameField username = {this.state.username} changeUsername = {this.changeUsername.bind(this)}/>
 			</View>
 			<View style = {styles.fieldContainer}>
-				<PasswordField password = {this.state.password} changePassword = {this.changePassword.bind(this)}/>
+				<ConfirmationCodeField confirmationCode = {this.state.confirmationCode} changeConfirmationCode = {this.changeConfirmationCode.bind(this)}/>
 			</View>
-			<TouchableOpacity onPress={this.signIn} style={styles.signInButton}>
-				<Text style={styles.regularText}>Sign in</Text>
+			<TouchableOpacity onPress={this.confirmSignUp} style={styles.signInButton}>
+				<Text style={styles.regularText}>Confirm Sign Up</Text>
 			</TouchableOpacity>
-			<Text style = {styles.regularText}>
-				Not Signed Up?
-			</Text>
-			<TouchableOpacity onPress={this.navigateToSignUpPage} style={styles.signUpButton}>
-				<Text style={styles.regularText}>Go To Sign Up</Text>
-			</TouchableOpacity>
-
 		 </View>
 	  );
 	}
@@ -146,28 +126,28 @@ export class signInPage extends Component {
  }
 
   
- // PASSWORD TEXT FIELD
- export class PasswordField extends Component {
+ // CONFIRMATION TEXT FIELD
+ export class ConfirmationCodeField extends Component {
 	constructor(props) {
 	  super(props);
 	}
  
 	render() {
 	  return (
-		 <View>
+		 <View style={styles.fieldContainer}>
 			<TextInput
 			  style={styles.inputText}
 			  maxLength={20}
-			  placeholder="    Password    "
+			  placeholder="    Confirmation Code    "
 			  placeholderTextColor={'#2a78a0'}
-			  onChangeText={(text) => this.props.changePassword(text)}
-			  value={this.props.password}
+			  onChangeText={(text) => this.props.changeConfirmationCode(text)}
+			  value={this.props.confirmationCode}
 			/>
 		 </View>
 	  );
 	}
  }
- 
+
  /*
  const styles = StyleSheet.create({
 	container: {

@@ -13,12 +13,16 @@ import { withAuthenticator, S3Image } from 'aws-amplify-react-native'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 // Pages
+import {LandingScreen} from './LandingScreen'
 import {signUpScreen} from './signUpScreen'
 import {confirmSignUpScreen} from './confirmSignUpScreen'
 import {signInScreen} from './signInScreen'
 import {MainScreen} from './MainScreen'
 
 const AppNavigator = createStackNavigator({
+		Landing: {
+			screen: LandingScreen
+		},
 		SignUp: {
 			screen: signUpScreen,
 		},

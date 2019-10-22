@@ -30,9 +30,9 @@ import styles from './styles'
 
 
 export class confirmSignUpScreen extends Component {
-	componentDidMount() {
-		Font.loadAsync({
-		  'Aventir': require('./assets/fonts/Avenir.ttf'),
+	async componentDidMount() {
+		await Font.loadAsync({
+		  'Avenir': require('./assets/fonts/Avenir.ttf'),
 		});
 	 }
 
@@ -43,6 +43,7 @@ export class confirmSignUpScreen extends Component {
 
 	confirmSignUp = async event => {
 		backendFunctions.confirmSignUp(this.state.username, this.state.confirmationCode)
+		this.props.navigation.navigate('Home')
 	}
 
 	changeUsername = (newValue) => {
@@ -115,7 +116,7 @@ export class confirmSignUpScreen extends Component {
 			<TextInput
 			  style={styles.inputText}
 			  maxLength={20}
-			  placeholder="     Username    "
+			  placeholder="Username"
 			  placeholderTextColor={'#2a78a0'}
 			  onChangeText={(text) => this.props.changeUsername(text)}
 			  value={this.props.username}
@@ -138,7 +139,7 @@ export class confirmSignUpScreen extends Component {
 			<TextInput
 			  style={styles.inputText}
 			  maxLength={20}
-			  placeholder="    Confirmation Code    "
+			  placeholder="Confirmation Code"
 			  placeholderTextColor={'#2a78a0'}
 			  onChangeText={(text) => this.props.changeConfirmationCode(text)}
 			  value={this.props.confirmationCode}
@@ -147,76 +148,3 @@ export class confirmSignUpScreen extends Component {
 	  );
 	}
  }
-
- /*
- const styles = StyleSheet.create({
-	container: {
-		 flex: 1,
-		 backgroundColor: '#3199ce',
-		 alignItems: 'center',
-		 justifyContent: 'center',
-	  },
-	  logoContainer: {
-		 alignItems: 'center',
-		 //justifyContent: 'center',
-		 height: 300,
-	  },
-	  logo: {
-		 height: 150,
-		 width: 180,
-		 borderWidth: 15,
-		 borderColor: '#96c3da',
-	  },
-	  title: {
-		 color: '#FFF',
-		 //fontFamily: 'Roboto',
-		 fontSize: 24,
-		 fontWeight: 'bold',
-		 marginTop: 10,
-		 width: 200,
-		 justifyContent: 'center',
-		 textAlign: 'center',
-	  },
-	  fieldContainer: { 
-		 margin: 2,
-		 padding: 5.5,
-		 height: 60,
-		 width: 1000,
-		 textAlign: 'left',
-		 alignItems: 'center',
-		 justifyContent: 'center',
-	  },
-	  regularText: {
-		 fontFamily: 'Avenir',
-		 fontSize: 14,
-		 color: '#3199ce',
-	  },
-	  inputText: {
-		fontFamily: 'Avenir',
-		 fontSize: 14,
-		 color: '#3199ce',
-		 padding: 10,
-		 backgroundColor: '#FFF',
-		 borderWidth: 4,
-		 borderColor: '#96c3da',
-	  },
-	  signUpButton: {
-		backgroundColor: "#34495e",
-		marginTop: 10,
-		marginBottom: 10,
-		padding: 10,
-		borderRadius: 5,
-		width: 100,
-		alignItems: "center"
-	  },
-	  signInButton: {
-		backgroundColor: "#34495e",
-		marginTop: 10,
-		marginBottom: 10,
-		padding: 10,
-		borderRadius: 5,
-		width: 75,
-		alignItems: "center"
-	  }
- })
- */

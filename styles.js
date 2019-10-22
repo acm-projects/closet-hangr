@@ -16,13 +16,11 @@ const BORDER_RADIUS = 25;
 	  },
 	  logoContainer: {
 		 alignItems: 'center',
-		 //justifyContent: 'center',
-		 height: 300,
+		 marginBottom: 40,
 	  },
 	  logo: {
-		 height: 150,
-		 width: 180,
-		 borderWidth: 15,
+		 height: 100,
+		 width: 140,
 	  },
 	  title: {
 		 color: COLOR_TEXT,
@@ -36,7 +34,8 @@ const BORDER_RADIUS = 25;
 	  },
 	  fieldContainer: { 
 		 margin: 2,
-		 padding: 5.5,
+		 padding: 12,
+		 margin: 10,
 		 height: 50,
 		 width: 250,
 		 textAlign: 'left',
@@ -52,9 +51,9 @@ const BORDER_RADIUS = 25;
 	  },
 	  inputText: {
 		fontFamily: FONT_NORMAL,
-		 fontSize: 14,
+		 fontSize: 18,
 		 color: COLOR_TEXT,
-		 padding: 10,
+		 padding: 1,
 		 backgroundColor: COLOR_SECONDARY,
 	  },
 	  signUpButton: {

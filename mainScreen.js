@@ -2,30 +2,24 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 
-//IMPORT FILES
-import HomeScreen from './HomeScreen'
-import LikedOutfitsScreen from './LikedOutfits'
-import WeatherScreen from './WeatherScreen'
-import SettingsScreen from './SettingsScreen'
-import LoginScreen from './LoginPage'
+import {CustomDrawerNavigator} from './CustomDrawerNavigator'
+import {CustomHeader} from './CustomHeader'
 
 //DIFFERENT PAGES
-const MyDrawerNavigator = new DrawerNavigator(
-  {
-    'Home': HomeScreen,
-    'Liked Outfits': LikedOutfitsScreen,
-    'Weather': WeatherScreen,
-    'Settings': SettingsScreen,
-    'Log Out': LoginScreen, //still need to add a button to Login Page to redirect it
-    
-  },
-  {
-    drawerBackgroundColor: 'rgba(255,255,255,.9)',
-    contentOptions: {
-      activeTintColor: '#fff',
-      activeBackgroundColor: '#6b52ae',
-    },
-  }
-);
+export class MainScreen extends Component {
+  static router = CustomDrawerNavigator.router
 
-export default MyDrawerNavigator;
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{height: 100}}>
+          <CustomHeader navigation={this.props.navigation} />
+        </View>
+        <View style={{height: 300}}>
+          <CustomDrawerNavigator navigation={this.props.navigation} />
+        </View>
+        
+      </View>
+    );
+  }
+}

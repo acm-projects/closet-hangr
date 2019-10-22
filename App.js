@@ -1,4 +1,3 @@
-// TEST
 //Amplify
 import Amplify from '@aws-amplify/core'
 import config from './src/aws-exports'
@@ -8,32 +7,29 @@ Amplify.configure({
       disabled: true
   }
 });
-
-
 //Authentification
 import { withAuthenticator, S3Image } from 'aws-amplify-react-native'
-
 // Navigation
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-
-//Font
-import * as Font from 'expo-font'
-
 // Pages
 import {signUpScreen} from './signUpScreen'
 import {confirmSignUpScreen} from './confirmSignUpScreen'
 import {signInScreen} from './signInScreen'
+import {MainScreen} from './MainScreen'
 
 const AppNavigator = createStackNavigator({
 		SignUp: {
 			screen: signUpScreen,
 		},
 		ConfirmSignUp: {
-			screen: confirmSignUpScreen
+			screen: confirmSignUpScreen,
 		},
 		SignIn: {
-			screen: signInScreen
+			screen: signInScreen,
+		},
+		Home: {
+			screen: MainScreen,
 		}
 	},
 	{

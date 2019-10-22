@@ -11,7 +11,7 @@ export default class LikedOutfitsScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('DrawerOpen')}>
             <Image 
               style = {{height: 55, width: 55, marginTop: 40, marginLeft: 10}}
-              source = {require('./Fw96Z.png')}
+              source = {require('./assets/images/menu.png')}
             />
         </TouchableOpacity>
         <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 25, textAlign: 'center', textAlignVertical: 'center' }}>Liked Outfits Screen</Text>

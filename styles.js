@@ -22,6 +22,18 @@ const BORDER_RADIUS = 25;
 		 height: 100,
 		 width: 140,
 	  },
+	  menuIcon: {
+			height: 30, 
+			width: 30,
+			marginTop: 20, 
+			marginLeft: 10,
+	  },
+	  heartIcon: {
+			height: 30, 
+			width: 30, 
+			marginTop: 20,
+			marginRight: 10, 
+	  },
 	  title: {
 		 color: COLOR_TEXT,
 		 fontFamily: FONT_NORMAL,

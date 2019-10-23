@@ -16,7 +16,7 @@ import signInScreen from './signInScreen'
 export const CustomDrawerNavigator = createDrawerNavigator(
   {
     Home: {screen: HomeScreen},
-    LikedOutfits: {screen: LikedOutfitsScreen},
+    'Liked Outfits': {screen: LikedOutfitsScreen},
     Weather: {screen: WeatherScreen},
     Settings: {screen: SettingsScreen},
     //LogOut: {screen: signInScreen}, 
@@ -25,7 +25,8 @@ export const CustomDrawerNavigator = createDrawerNavigator(
     drawerBackgroundColor: 'rgba(255,255,255,.9)',
     contentOptions: {
       activeTintColor: '#fff',
-      activeBackgroundColor: '#6b52ae',
+      activeBackgroundColor: '#00bf7f',
     },
+    edgeWidth: 0
   }
 )

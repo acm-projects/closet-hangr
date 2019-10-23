@@ -29,12 +29,6 @@ import styles from './styles'
 
 
 export class signUpScreen extends React.Component {
-	//async componentDidMount() {
-	//	await Font.loadAsync({
-	//	  'Avenir': require('./assets/fonts/Avenir.ttf'),
-	//	});
-	// }
-
 	constructor(props) {
 		super(props);
 		this.state = {email: '', username: '', password: ''};

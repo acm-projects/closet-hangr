@@ -26,12 +26,6 @@ import * as Font from 'expo-font'
 import styles from './styles'
 
 export class signInScreen extends Component {
-	//async componentDidMount() {
-	//	await Font.loadAsync({
-	//	  'Avenir': require('./assets/fonts/Avenir.ttf'),
-	//	});
-	// }
-
 	constructor(props) {
 		super(props);
 		this.state = {username: '', password: ''};

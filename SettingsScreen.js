@@ -2,6 +2,8 @@
 import React from 'react';
 import { StyleSheet,  Text, View, TouchableOpacity, Image } from 'react-native';
 
+import styles from "./styles";
+
 import App from './App'
 
 export default class SettingsScreen extends React.Component {
@@ -9,9 +11,9 @@ export default class SettingsScreen extends React.Component {
     return (
       <View style={{  }}>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}>
+          onPress={() => this.props.navigation.openDrawer()}>
             <Image 
-              style = {{height: 55, width: 55, marginTop: 40, marginLeft: 10}}
+              style = {styles.menuIcon}
               source = {require('./assets/images/menu.png')}
             />
         </TouchableOpacity>

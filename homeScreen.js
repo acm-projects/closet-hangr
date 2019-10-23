@@ -1,26 +1,30 @@
 import React, { Component} from 'react';
-import { StyleSheet,  Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
+import {Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import styles from './styles'
 
 export default class HomeScreen extends Component {
   render() {
     return (
-      <View style={{  }}>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-            <Image 
-              style = {{height: 55, width: 55, marginTop: 40, marginLeft: 10}}
-              source = {require('./assets/images/heart.png')}
-            />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('LikedOutfitsScreen')}>
-            <Image 
-              style = {{height: 50, width: 50, position: 'absolute', right: 0, top: -60, marginRight: 10}}
-              source = {require('./assets/images/menu.png')}
-            />
-        </TouchableOpacity>
-        <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 25, textAlign: 'center', textAlignVertical: 'center' }}>Home Screen</Text>
+      <View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}>
+                <Image 
+                  style = {styles.menuIcon}
+                  source = {require('./assets/images/menu.png')}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('LikedOutfitsScreen')}>
+                <Image 
+                  style = {styles.heartIcon}
+                  source = {require('./assets/images/heart.png')}
+                />
+            </TouchableOpacity>
+          </View>
+        <View>
+          <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 25, textAlign: 'center', textAlignVertical: 'center' }}>Home Screen</Text>
+        </View>
       </View>
     );
   }

@@ -30,12 +30,6 @@ import styles from './styles'
 
 
 export class confirmSignUpScreen extends Component {
-	//async componentDidMount() {
-	//	await Font.loadAsync({
-	//	  'Avenir': require('./assets/fonts/Avenir.ttf'),
-	//	});
-	// }
-
 	constructor(props) {
 		super(props);
 		this.state = {username: "", confirmationCode: ""};

@@ -8,7 +8,7 @@ import HomeScreen from './HomeScreen'
 import LikedOutfitsScreen from './LikedOutfitsScreen'
 import WeatherScreen from './WeatherScreen'
 import SettingsScreen from './SettingsScreen'
-import signInScreen from './signInScreen'
+import AddClothingScreen from './AddClothingScreen'
 
 //https://reactnavigation.org/docs/en/drawer-navigator.html
 
@@ -19,7 +19,7 @@ export const CustomDrawerNavigator = createDrawerNavigator(
     'Liked Outfits': {screen: LikedOutfitsScreen},
     Weather: {screen: WeatherScreen},
     Settings: {screen: SettingsScreen},
-    //LogOut: {screen: signInScreen}, 
+    'Add Clothing': {screen: AddClothingScreen},
   },
   {
     drawerBackgroundColor: 'rgba(255,255,255,.9)',

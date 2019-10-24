@@ -1,13 +1,3 @@
-
-/*
-____ ___ ____ _   _   _   _ ____    ____   _    ____ _____ 
- / ___|_ _/ ___| \ | | | | | |  _ \  |  _ \ / \  / ___| ____|
- \___ \| | |  _|  \| | | | | | |_) | | |_) / _ \| |  _|  _|  
-  ___) | | |_| | |\  | | |_| |  __/  |  __/ ___ \ |_| | |___ 
- |____/___\____|_| \_|  \___/|_|     |_| /_/   \_\____|_____|
-                                                             
-*/
-
 //General
 import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
@@ -35,8 +25,10 @@ export class signUpScreen extends React.Component {
 	 }
 
 	signUp = async event => {
-      backendFunctions.signUp(this.state.email, this.state.username, this.state.password)
-      this.props.navigation.navigate('ConfirmSignUp')
+		if(this.state.email != '' && this.state.username!='' && this.state.password!='') {
+			backendFunctions.signUp(this.state.email, this.state.username, this.state.password)
+			this.props.navigation.navigate('ConfirmSignUp')
+		}
 	}
 
 	 changeEmail = (newValue) => {

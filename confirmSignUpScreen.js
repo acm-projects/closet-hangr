@@ -37,7 +37,7 @@ export class confirmSignUpScreen extends Component {
 
 	confirmSignUp = async event => {
 		backendFunctions.confirmSignUp(this.state.username, this.state.confirmationCode)
-		this.props.navigation.navigate('Home')
+		this.props.navigation.navigate('SignIn')
 	}
 
 	changeUsername = (newValue) => {

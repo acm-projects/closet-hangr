@@ -1,15 +1,23 @@
-
+//General
 import React from 'react';
 import { StyleSheet,  Text, View, TouchableOpacity, Image } from 'react-native';
-
+//Stylesheet
 import styles from "./styles";
+//Backend
+import * as backEndFunctions from './back_end_functions'
 
 import App from './App'
 
 export default class SettingsScreen extends React.Component {
+
+  signOut = async event => {
+    await backEndFunctions.signOut()
+    this.props.navigation.navigate ('SignUp')
+  }
+
   render() {
     return (
-      <View style={{  }}>
+      <View style={{}}>
         <TouchableOpacity
           onPress={() => this.props.navigation.openDrawer()}>
             <Image 
@@ -18,6 +26,11 @@ export default class SettingsScreen extends React.Component {
             />
         </TouchableOpacity>
         <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 25, textAlign: 'center', textAlignVertical: 'center' }}>Settings Screen</Text>
+        <TouchableOpacity onPress = {this.signOut} style = {styles.signInButton}>
+          <Text style = {styles.regularText}>
+            Log out
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }

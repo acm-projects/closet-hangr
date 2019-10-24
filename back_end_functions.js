@@ -9,6 +9,9 @@ import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
 //Cognito
 import Auth from '@aws-amplify/auth'
+//Fast image
+import FastImage from 'react-native-fast-image'
+
 
 /*
   _   _ _____ _     ____  _____ ____    _____ _   _ _   _  ____ _____ ___ ___  _   _ ____  
@@ -103,12 +106,12 @@ export const createNewUser = async (
 * Returns the id of the new clothing
 */
 export const createNewClothing = async (
-	username,
+	u_name,
 	imageKey,
 ) => {
 	const information = {
 		key: imageKey,
-		clothingUserId: username,
+		clothingUserId: u_name,
 	}
 
 	try {
@@ -148,6 +151,34 @@ export const addImageToDatabase = async (
 		await createNewClothing(user.username, key)
 		console.log('While adding image to database, successfully created clothing')
 	} catch (err) {console.log('ERROR: While adding image to databaes, error creating image in database',err)}
+}
+
+export const retrieveAllClothing = async (
+	u_name
+) => {
+	const information = {
+		id: u_name
+	}
+
+	try {
+		const response = await API.graphql(graphqlOperation(queries.getUser, {id: u_name}))
+		console.log("Clothing successfully received")
+
+		//TODO Preloading
+
+		if(response.data.getUser.clothing.items.length > 0) {	
+			let clothing = []
+			//Create datastructure for preloading
+			for(let i = 0; i < response.data.getUser.clothing.items.length; i++) {
+				let item = {
+					id: response.data.getUser.clothing.items[i].id,
+					uri: await Storage.get(response.data.getUser.clothing.items[i].key,{level: 'private',})
+				}
+				clothing.push(item)
+			}
+			return clothing
+		}
+	} catch (err) {console.log("ERROR: Error when retrieving clothing", err)}
 }
 
  /*
@@ -256,10 +287,20 @@ export const signIn = async (
  * Gets the info of the current user
  * Returns an user object
  */
-export const getCurentUserInfo = async () => {
+export const getCurrentUserInfo = async () => {
 	try {
 		let user = await Auth.currentUserInfo()
 		return user
 	} catch (err) {console.log('Current user info error: ', err)}
+}
+
+/*
+ * Signs the current user out
+*/
+export const signOut = async() => {
+	try {
+		await Auth.signOut()
+		console.log('Use successfully signed out')
+	} catch (err) { console.log('ERROR: error signing the current user out', err)}
 }
 

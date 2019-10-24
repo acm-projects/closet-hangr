@@ -1,11 +1,3 @@
-/*
-  ____ ___ ____ _   _   ___ _   _   ____   ____ ____  _____ _____ _   _ 
- / ___|_ _/ ___| \ | | |_ _| \ | | / ___| / ___|  _ \| ____| ____| \ | |
- \___ \| | |  _|  \| |  | ||  \| | \___ \| |   | |_) |  _| |  _| |  \| |
-  ___) | | |_| | |\  |  | || |\  |  ___) | |___|  _ <| |___| |___| |\  |
- |____/___\____|_| \_| |___|_| \_| |____/ \____|_| \_\_____|_____|_| \_|
-*/
-
 //General
 import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
@@ -32,7 +24,10 @@ export class signInScreen extends Component {
 	 }
 
 	signIn = async event => {
-		backendFunctions.signIn(this.state.username, this.state.password)
+		if (this.state.username!='' && this.state.password!='') {
+			backendFunctions.signIn(this.state.username, this.state.password)
+			this.props.navigation.navigate('Home')
+		}
 	}
 
 	 changeUsername = (newValue) => {

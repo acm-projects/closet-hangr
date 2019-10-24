@@ -10,6 +10,7 @@ import * as backEndFunctions from './back_end_functions'
 
 //Font
 import * as Font from 'expo-font'
+import { Auth } from 'aws-amplify';
 
 //DIFFERENT PAGES
 export class LandingScreen extends Component {
@@ -24,8 +25,14 @@ export class LandingScreen extends Component {
 		  'Avenir': require('./assets/fonts/Avenir.ttf'),
       });
       this.setState({fontsLoaded: true})
-      await backEndFunctions.sleep(2000)
-      this.props.navigation.navigate('SignUp')
+      await backEndFunctions.sleep(1000)
+
+      //Navigating to the correct screen based on if the user is currently signed in
+      let user = await backEndFunctions.getCurrentUserInfo()
+      if(user == null)
+         this.props.navigation.navigate('SignUp')
+      else
+         this.props.navigation.navigate('Home')
 	}
 
   render() {

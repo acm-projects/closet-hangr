@@ -25,13 +25,13 @@ const BORDER_RADIUS = 25;
 	  menuIcon: {
 			height: 30, 
 			width: 30,
-			marginTop: 20, 
+			marginTop: 30, 
 			marginLeft: 10,
 	  },
 	  heartIcon: {
 			height: 30, 
 			width: 30, 
-			marginTop: 20,
+			marginTop: 30,
 			marginRight: 10, 
 	  },
 	  title: {
@@ -85,6 +85,7 @@ const BORDER_RADIUS = 25;
 		borderRadius: BORDER_RADIUS,
 		width: 125,
 		alignItems: "center"
-	  }
+	  },
+
  })
  

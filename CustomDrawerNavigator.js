@@ -19,7 +19,6 @@ export const CustomDrawerNavigator = createDrawerNavigator(
     'Liked Outfits': {screen: LikedOutfitsScreen},
     Weather: {screen: WeatherScreen},
     Settings: {screen: SettingsScreen},
-    'Add Clothing': {screen: AddClothingScreen},
   },
   {
     drawerBackgroundColor: 'rgba(255,255,255,.9)',

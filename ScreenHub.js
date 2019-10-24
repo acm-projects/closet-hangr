@@ -1,0 +1,62 @@
+import React, { Component } from 'react';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { DrawerNavigator } from 'react-navigation';
+
+import {CustomDrawerNavigator} from './CustomDrawerNavigator'
+
+import AddClothingScreen from './AddClothingScreen'
+
+import { Container, Content } from 'native-base'
+import Swiper from 'react-native-swiper'
+
+//DIFFERENT PAGES
+export class ScreenHub extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  static router = CustomDrawerNavigator.router
+
+  verticalScroll = (index) => {
+    if (index !== 1) {
+      this.setState({
+        outerScrollEnabled: false
+      })
+    }
+    else {
+      this.setState({
+        outerScrollEnabled: true
+      })
+    }
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
+          <Container>
+            <Content>
+              <Swiper
+                loop={false}
+                showsPagination={true}
+                horizontal={true}
+                index={1}
+                onIndexChanged={(index) => this.verticalScroll(index)}
+              >
+                <View style={{flex:1}}>
+                  <AddClothingScreen/>
+                </View>
+                <View style={{flex: 1}}>
+                  <CustomDrawerNavigator navigation={this.props.navigation} />
+                </View>
+                <View>
+                  <Text style={styles.text}>Memories</Text>
+                </View>
+              </Swiper>
+            </Content>
+          </Container>
+        </View> 
+      </View>
+    );
+  }
+}

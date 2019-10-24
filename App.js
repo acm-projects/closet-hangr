@@ -17,8 +17,8 @@ import {LandingScreen} from './LandingScreen'
 import {signUpScreen} from './signUpScreen'
 import {confirmSignUpScreen} from './confirmSignUpScreen'
 import {signInScreen} from './signInScreen'
-import {MainScreen} from './MainScreen'
-import {SwiperHub} from './SwiperHub'
+import {ScreenHub} from './ScreenHub'
+import HomeScreen from './HomeScreen';
 
 const AppNavigator = createStackNavigator({
 		Landing: {
@@ -34,7 +34,7 @@ const AppNavigator = createStackNavigator({
 			screen: signInScreen,
 		},
 		Home: {
-			screen: SwiperHub,
+			screen: ScreenHub,
 		}
 	},
 	{

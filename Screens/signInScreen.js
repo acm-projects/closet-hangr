@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, Platform, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
 //Amplify
 import Amplify from '@aws-amplify/core'
-import config from './src/aws-exports'
+import config from '../src/aws-exports'
 Amplify.configure({
   ...config,
   Analytics: { //Needed to disable possible promise reject error from analytics
@@ -11,11 +11,11 @@ Amplify.configure({
   }
 });
 //Backend
-import * as backendFunctions from './back_end_functions'
+import * as backendFunctions from '../back_end_functions'
 //Font
 import * as Font from 'expo-font'
 //Stylesheet
-import styles from './styles'
+import styles from '../styles'
 
 export class signInScreen extends Component {
 	constructor(props) {
@@ -91,7 +91,7 @@ export class signInScreen extends Component {
 	  return (
 		 <Image
 		 style={styles.logo}
-		 source={require('./assets/images/hanger.png')} />
+		 source={require('../assets/images/hanger.png')} />
 	  );
 	}
  }

@@ -38,7 +38,7 @@ export class ScreenHub extends Component {
             <Content>
               <Swiper
                 loop={false}
-                showsPagination={true}
+                showsPagination={false}
                 horizontal={true}
                 index={1}
                 onIndexChanged={(index) => this.verticalScroll(index)}

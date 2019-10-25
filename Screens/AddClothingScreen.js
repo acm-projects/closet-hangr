@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, Button } from 'react-native';
 //Amplify
 import Amplify from '@aws-amplify/core'
-import config from './src/aws-exports'
+import config from '../src/aws-exports'
 Amplify.configure({
   ...config,
   Analytics: { //Needed to disable possible promise reject error from analytics
@@ -11,23 +11,17 @@ Amplify.configure({
   }
 });
 //Stylesheet
-import styles from './styles'
+import styles from '../styles'
 //Backend
-import * as backendFunctions from './back_end_functions'
+import * as backendFunctions from '../back_end_functions'
 // Permissions
 import * as Permissions from 'expo-permissions'
 //Image Picker
 import * as ImagePicker from 'expo-image-picker'
 
-const IMAGE_URL =
-    'https://cdn-images-1.medium.com/max/1600/1*-CY5bU4OqiJRox7G00sftw.gif'
-
  export default class AddClothingScreen extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			url: IMAGE_URL,
-		}
 	}
 
 	addFromCamera = async event => {
@@ -38,7 +32,7 @@ const IMAGE_URL =
 		let response = await ImagePicker.launchCameraAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
-			aspect: [3,4],
+			aspect: [1,1],
 		})
 		if(response.cancelled != 'false')
 			backendFunctions.addImageToDatabase(response.uri)
@@ -51,7 +45,7 @@ const IMAGE_URL =
 		let response = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
-			aspect: [3, 4],
+			aspect: [1, 1],
 		});
 		if(response.cancelled != 'false')
 			backendFunctions.addImageToDatabase(response.uri)
@@ -65,7 +59,6 @@ const IMAGE_URL =
       for(let i = 0; i < clothing.length; i++)
          console.log(clothing[i])
 	}
-	
 
 	render() {
 		return(

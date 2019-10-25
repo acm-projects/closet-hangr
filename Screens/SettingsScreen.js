@@ -2,11 +2,11 @@
 import React from 'react';
 import { StyleSheet,  Text, View, TouchableOpacity, Image } from 'react-native';
 //Stylesheet
-import styles from "./styles";
+import styles from "../styles";
 //Backend
-import * as backEndFunctions from './back_end_functions'
+import * as backEndFunctions from '../back_end_functions'
 
-import App from './App'
+import App from '../App'
 
 export default class SettingsScreen extends React.Component {
 
@@ -22,7 +22,7 @@ export default class SettingsScreen extends React.Component {
           onPress={() => this.props.navigation.openDrawer()}>
             <Image 
               style = {styles.menuIcon}
-              source = {require('./assets/images/menu.png')}
+              source = {require('../assets/images/menu.png')}
             />
         </TouchableOpacity>
         <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 25, textAlign: 'center', textAlignVertical: 'center' }}>Settings Screen</Text>

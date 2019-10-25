@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet,  Text, View, TouchableOpacity, Image } from 'react-native';
 
-import App from './App'
+import App from '../App'
 
-import styles from "./styles";
+import styles from "../styles";
 
 export default class WeatherScreen extends React.Component {
   render() {
@@ -13,7 +13,7 @@ export default class WeatherScreen extends React.Component {
           onPress={() => this.props.navigation.openDrawer()}>
             <Image 
               style = {styles.menuIcon}
-              source = {require('./assets/images/menu.png')}
+              source = {require('../assets/images/menu.png')}
             />
         </TouchableOpacity>
         <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 25, textAlign: 'center', textAlignVertical: 'center' }}>Weather Screen</Text>

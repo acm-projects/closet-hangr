@@ -14,7 +14,7 @@ import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 //Amplify
 import Amplify from '@aws-amplify/core'
-import config from './src/aws-exports'
+import config from '../src/aws-exports'
 Amplify.configure({
   ...config,
   Analytics: { //Needed to disable possible promise reject error from analytics
@@ -22,11 +22,11 @@ Amplify.configure({
   }
 });
 //Backend
-import * as backendFunctions from './back_end_functions'
+import * as backendFunctions from '../back_end_functions'
 //Font
 import * as Font from 'expo-font'
 //Stylesheet
-import styles from './styles'
+import styles from '../styles'
 
 
 export class confirmSignUpScreen extends Component {

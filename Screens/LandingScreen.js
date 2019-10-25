@@ -6,7 +6,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 // Back-end functions
-import * as backEndFunctions from './back_end_functions'
+import * as backEndFunctions from '../back_end_functions'
 
 //Font
 import * as Font from 'expo-font'
@@ -22,7 +22,7 @@ export class LandingScreen extends Component {
 
   	async componentDidMount() {
 		await Font.loadAsync({
-		  'Avenir': require('./assets/fonts/Avenir.ttf'),
+		  'Avenir': require('../assets/fonts/Avenir.ttf'),
       });
       this.setState({fontsLoaded: true})
       await backEndFunctions.sleep(1000)

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 const COLOR_PRIMARY = '#00bf7f';
 const COLOR_SECONDARY = '#1da4c2';
@@ -23,16 +23,16 @@ const BORDER_RADIUS = 25;
 		 width: 140,
 	  },
 	  menuIcon: {
-			height: 30, 
-			width: 30,
-			marginTop: 30, 
-			marginLeft: 10,
+			height: Dimensions.get('window').height/25, 
+			width: Dimensions.get('window').height/25,
+			marginTop: Dimensions.get('window').height/25, 
+			marginLeft: Dimensions.get('window').height/60,
 	  },
 	  heartIcon: {
-			height: 30, 
-			width: 30, 
-			marginTop: 30,
-			marginRight: 10, 
+			height: Dimensions.get('window').height/25, 
+			width: Dimensions.get('window').height/25, 
+			marginTop: Dimensions.get('window').height/25,
+			marginRight: Dimensions.get('window').height/60, 
 	  },
 	  title: {
 		 color: COLOR_TEXT,

@@ -57,7 +57,7 @@ export class signUpScreen extends React.Component {
 	  return(
 		 <View style={styles.container}>
 			<View style = {styles.logoContainer}>
-			  <Logo />
+			  <Logo/>
 			  	<Text style={styles.title}>
 					  Closet-Hangr
 			  </Text>

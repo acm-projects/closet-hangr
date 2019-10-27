@@ -2,8 +2,6 @@ import React, { Component} from 'react';
 import {Text, View, TouchableOpacity, Image, TextInput, FlatList, Dimensions } from 'react-native';
 import styles from '../styles'
 import * as backEndFunctions from '../back_end_functions'
-import { ScrollView } from 'react-native-gesture-handler';
-
 import Paginator from '../Paginator'
 
 //For flatlist
@@ -55,6 +53,13 @@ export default class HomeScreen extends Component {
             horizontal = {true} 
             itemWidth={Dimensions.get('window').width*3/4}
           />
+        </View>
+      </View>
+    );
+  }
+}
+
+/*
           <Paginator
             data = {this.state.images} 
             renderItem={({item})=><Item uri={item.uri}/> } 
@@ -62,40 +67,12 @@ export default class HomeScreen extends Component {
             horizontal = {true} 
             itemWidth={Dimensions.get('window').width*3/4}
           />
-        </View>
-      </View>
-    );
-  }
-}
 
-export class EmailField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {text: ''};
-  }
-
-  render() {
-    return (
-      <View style={styles.fieldContainer}>
-        <TextInput
-          style={styles.regularText}
-    
-          placeholder="Email"
-          placeholderTextColor={'#2a78a0'}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        />
-        
-      </View>
-    );
-  }
-}
-
-/*
-          <FlatList 
+                    <FlatList
             data = {this.state.images} 
             renderItem={({item})=><Item uri={item.uri}/> } 
             keyExtractor={item => item.id} 
             horizontal = {true} 
+            pagingEnabled = {true}
           />
 */

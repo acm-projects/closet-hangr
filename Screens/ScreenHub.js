@@ -5,9 +5,11 @@ import { DrawerNavigator } from 'react-navigation';
 import {CustomDrawerNavigator} from './CustomDrawerNavigator'
 
 import AddClothingScreen from './AddClothingScreen'
+//import RecommendationsScreen from './RecommendationsScreen'
 
 import { Container, Content } from 'native-base'
 import Swiper from 'react-native-swiper'
+import RecommendationsScreen from './RecommendationsScreen';
 
 //DIFFERENT PAGES
 export class ScreenHub extends Component {
@@ -50,7 +52,7 @@ export class ScreenHub extends Component {
                   <CustomDrawerNavigator navigation={this.props.navigation} />
                 </View>
                 <View>
-                  <Text style={styles.text}>Memories</Text>
+                  <RecommendationsScreen/>
                 </View>
               </Swiper>
             </Content>

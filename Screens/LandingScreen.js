@@ -10,7 +10,10 @@ import * as backEndFunctions from '../back_end_functions'
 
 //Font
 import * as Font from 'expo-font'
+
 import { Auth } from 'aws-amplify';
+
+import styles from '../styles'
 
 //DIFFERENT PAGES
 export class LandingScreen extends Component {
@@ -38,18 +41,18 @@ export class LandingScreen extends Component {
   render() {
    if(this.state.fontsLoaded) {
       return (
-            <View>
-               <Text>
-                  After loading
-               </Text>
-            </View>
+         <View style = {styles.container}>
+            <Text style={styles.title}>
+               Closet-hangr
+            </Text>
+         </View>
       )
    }
    else {
       return (
-         <View>
-            <Text>
-               HAS NOT LOADED YET
+         <View style = {styles.container}>
+            <Text style={styles.title}>
+               Closet-hangr
             </Text>
          </View>
       )

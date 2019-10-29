@@ -34,7 +34,6 @@ export default class RecommendationsScreen extends Component {
   async componentDidMount() {
     let user = await backEndFunctions.getCurrentUserInfo()
     this.setState({images: await backEndFunctions.retrieveAllClothing(user.username)})
-    console.log(this.state.images)
   }
 
   render() {

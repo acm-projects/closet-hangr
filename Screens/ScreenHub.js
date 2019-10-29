@@ -9,7 +9,7 @@ import AddClothingScreen from './AddClothingScreen'
 
 import { Container, Content } from 'native-base'
 import Swiper from 'react-native-swiper'
-import RecommendationsScreen from './RecommendationsScreen';
+import RecommendationsScreen from './RecommendationsScreen'
 
 //DIFFERENT PAGES
 export class ScreenHub extends Component {
@@ -43,7 +43,6 @@ export class ScreenHub extends Component {
                 showsPagination={false}
                 horizontal={true}
                 index={1}
-                onIndexChanged={(index) => this.verticalScroll(index)}
               >
                 <View style={{flex:1}}>
                   <AddClothingScreen/>

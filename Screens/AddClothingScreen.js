@@ -34,8 +34,9 @@ import * as ImagePicker from 'expo-image-picker'
 			allowsEditing: true,
 			aspect: [1,1],
 		})
-		if(response.cancelled != 'false')
-			backendFunctions.addImageToDatabase(response.uri)
+		if(response.cancelled != 'false') {
+			await backendFunctions.addImageToDatabase(response.uri)
+		}
 	}
 
 	addFromImagePicker = async event => {
@@ -47,8 +48,9 @@ import * as ImagePicker from 'expo-image-picker'
 			allowsEditing: true,
 			aspect: [1, 1],
 		});
-		if(response.cancelled != 'false')
-			backendFunctions.addImageToDatabase(response.uri)
+		if(response.cancelled != 'false') {
+			await backendFunctions.addImageToDatabase(response.uri)
+		}
    }
    
    //Returns an array of objects that contain information of piece of clothing

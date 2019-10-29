@@ -19,8 +19,8 @@ import {confirmSignUpScreen} from './Screens/confirmSignUpScreen'
 import {signInScreen} from './Screens/signInScreen'
 import {ScreenHub} from './Screens/ScreenHub'
 import HomeScreen from './Screens/HomeScreen';
-
-//import Paginator from './Paginator'
+//Uncomment to enable debug warnings
+//console.disableYellowBox = true;
 
 const AppNavigator = createStackNavigator({
 		Landing: {

@@ -25,7 +25,6 @@ export default class HomeScreen extends Component {
     this.setState({images: await backEndFunctions.retrieveAllClothing(user.username)})
   }
 
-
   render() {
     return (
       <View>
@@ -51,28 +50,10 @@ export default class HomeScreen extends Component {
             renderItem={({item})=><Item uri={item.uri}/> } 
             keyExtractor={item => item.id} 
             horizontal = {true} 
-            itemWidth={Dimensions.get('window').width*3/4}
+            itemWidth={Dimensions.get('window').width*3/4} 
           />
         </View>
       </View>
     );
   }
 }
-
-/*
-          <Paginator
-            data = {this.state.images} 
-            renderItem={({item})=><Item uri={item.uri}/> } 
-            keyExtractor={item => item.id} 
-            horizontal = {true} 
-            itemWidth={Dimensions.get('window').width*3/4}
-          />
-
-                    <FlatList
-            data = {this.state.images} 
-            renderItem={({item})=><Item uri={item.uri}/> } 
-            keyExtractor={item => item.id} 
-            horizontal = {true} 
-            pagingEnabled = {true}
-          />
-*/

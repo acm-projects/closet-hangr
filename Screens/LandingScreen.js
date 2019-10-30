@@ -15,6 +15,8 @@ import { Auth } from 'aws-amplify';
 
 import styles from '../styles'
 
+import FastImage from 'react-native-fast-image'
+
 
 //DIFFERENT PAGES
 export class LandingScreen extends Component {
@@ -44,6 +46,7 @@ export class LandingScreen extends Component {
 
       await backEndFunctions.sleep(1000)
       
+   
 
       this.setState({loaded: true})
       

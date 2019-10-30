@@ -139,6 +139,11 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-voice')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-sound')
+    implementation project(':react-native-fs')
+    implementation project(':react-native-fast-image')
     implementation project(':react-native-screens')
     implementation project(':react-native-reanimated')
     implementation project(':react-native-gesture-handler')

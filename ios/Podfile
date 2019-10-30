@@ -32,4 +32,12 @@ target 'closethangr' do
 
   use_unimodules!
 
+  pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 end

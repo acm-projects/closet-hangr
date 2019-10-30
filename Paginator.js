@@ -39,7 +39,7 @@ getWrappableData = (data) => {
     //Add 4th item in the list (original 2nd item) to teh end of the list
     if (data[data.length-1].id != '1' && data[data.length-2].id != '1')
     {
-      let bufferItem = {id: '1', uri: data[3].uri}
+      let bufferItem = {id: '1', uri: 'https://fbs8083.files.wordpress.com/2019/01/blank-white-square-thumbnail.jpg'}
       wrappableData.push(bufferItem)
     }
     return wrappableData
@@ -47,6 +47,11 @@ getWrappableData = (data) => {
 
   return data
 }
+
+  scrollAnimation = async event => {
+    await backEndFunctions.sleep(3000)
+    this.flatList.scrollToOffset({animated: true, offset: 2*this.state.width })
+  }
 
 
 
@@ -60,7 +65,7 @@ render() {
         getItemLayout={(data, index) => (
           { length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index }
         )}
-        initialScrollIndex = {2}
+        initialScrollIndex = {this.props.data.length-1}
         renderItem={this.props.renderItem}
         horizontal = {true}
         pagingEnabled = {true}
@@ -68,19 +73,19 @@ render() {
         contentContainerStyle={this.props.contentContainerStyle} 
         keyExtractor={this.props.keyExtractor}
         initialNumToRender={1}
-
         
         onLayout={ ({nativeEvent}) => {
           const {width, height} = nativeEvent.layout;
           this.setState({
             width, height,
           })
+          this.scrollAnimation()
           }
         }
 
         onScroll={ ({ nativeEvent }) => {
           const { x } = nativeEvent.contentOffset;
-          if(x > ((this.props.data.length-2) * this.state.width)) {
+          if(x > ((this.props.data.length-2) * this.state.width) && x < (this.props.data.length * this.state.width)) {
             //Move seamlessly to the first unique element (the first element that does have a copy)
             this.flatList.scrollToOffset({offset: x - ((this.props.data.length-2) * this.state.width) + (2*this.state.width), animated: false})
           }

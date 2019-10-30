@@ -9,8 +9,6 @@ import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
 //Cognito
 import Auth from '@aws-amplify/auth'
-//Fast image
-import FastImage from 'react-native-fast-image'
 
 
 /*

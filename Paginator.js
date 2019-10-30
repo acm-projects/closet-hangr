@@ -3,7 +3,7 @@ import { FlatList, View, Platform, Dimensions } from "react-native";
 import * as backEndFunctions from './back_end_functions'
 import uuid from 'uuid/v4'
 
-class Paginator extends React.Component {
+class Paginator extends React.PureComponent {
 constructor(props) {  
   super(props);
   this.flatList = null
@@ -27,7 +27,7 @@ getWrappableData = (data) => {
     //Add the 2nd to last item in the list to the beginning of the list
     if (data[1].id != 'n-1' && data[0].id != 'n-1' )
     {
-      let bufferItem = {id: 'n-1', uri: data[data.length-2].uri}
+      let bufferItem = {id: 'n-1', uri: 'https://fbs8083.files.wordpress.com/2019/01/blank-white-square-thumbnail.jpg'}
       wrappableData.unshift(bufferItem)
     }
     //Add the 3rd item in the list (original 1st item) to the end of the list
@@ -48,25 +48,27 @@ getWrappableData = (data) => {
   return data
 }
 
-getItemLayout = (data, index) => (
-  { length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index }
-)
+
 
 render() {
   return (
     <View>
       <FlatList
         {...this.props}
+        ref={ref => (this.flatList = ref)}  
         data={this.getWrappableData(this.props.data)}
+        getItemLayout={(data, index) => (
+          { length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index }
+        )}
+        initialScrollIndex = {2}
         renderItem={this.props.renderItem}
         horizontal = {true}
         pagingEnabled = {true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={this.props.contentContainerStyle} 
         keyExtractor={this.props.keyExtractor}
-        getItemLayout={this.getItemLayout}
-        initialNumToRender = {1}
-        initialScrollIndex = {2}
+        initialNumToRender={1}
+
         
         onLayout={ ({nativeEvent}) => {
           const {width, height} = nativeEvent.layout;
@@ -87,9 +89,7 @@ render() {
             //Move seamlessly to the last unique element in the list
             this.flatList.scrollToOffset({offset: ((this.props.data.length-3)*this.state.width) - (this.state.width-x), animated: false})
           }
-        } }
-
-        ref={ref => (this.flatList = ref)}    
+        } }  
       />
    </View>
   );

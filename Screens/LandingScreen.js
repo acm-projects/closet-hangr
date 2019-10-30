@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 // Navigation
 import { createAppContainer } from 'react-navigation';
@@ -15,31 +15,48 @@ import { Auth } from 'aws-amplify';
 
 import styles from '../styles'
 
+
 //DIFFERENT PAGES
 export class LandingScreen extends Component {
    constructor(props)
    {
       super(props)
-      this.state = {fontsLoaded: false}
+      this.state = {loaded: false}
    }  
 
+   
+
   	async componentDidMount() {
+        //Loading font
 		await Font.loadAsync({
 		  'Avenir': require('../assets/fonts/Avenir.ttf'),
       });
-      this.setState({fontsLoaded: true})
-      await backEndFunctions.sleep(1000)
 
-      //Navigating to the correct screen based on if the user is currently signed in
       let user = await backEndFunctions.getCurrentUserInfo()
+
+      //Loading images
+      if (user != null) {
+         let urlOfImages = []
+         urlOfImages =  await backEndFunctions.retrieveAllClothing(user.username)
+         for (let i = 0; i < urlOfImages.length; i++)
+            await Image.prefetch(urlOfImages[i].uri)
+      }
+
+      await backEndFunctions.sleep(1000)
+      
+
+      this.setState({loaded: true})
+      
+      //Navigating to the correct screen based on if the user is currently signed in
       if(user == null)
          this.props.navigation.navigate('SignUp')
       else
          this.props.navigation.navigate('Home')
+
 	}
 
   render() {
-   if(this.state.fontsLoaded) {
+   if(this.state.fontsLoaded && this.state.imagesLoaded) {
       return (
          <View style = {styles.container}>
             <Text style={styles.title}>

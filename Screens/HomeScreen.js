@@ -13,7 +13,7 @@ function Item({ uri }) {
   );
 }
 
-export default class HomeScreen extends Component {
+export default class HomeScreen extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {images: []}
@@ -45,6 +45,13 @@ export default class HomeScreen extends Component {
             </TouchableOpacity>
           </View>
         <View style={{marginTop: Dimensions.get('window').height/30}} >
+          <Paginator
+            data = {this.state.images} 
+            renderItem={({item})=><Item uri={item.uri}/> } 
+            keyExtractor={item => item.id} 
+            horizontal = {true} 
+            itemWidth={Dimensions.get('window').width*3/4} 
+          />
           <Paginator
             data = {this.state.images} 
             renderItem={({item})=><Item uri={item.uri}/> } 

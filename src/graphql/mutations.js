@@ -12,8 +12,11 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -39,8 +42,11 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -66,8 +72,11 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -86,8 +95,11 @@ export const createClothing = `mutation CreateClothing($input: CreateClothingInp
   createClothing(input: $input) {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -116,8 +128,11 @@ export const updateClothing = `mutation UpdateClothing($input: UpdateClothingInp
   updateClothing(input: $input) {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -146,8 +161,11 @@ export const deleteClothing = `mutation DeleteClothing($input: DeleteClothingInp
   deleteClothing(input: $input) {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -178,8 +196,11 @@ export const createOutfitClothing = `mutation CreateOutfitClothing($input: Creat
     clothing {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {
@@ -215,8 +236,11 @@ export const updateOutfitClothing = `mutation UpdateOutfitClothing($input: Updat
     clothing {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {
@@ -252,8 +276,11 @@ export const deleteOutfitClothing = `mutation DeleteOutfitClothing($input: Delet
     clothing {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {

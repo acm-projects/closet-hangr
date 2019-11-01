@@ -12,8 +12,11 @@ export const getUser = `query GetUser($id: ID!) {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -55,8 +58,11 @@ export const getClothing = `query GetClothing($id: ID!) {
   getClothing(id: $id) {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -90,8 +96,11 @@ export const listClothings = `query ListClothings(
     items {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {

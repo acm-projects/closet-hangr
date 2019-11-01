@@ -12,8 +12,11 @@ export const onCreateUser = `subscription OnCreateUser {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -39,8 +42,11 @@ export const onUpdateUser = `subscription OnUpdateUser {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -66,8 +72,11 @@ export const onDeleteUser = `subscription OnDeleteUser {
       items {
         id
         key
-        top_or_bottom
         type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
         primaryColor
         secondaryColor
       }
@@ -86,8 +95,11 @@ export const onCreateClothing = `subscription OnCreateClothing {
   onCreateClothing {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -116,8 +128,11 @@ export const onUpdateClothing = `subscription OnUpdateClothing {
   onUpdateClothing {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -146,8 +161,11 @@ export const onDeleteClothing = `subscription OnDeleteClothing {
   onDeleteClothing {
     id
     key
-    top_or_bottom
     type
+    topOrBottom
+    isForCold
+    isForModerate
+    isForHot
     primaryColor
     secondaryColor
     user {
@@ -178,8 +196,11 @@ export const onCreateOutfitClothing = `subscription OnCreateOutfitClothing {
     clothing {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {
@@ -215,8 +236,11 @@ export const onUpdateOutfitClothing = `subscription OnUpdateOutfitClothing {
     clothing {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {
@@ -252,8 +276,11 @@ export const onDeleteOutfitClothing = `subscription OnDeleteOutfitClothing {
     clothing {
       id
       key
-      top_or_bottom
       type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
       primaryColor
       secondaryColor
       user {

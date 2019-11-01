@@ -61,6 +61,11 @@ const BORDER_RADIUS = 25;
 		 fontSize: 14,
 		 color: COLOR_TEXT,
 	  },
+	  promptText: {
+		fontFamily: FONT_NORMAL,
+		fontSize: 25,
+		color: COLOR_TEXT,
+	 },
 	  inputText: {
 		fontFamily: FONT_NORMAL,
 		 fontSize: 18,

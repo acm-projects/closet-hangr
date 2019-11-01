@@ -1,7 +1,19 @@
 import React from "react";
-import { FlatList, View, Platform, Dimensions } from "react-native";
+import { FlatList, View, Platform, Dimensions, Image } from "react-native";
 import * as backEndFunctions from './back_end_functions'
 import uuid from 'uuid/v4'
+
+export const ITEM_WIDTH = 1.0 * Dimensions.get('window').width * 3/4
+export const ITEM_MARGINS = 1.0 * Dimensions.get('window').width/16
+export const ITEM_TOTAL_SIZE = ITEM_WIDTH + ITEM_MARGINS*2
+
+function Item({ uri }) {
+  return (
+    <View>
+      <Image source={{uri: uri}} style = {{width: ITEM_WIDTH, height: ITEM_WIDTH, marginHorizontal: ITEM_MARGINS}}/>
+    </View>
+  );
+}
 
 class Paginator extends React.PureComponent {
 constructor(props) {  
@@ -17,27 +29,39 @@ componentDidMount() {
 
 getWrappableData = (data) => {
   let wrappableData = data
-  if(data.length > 0 && data[0] != undefined) {
+  if(wrappableData.length == 1 && wrappableData[0] != undefined) {
+    let bufferItem = {id: 'n', uri: wrappableData[0].uri}
+    wrappableData.unshift(bufferItem)
+    bufferItem = {id: 'n-1', uri: wrappableData[0].uri}
+    wrappableData.unshift(bufferItem)
+    bufferItem = {id: '0', uri: wrappableData[0].uri}
+    wrappableData.push(bufferItem)
+    bufferItem = {id: '1', uri: wrappableData[0].uri}
+    wrappableData.push(bufferItem)
+
+    return wrappableData
+  }
+  else if(wrappableData.length > 1 && wrappableData[0] != undefined) {
     //Add the last item in the list to the beginning of the list
-    if(data[0].id != 'n' && data[1].id != 'n')
+    if(wrappableData[0].id != 'n' && wrappableData[1].id != 'n')
     {
-      let bufferItem = {id: 'n', uri: data[data.length-1].uri}
+      let bufferItem = {id: 'n', uri: wrappableData[wrappableData.length-1].uri}
       wrappableData.unshift(bufferItem)
     }
     //Add the 2nd to last item in the list to the beginning of the list
-    if (data[1].id != 'n-1' && data[0].id != 'n-1' )
+    if (wrappableData[1].id != 'n-1' && wrappableData[0].id != 'n-1' )
     {
       let bufferItem = {id: 'n-1', uri: 'https://fbs8083.files.wordpress.com/2019/01/blank-white-square-thumbnail.jpg'}
       wrappableData.unshift(bufferItem)
     }
     //Add the 3rd item in the list (original 1st item) to the end of the list
-    if (data[data.length-1].id != '0' && data[data.length-2].id != '0')
+    if (wrappableData[wrappableData.length-1].id != '0' && wrappableData[wrappableData.length-2].id != '0')
     {
-      let bufferItem = {id: '0', uri: data[2].uri}
+      let bufferItem = {id: '0', uri: wrappableData[2].uri}
       wrappableData.push(bufferItem)
     }
     //Add 4th item in the list (original 2nd item) to teh end of the list
-    if (data[data.length-1].id != '1' && data[data.length-2].id != '1')
+    if (wrappableData[wrappableData.length-1].id != '1' && wrappableData[wrappableData.length-2].id != '1')
     {
       let bufferItem = {id: '1', uri: 'https://fbs8083.files.wordpress.com/2019/01/blank-white-square-thumbnail.jpg'}
       wrappableData.push(bufferItem)
@@ -48,13 +72,6 @@ getWrappableData = (data) => {
   return data
 }
 
-  scrollAnimation = async event => {
-    await backEndFunctions.sleep(3000)
-    this.flatList.scrollToOffset({animated: true, offset: 2*this.state.width })
-  }
-
-
-
 render() {
   return (
     <View>
@@ -62,30 +79,31 @@ render() {
         {...this.props}
         ref={ref => (this.flatList = ref)}  
         data={this.getWrappableData(this.props.data)}
+        renderItem={({item})=><Item uri={item.uri}/> } 
         getItemLayout={(data, index) => (
-          { length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index }
+          { length: ITEM_TOTAL_SIZE, offset: ITEM_TOTAL_SIZE * index, index }
         )}
-        initialScrollIndex = {this.props.data.length-1}
-        renderItem={this.props.renderItem}
+        initialScrollIndex = {2}
         horizontal = {true}
         pagingEnabled = {true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={this.props.contentContainerStyle} 
-        keyExtractor={this.props.keyExtractor}
+        keyExtractor={item => item.id}
         initialNumToRender={1}
+        marginHorizontal = {ITEM_MARGINS}
         
         onLayout={ ({nativeEvent}) => {
           const {width, height} = nativeEvent.layout;
+
           this.setState({
             width, height,
           })
-          this.scrollAnimation()
           }
         }
 
         onScroll={ ({ nativeEvent }) => {
-          const { x } = nativeEvent.contentOffset;
-          if(x > ((this.props.data.length-2) * this.state.width) && x < (this.props.data.length * this.state.width)) {
+          const { x } = nativeEvent.contentOffset
+          if(x > ((this.props.data.length-2) * this.state.width)) {
             //Move seamlessly to the first unique element (the first element that does have a copy)
             this.flatList.scrollToOffset({offset: x - ((this.props.data.length-2) * this.state.width) + (2*this.state.width), animated: false})
           }

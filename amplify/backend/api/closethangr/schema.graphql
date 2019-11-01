@@ -11,8 +11,11 @@ type User @model {
 type Clothing @model {
   id: ID!
   key: String!
-  top_or_bottom: String
   type: String
+  topOrBottom: String
+  isForCold: Boolean
+  isForModerate: Boolean
+  isForHot: Boolean
   primaryColor: String
   secondaryColor: String
   user: User @connection (name: "UserClothing")

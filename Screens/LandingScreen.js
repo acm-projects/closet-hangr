@@ -15,8 +15,6 @@ import { Auth } from 'aws-amplify';
 
 import styles from '../styles'
 
-import FastImage from 'react-native-fast-image'
-
 
 //DIFFERENT PAGES
 export class LandingScreen extends Component {
@@ -40,13 +38,14 @@ export class LandingScreen extends Component {
       if (user != null) {
          let urlOfImages = []
          urlOfImages =  await backEndFunctions.retrieveAllClothing(user.username)
-         for (let i = 0; i < urlOfImages.length; i++)
-            await Image.prefetch(urlOfImages[i].uri)
-      }
+         if(urlOfImages) {
+            for (let i = 0; i < urlOfImages.length; i++)
+               urlOfImages[i] = await Image.prefetch(urlOfImages[i].uri)
 
-      await backEndFunctions.sleep(1000)
-      
-   
+            for (let i = 0; i < urlOfImages.length; i++)
+               console.log(urlOfImages[i] ? ('Image successfullly loaded') : ('ERROR: Image not successfully loaded'))
+         }
+      }
 
       this.setState({loaded: true})
       

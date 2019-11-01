@@ -9,6 +9,14 @@ import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
 //Cognito
 import Auth from '@aws-amplify/auth'
+//Image classification
+import Clarifai from 'clarifai'
+import * as RecommendationEngine from './recommendation_engine'
+
+//Clarifai api key: 7002f76de9544611a98bbd808fc4078a
+//TODO OUTDATED KEY
+//Removebg api key: ddmywF3gfzCLF3ebfmX1X9qD
+
 
 
 /*
@@ -106,10 +114,21 @@ export const createNewUser = async (
 export const createNewClothing = async (
 	u_name,
 	imageKey,
+	type,
+	top_or_bottom,
+	is_for_cold,
+	is_for_moderate,
+	is_for_hot,
+
 ) => {
 	const information = {
 		key: imageKey,
 		clothingUserId: u_name,
+		type: type,
+		topOrBottom: top_or_bottom,
+		isForCold: is_for_cold,
+		isForModerate: is_for_moderate,
+		isForHot: is_for_hot,
 	}
 
 	try {
@@ -130,27 +149,52 @@ export const addImageToDatabase = async (
 		uri = await createPNG(uri)
 		console.log('While adding image to database, successfully created a png')
 	} catch (err) {console.log('ERROR: While adding image to database, error creating png', err)}
+
 	//Remove the background from the image
 	//try {
 	//	await removeBackground(uri)
 	//	console.log('While adding image to database, successfully removed background')
 	//} catch (err) {console.log('ERROR: While adding image to databaes, error removing background', err)}
+
 	//Add to S3
 	try {
 		let response = await storeFileInS3(uri)
 		console.log('While adding image to database, successfully stored image in S3')
 		key = response.key
 	} catch (err) {console.log('ERROR: While adding image to database, error storing in S3'), err}
-	// TODO: Classify the image
+
+	//Classifying the image
+	const app = new Clarifai.App({
+		apiKey: '7002f76de9544611a98bbd808fc4078a'
+	})
+
+	//Read the image in as base64
+	let image_file_b64 = await FileSystem.readAsStringAsync(uri, {encoding: FileSystem.EncodingType.Base64} )
+	// Create a new model
+	await app.models.initModel({id: Clarifai.APPAREL_MODEL, version: 'e0be3b9d6a454f0493ac3a30784001ff'})
+	// Predict the image
+	let prediction = await app.models.predict("e0be3b9d6a454f0493ac3a30784001ff", {base64: image_file_b64})
+	//Parse for predictions
+	let concepts = prediction.outputs[0].data.concepts
+
+	//Notify developer of new concepts
+	console.log('NEW CONCEPTS DETECTED:')
+	for(let i = 0; i < concepts.length; i++) {
+		if(RecommendationEngine.isThere(concepts[i].name) == false)
+			console.log(concepts[i].name)
+	}
 
 	// Insert the clothing in the database and connect to the current user
 	let user = await Auth.currentUserInfo()
 	try {
-		await createNewClothing(user.username, key)
+		await createNewClothing(user.username, key, concepts[0].name, RecommendationEngine.topOrBottonm(concepts[0].name), RecommendationEngine.isForCold(concepts[0].name), RecommendationEngine.isForModerate(concepts[0].name),  RecommendationEngine.isForHot(concepts[0].name))
 		console.log('While adding image to database, successfully created clothing')
 	} catch (err) {console.log('ERROR: While adding image to databaes, error creating image in database',err)}
 }
 
+/*
+	Retrieves all of the clothing for a given user. Returns an array of objects
+*/
 export const retrieveAllClothing = async (
 	u_name
 ) => {
@@ -162,21 +206,55 @@ export const retrieveAllClothing = async (
 		const response = await API.graphql(graphqlOperation(queries.getUser, {id: u_name}))
 		console.log("Clothing successfully received")
 
-		//TODO Preloading
-
 		if(response.data.getUser.clothing.items.length > 0) {	
 			let clothing = []
 			//Create datastructure for preloading
 			for(let i = 0; i < response.data.getUser.clothing.items.length; i++) {
 				let item = {
 					id: response.data.getUser.clothing.items[i].id,
-					uri: await Storage.get(response.data.getUser.clothing.items[i].key,{level: 'private',})
+					uri: await Storage.get(response.data.getUser.clothing.items[i].key,{level: 'private',}),
+					type: response.data.getUser.clothing.items[i].type,
+					topOrBottom: response.data.getUser.clothing.items[i].topOrBottom,
+					isForCold: response.data.getUser.clothing.items[i].isForCold,
+					isForModerate: response.data.getUser.clothing.items[i].isForModerate,
+					isForHot: response.data.getUser.clothing.items[i].isForHot,
 				}
 				clothing.push(item)
 			}
 			return clothing
 		}
 	} catch (err) {console.log("ERROR: Error when retrieving clothing", err)}
+	return []
+}
+
+/*
+	Retrieves all of the tops of a given user. Returns an array of objects
+*/
+export const retrieveAllTops = async (
+	u_name 
+) => {
+	let allClothing = await retrieveAllClothing(u_name)
+	let tops = []
+	for(let i = 0; i < allClothing.length; i++) {
+		if(allClothing[i].topOrBottom == 'top')
+			tops.push(allClothing[i])
+	}
+	return tops
+}
+
+/*
+	Retrieves all of the bottoms of a given user. Returns an array of objects
+*/
+export const retrieveAllBottoms = async (
+	u_name 
+) => {
+	let allClothing = await retrieveAllClothing(u_name)
+	let bottoms = []
+	for(let i = 0; i < allClothing.length; i++) {
+		if(allClothing[i].topOrBottom == 'bottom')
+			bottoms.push(allClothing[i])
+	}
+	return bottoms
 }
 
  /*

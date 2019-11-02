@@ -12,6 +12,7 @@ export const onCreateUser = `subscription OnCreateUser {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -42,6 +43,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -72,6 +74,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -95,6 +98,7 @@ export const onCreateClothing = `subscription OnCreateClothing {
   onCreateClothing {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -128,6 +132,7 @@ export const onUpdateClothing = `subscription OnUpdateClothing {
   onUpdateClothing {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -161,6 +166,7 @@ export const onDeleteClothing = `subscription OnDeleteClothing {
   onDeleteClothing {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -196,6 +202,7 @@ export const onCreateOutfitClothing = `subscription OnCreateOutfitClothing {
     clothing {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold
@@ -236,6 +243,7 @@ export const onUpdateOutfitClothing = `subscription OnUpdateOutfitClothing {
     clothing {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold
@@ -276,6 +284,7 @@ export const onDeleteOutfitClothing = `subscription OnDeleteOutfitClothing {
     clothing {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold

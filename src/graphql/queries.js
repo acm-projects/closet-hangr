@@ -12,6 +12,7 @@ export const getUser = `query GetUser($id: ID!) {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -58,6 +59,7 @@ export const getClothing = `query GetClothing($id: ID!) {
   getClothing(id: $id) {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -96,6 +98,7 @@ export const listClothings = `query ListClothings(
     items {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold

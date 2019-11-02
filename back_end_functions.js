@@ -114,6 +114,7 @@ export const createNewUser = async (
 export const createNewClothing = async (
 	u_name,
 	imageKey,
+	publicImageKey,
 	type,
 	top_or_bottom,
 	is_for_cold,
@@ -123,6 +124,7 @@ export const createNewClothing = async (
 ) => {
 	const information = {
 		key: imageKey,
+		publicKey: publicImageKey,
 		clothingUserId: u_name,
 		type: type,
 		topOrBottom: top_or_bottom,
@@ -143,7 +145,8 @@ export const createNewClothing = async (
 export const addImageToDatabase = async (
 	uri
 ) => {
-	let key = ""
+	let key = ''
+	let publicKey = ''
 	//Convert the image to a png
 	try {
 		uri = await createPNG(uri)
@@ -157,10 +160,16 @@ export const addImageToDatabase = async (
 	//} catch (err) {console.log('ERROR: While adding image to databaes, error removing background', err)}
 
 	//Add to S3
-	try {
+	try { //private
 		let response = await storeFileInS3(uri)
-		console.log('While adding image to database, successfully stored image in S3')
+		console.log('While adding image to database, successfully stored image in S3 private folder')
 		key = response.key
+	} catch (err) {console.log('ERROR: While adding image to database, error storing in S3'), err}
+
+	try { //public
+		let response = await storeFileInS3(uri, 'public')
+		console.log('While adding image to database, successfully stored image in S3 public folder')
+		publicKey = response.key
 	} catch (err) {console.log('ERROR: While adding image to database, error storing in S3'), err}
 
 	//Classifying the image
@@ -187,7 +196,7 @@ export const addImageToDatabase = async (
 	// Insert the clothing in the database and connect to the current user
 	let user = await Auth.currentUserInfo()
 	try {
-		await createNewClothing(user.username, key, concepts[0].name, RecommendationEngine.topOrBottonm(concepts[0].name), RecommendationEngine.isForCold(concepts[0].name), RecommendationEngine.isForModerate(concepts[0].name),  RecommendationEngine.isForHot(concepts[0].name))
+		await createNewClothing(user.username, key, publicKey, concepts[0].name, RecommendationEngine.topOrBottonm(concepts[0].name), RecommendationEngine.isForCold(concepts[0].name), RecommendationEngine.isForModerate(concepts[0].name),  RecommendationEngine.isForHot(concepts[0].name))
 		console.log('While adding image to database, successfully created clothing')
 	} catch (err) {console.log('ERROR: While adding image to databaes, error creating image in database',err)}
 }
@@ -195,7 +204,7 @@ export const addImageToDatabase = async (
 /*
 	Retrieves all of the clothing for a given user. Returns an array of objects
 */
-export const retrieveAllClothing = async (
+export const retrieveAllUserClothing = async (
 	u_name
 ) => {
 	const information = {
@@ -204,7 +213,7 @@ export const retrieveAllClothing = async (
 
 	try {
 		const response = await API.graphql(graphqlOperation(queries.getUser, {id: u_name}))
-		console.log("Clothing successfully received")
+		console.log("User's clothing successfully received")
 
 		if(response.data.getUser.clothing.items.length > 0) {	
 			let clothing = []
@@ -227,13 +236,14 @@ export const retrieveAllClothing = async (
 	return []
 }
 
+
 /*
 	Retrieves all of the tops of a given user. Returns an array of objects
 */
 export const retrieveAllTops = async (
 	u_name 
 ) => {
-	let allClothing = await retrieveAllClothing(u_name)
+	let allClothing = await retrieveAllUserClothing(u_name)
 	let tops = []
 	for(let i = 0; i < allClothing.length; i++) {
 		if(allClothing[i].topOrBottom == 'top')
@@ -248,7 +258,7 @@ export const retrieveAllTops = async (
 export const retrieveAllBottoms = async (
 	u_name 
 ) => {
-	let allClothing = await retrieveAllClothing(u_name)
+	let allClothing = await retrieveAllUserClothing(u_name)
 	let bottoms = []
 	for(let i = 0; i < allClothing.length; i++) {
 		if(allClothing[i].topOrBottom == 'bottom')
@@ -271,8 +281,8 @@ export const retrieveAllBottoms = async (
  */
 export const storeFileInS3 = async (
 	fileUri,
+	access = "private",
 	awsKey = null,
-	access = "private"
  ) => {
 	const blob = await new Promise((resolve, reject) => {
 	  const xhr = new XMLHttpRequest();

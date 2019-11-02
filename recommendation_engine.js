@@ -1,3 +1,13 @@
+//General
+import * as FileSystem from 'expo-file-system';
+// AWS S3
+import {Storage} from 'aws-amplify'
+// AWS DynanamoDB
+import API, { graphqlOperation } from '@aws-amplify/api'
+import * as queries from './src/graphql/queries';
+import * as mutations from './src/graphql/mutations';
+import * as subscriptions from './src/graphql/subscriptions';
+
 /*
      ____ ___  _   _  ____ _____ ____ _____ ____   
     / ___/ _ \| \ | |/ ___| ____|  _ \_   _/ ___|_ 
@@ -374,6 +384,57 @@ export function isThere (concept) {
    if(neither.includes(concept))
       return -1
    return (tops.includes(concept) || bottoms.includes(concept))
+}
+
+//Returns an array of length n of the most popular clothing worn
+export const trendingAmongUsers = async (n) => {
+   let popularity = new Map ([])
+
+   //Getting all of the clothing in the database
+   let allClothing = await API.graphql(graphqlOperation(queries.listClothings, {input: {}}))
+   let clothing = allClothing.data.listClothings.items
+
+   for(let i = 0; i < clothing.length; i++) {
+      // Set a higher value for the amount of times a type is in the list or create a new set of key and value and set the popularity to 1
+      popularity.set(clothing[i].type, (popularity.has(clothing[i].type) ? (popularity.get(clothing[i].type)+1) : (1)))
+   }
+   
+   let popularityEntries = popularity.entries()
+   let typesToFind = []
+   let iterations = (popularity.size < n) ? (popularity.size) : (n)
+   
+   //find the most popular item, store it, and remove it, a max of n times (or less if there is not that many types)
+   for(let i = 0; i < iterations; i++) {
+      let maxKey = 'Not a valid key!'
+      let max = 0
+      
+      for(var entry of popularityEntries) {
+         if(entry[1] > max) {
+            maxKey = entry[0]
+            max = entry[1]
+         }
+      }
+      
+      typesToFind.push(maxKey)
+      popularity.delete(maxKey)
+      popularityEntries = popularity.entries()
+   }
+
+   recommendations = []
+
+   //Searching through all clothing and picking those that are being searched for
+   for(let i = 0, numAdded = 0; i < clothing.length || numAdded > n; i++) {
+      if(typesToFind.includes(clothing[i].type)) {
+         let newItem = {
+            id: clothing[i].publicKey + '.png',
+            uri:  await Storage.get(clothing[i].publicKey, {level: 'public', download: false})
+         }
+         recommendations.push(newItem)
+         numAdded++
+      }
+   }
+
+   return recommendations
 }
 
 

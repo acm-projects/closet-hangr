@@ -12,6 +12,8 @@ import {
 
 import * as backEndFunctions from '../back_end_functions'
 
+import * as recommendationEngine from '../recommendation_engine'
+
 
 function Item({ uri }) {
   return (
@@ -33,7 +35,7 @@ export default class RecommendationsScreen extends Component {
 
   async componentDidMount() {
     let user = await backEndFunctions.getCurrentUserInfo()
-    this.setState({images: await backEndFunctions.retrieveAllClothing(user.username)})
+    this.setState({images: await recommendationEngine.trendingAmongUsers(5)})
   }
 
   render() {

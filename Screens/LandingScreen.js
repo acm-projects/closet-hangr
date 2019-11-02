@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
-
-// Navigation
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { Text, View, Image, SafeAreaView } from 'react-native';
 
 // Back-end functions
 import * as backEndFunctions from '../back_end_functions'
@@ -11,9 +7,17 @@ import * as backEndFunctions from '../back_end_functions'
 //Font
 import * as Font from 'expo-font'
 
-import { Auth } from 'aws-amplify';
-
 import styles from '../styles'
+
+//Amplify
+import Amplify from '@aws-amplify/core'
+import config from '../src/aws-exports'
+Amplify.configure({
+  ...config,
+  Analytics: { //Needed to disable possible promise reject error from analytics
+      disabled: true
+  }
+})
 
 
 //DIFFERENT PAGES
@@ -24,10 +28,8 @@ export class LandingScreen extends Component {
       this.state = {loaded: false}
    }  
 
-   
-
   	async componentDidMount() {
-        //Loading font
+      //Loading font
 		await Font.loadAsync({
 		  'Avenir': require('../assets/fonts/Avenir.ttf'),
       });
@@ -37,7 +39,7 @@ export class LandingScreen extends Component {
       //Loading images
       if (user != null) {
          let urlOfImages = []
-         urlOfImages =  await backEndFunctions.retrieveAllClothing(user.username)
+         urlOfImages =  await backEndFunctions.retrieveAllUserClothing(user.username)
          if(urlOfImages) {
             for (let i = 0; i < urlOfImages.length; i++)
                urlOfImages[i] = await Image.prefetch(urlOfImages[i].uri)
@@ -60,20 +62,24 @@ export class LandingScreen extends Component {
   render() {
    if(this.state.fontsLoaded && this.state.imagesLoaded) {
       return (
-         <View style = {styles.container}>
-            <Text style={styles.title}>
-               Closet-hangr
-            </Text>
-         </View>
+         <SafeAreaView>
+            <View style = {styles.container}>
+               <Text style={styles.title}>
+                  Closet-hangr
+               </Text>
+            </View>
+         </SafeAreaView>
       )
    }
    else {
       return (
-         <View style = {styles.container}>
-            <Text style={styles.title}>
-               Closet-hangr
-            </Text>
-         </View>
+         <SafeAreaView>
+            <View style = {styles.container}>
+               <Text style={styles.title}>
+                  Closet-hangr
+               </Text>
+            </View>
+         </SafeAreaView>
       )
    }
   }

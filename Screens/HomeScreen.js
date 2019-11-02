@@ -10,14 +10,13 @@ import * as PaginatorValues from '../Paginator'
 export default class HomeScreen extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state = {allClothing: [], tops: [], bottoms: [], loaded: false}
+    this.state = {tops: [], bottoms: [], loaded: false}
     this.index = 0
   }
 
   async componentDidMount() {
     let user = await backEndFunctions.getCurrentUserInfo()
     this.setState({
-      allClothing: await backEndFunctions.retrieveAllClothing(user.username),
       tops: await backEndFunctions.retrieveAllTops(user.username),
       bottoms: await backEndFunctions.retrieveAllBottoms(user.username),
       loaded: true

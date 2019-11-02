@@ -12,6 +12,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -42,6 +43,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -72,6 +74,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
       items {
         id
         key
+        publicKey
         type
         topOrBottom
         isForCold
@@ -95,6 +98,7 @@ export const createClothing = `mutation CreateClothing($input: CreateClothingInp
   createClothing(input: $input) {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -128,6 +132,7 @@ export const updateClothing = `mutation UpdateClothing($input: UpdateClothingInp
   updateClothing(input: $input) {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -161,6 +166,7 @@ export const deleteClothing = `mutation DeleteClothing($input: DeleteClothingInp
   deleteClothing(input: $input) {
     id
     key
+    publicKey
     type
     topOrBottom
     isForCold
@@ -196,6 +202,7 @@ export const createOutfitClothing = `mutation CreateOutfitClothing($input: Creat
     clothing {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold
@@ -236,6 +243,7 @@ export const updateOutfitClothing = `mutation UpdateOutfitClothing($input: Updat
     clothing {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold
@@ -276,6 +284,7 @@ export const deleteOutfitClothing = `mutation DeleteOutfitClothing($input: Delet
     clothing {
       id
       key
+      publicKey
       type
       topOrBottom
       isForCold

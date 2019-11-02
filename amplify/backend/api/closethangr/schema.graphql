@@ -11,6 +11,7 @@ type User @model {
 type Clothing @model {
   id: ID!
   key: String!
+  publicKey: String!
   type: String
   topOrBottom: String
   isForCold: Boolean

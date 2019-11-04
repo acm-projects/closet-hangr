@@ -75,11 +75,6 @@ import * as ImagePicker from 'expo-image-picker'
 						Choose from Photos
 					</Text>
 				</TouchableOpacity>
-            <TouchableOpacity onPress={this.getUserClothing} style={styles.signUpButton}>
-					<Text style={styles.regularText} >
-						Get User Clothing
-					</Text>
-				</TouchableOpacity>
 			</View>
 		)
 	}

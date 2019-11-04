@@ -20,6 +20,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -51,6 +52,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -82,6 +84,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -106,6 +109,7 @@ export const createClothing = `mutation CreateClothing($input: CreateClothingInp
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -140,6 +144,7 @@ export const updateClothing = `mutation UpdateClothing($input: UpdateClothingInp
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -174,6 +179,7 @@ export const deleteClothing = `mutation DeleteClothing($input: DeleteClothingInp
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -210,6 +216,7 @@ export const createOutfitClothing = `mutation CreateOutfitClothing($input: Creat
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username
@@ -251,6 +258,7 @@ export const updateOutfitClothing = `mutation UpdateOutfitClothing($input: Updat
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username
@@ -292,6 +300,7 @@ export const deleteOutfitClothing = `mutation DeleteOutfitClothing($input: Delet
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username

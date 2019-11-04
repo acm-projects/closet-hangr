@@ -10,9 +10,8 @@ import {
   Image
 } from 'react-native';
 
-import * as backEndFunctions from '../back_end_functions'
-
-import * as recommendationEngine from '../recommendation_engine'
+import * as backEndFunctions from '../backend/back_end_functions'
+import * as recommendationEngine from '../backend/recommendation_engine'
 
 
 function Item({ uri }) {
@@ -25,6 +24,31 @@ function Item({ uri }) {
   );
 }
 
+function TrendingTypesText({trendingClothing}) {
+  types = ''
+  // Retrieve the trending types from the array of clothing objects and make a list to display
+  for(let i = 0; i < trendingClothing.length; i++) {
+    types += recommendationEngine.pluralize(trendingClothing[i].type)
+    if(i!=trendingClothing.length-1)
+      types += ', '
+  }
+  
+  if(types.length > 0) {
+    return (
+      <Text style={{ fontSize: 17, fontWeight: '700', paddingHorizontal: 20, marginTop: 40 }}>
+        Trending: {types}
+      </Text>
+    )
+  }
+  else {
+    return (
+      <Text style={{ fontSize: 17, fontWeight: '700', paddingHorizontal: 20, marginTop: 40 }}>
+        Trending: 
+      </Text>
+    )
+  }
+}
+
 
 export default class RecommendationsScreen extends Component {
   constructor(props)
@@ -35,7 +59,8 @@ export default class RecommendationsScreen extends Component {
 
   async componentDidMount() {
     let user = await backEndFunctions.getCurrentUserInfo()
-    this.setState({images: await recommendationEngine.trendingAmongUsers(5)})
+    //Get the typs of clothing that are trending among other users
+    this.setState({images: await recommendationEngine.trendingAmongUsers(2)})
   }
 
   render() {
@@ -44,6 +69,17 @@ export default class RecommendationsScreen extends Component {
         <Text style={{ fontSize: 24, fontWeight: '700', paddingHorizontal: 20, paddingTop: 20 }}>
           Recommendations
         </Text>
+
+        <TrendingTypesText trendingClothing = {this.state.images}/>
+
+        <View style={{ height: 160, marginTop: 10 }}>
+          <FlatList
+            data = {this.state.images} 
+            renderItem={({item})=><Item uri={item.uri}/> } 
+            keyExtractor={item => item.id} 
+            horizontal = {true} 
+          />
+        </View>
 
         <Text style={{ fontSize: 17, fontWeight: '700', paddingHorizontal: 20, marginTop: 20 }}>
           Based on the weather...
@@ -82,6 +118,8 @@ export default class RecommendationsScreen extends Component {
             horizontal = {true} 
           />
         </View>
+
+        
       </View>
     )
   }

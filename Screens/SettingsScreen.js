@@ -4,7 +4,7 @@ import { StyleSheet,  Text, View, TouchableOpacity, Image } from 'react-native';
 //Stylesheet
 import styles from "../styles";
 //Backend
-import * as backEndFunctions from '../back_end_functions'
+import * as backEndFunctions from '../backend/back_end_functions'
 
 import App from '../App'
 

@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import {Text, View, TouchableOpacity, Image, TextInput, FlatList, Dimensions } from 'react-native';
 import styles from '../styles'
-import * as backEndFunctions from '../back_end_functions'
+import * as backEndFunctions from '../backend/back_end_functions'
 import Paginator from '../Paginator'
 import * as PaginatorValues from '../Paginator'
 

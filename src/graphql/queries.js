@@ -20,6 +20,7 @@ export const getUser = `query GetUser($id: ID!) {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -67,6 +68,7 @@ export const getClothing = `query GetClothing($id: ID!) {
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -106,6 +108,7 @@ export const listClothings = `query ListClothings(
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username

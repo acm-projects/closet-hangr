@@ -4,9 +4,9 @@ import * as FileSystem from 'expo-file-system';
 import {Storage} from 'aws-amplify'
 // AWS DynanamoDB
 import API, { graphqlOperation } from '@aws-amplify/api'
-import * as queries from './src/graphql/queries';
-import * as mutations from './src/graphql/mutations';
-import * as subscriptions from './src/graphql/subscriptions';
+import * as queries from '../src/graphql/queries';
+import * as mutations from '../src/graphql/mutations';
+import * as subscriptions from '../src/graphql/subscriptions';
 
 /*
      ____ ___  _   _  ____ _____ ____ _____ ____   
@@ -88,8 +88,157 @@ import * as subscriptions from './src/graphql/subscriptions';
    'Jean Skirt',
    'Maxi Skirt',
    'Midi Skirt',
+   'Sweatshirt',
+   'Wallet',
+   'Ring',
+   'Mini Skirt',
+   'Umbrella',
+   "Men's Watch",
+   "Men's Hat",
                                                      
 */
+
+let colorNames = [
+   [
+      [
+         'Black', // 0 0 0
+         'Navy Blue', // 0 0 1
+         'Blue', // 0 0 2
+      ], 
+      [
+         'Green', // 0 1 0
+         'Teal', // 0 1 1
+         'Azure', // 0 1 2
+      ],
+      [
+         'Chartreuse', // 0 2 0 maybe lime
+         'Aquamarine', // 0 2 1
+         'Cyan', // 0 2 2                
+      ],
+   ],
+   [
+      [
+         'Maroon', // 1 0 0
+         'Plum', // 1 0 1
+         'Indigo', // 1 0 2
+      ],
+      [
+         'Olive', // 1 1 0
+         'Gray', // 1 1 1
+         'Pale Balue', // 1 1 2
+      ],
+      [
+         'Lime', // 1 2 0
+         'Light Green', // 1 2 1
+         'Light Blue', // 1 2 2
+      ],
+   ],
+   [
+      [
+         'Red', // 2 0 0
+         'Deep Pink', // 2 0 1
+         'Magenta', // 2 0 2
+      ],
+      [
+         'Orange', // 2 1 0
+         'Salmon', // 2 1 1
+         'Pink', // 2 1 2
+      ],
+      [
+         'Yellow', // 2 2 0
+         'Pale Yellow', // 2 2 1
+         'White', // 2 2 2
+      ],
+   ]
+]
+
+let plurals = [
+   //Types of clothing
+   ['Pant Suit', 'Pant Suits'],
+   ['Overalls', 'Overalls'],
+   ['Tie', 'Ties'],
+   ['Bodysuit', 'Bodysuits'],
+   ['Romper', 'Rompers'],
+   ['Skirt Suit', 'Skirt Suits'],
+   ['Boat Shoes', 'Boat Shoes'],
+   ['Tracksuit', 'Tracksuits'],
+   ['Swimwear', 'Swimwear'],
+   ['Belt', 'Belts'],
+   ["Men's Sandals", "Men's Sandals"],
+   ['Gloves', 'Gloves'],
+   ['Earring', 'Earrings'],
+   ['Sarong', 'Sarongs'],
+   ['Sleepwear', 'Sleepwear'],
+   ['Bracelet', 'Bracelets'],
+   ['Necklace', 'Necklaces'],
+   ['Kimonos', 'Kimonos'],
+   ["Women's Scarf", "Women's Scarves"],
+   ['Cocktail Dress', 'Cocktail Dresses'],
+   ['Little Black Dress', 'Little Black Dresses'],
+   ['Formal Dress', 'Formal Dresses'],
+   ['Maxi Dress', 'Maxi Dresses'],
+   ['Casual Dress', 'Casual Dresses'],
+   ['Tankini', 'Tankinis'],
+   ['Jumpsuit', 'Jumpsuits'],
+   ['Polos', 'Polos'],
+   ["Men's Shorts", "Men's Shorts"],
+   ['Button-Down', 'Button-Downs'],
+   ['Blouse', 'Blouses'],
+   ['Kimono', 'Kimonos'],
+   ['Robe', 'Robes'],
+   ['T-Shirt', 'T-Shirts'],
+   ['Blazer', 'Blazers'],
+   ['Raincoats', 'Raincoats'],
+   ['Dress', 'Dresses'],
+   ['Denim Jacket', 'Denim Jackets'],
+   ['Peacoat', 'Peacoats'],
+   ['Activewear T Shirt', 'Activewear T Shirts'],
+   ['Hoodies', 'Hoodies'],
+   ['Fleece Jacket', 'Fleece Jackets'],
+   ['Sweater', 'Sweaters'],
+   ['Cardigan', 'Cardigans'],
+   ['Spring Jacket', 'Spring Jackets'],
+   ['Sports Bra', 'Sports Bras'],
+   ['Bomber Jacket', 'Bomber Jackets'],
+   ['Tube Top', 'Tube Tops'],
+   ['Tunic', 'Tunics'],
+   ['Halter Top', 'Halter Tops'],
+   ['Tank Top', 'Tank Tops'],
+   ['Vest', 'Vests'],
+   ['Leather Jacket', 'Leather Jackets'],
+   ['Capris', 'Capris'],
+   ['Wide Leg Pants', 'Wide Leg Pants'],
+   ['Relaxed Pants', 'Relaxed Pants'],
+   ['Boot Cut Pants', 'Boot Cut Pants'],
+   ['Jeans','Jeans'],
+   ['Leggings', 'Leggings'],
+   ['Boyfriend Pants', 'Boyfriend Pants'],
+   ["Women's Shorts", "Women's Shorts"],
+   ['Tights', 'Tights'],
+   ['Skinny Pants', 'Skinny Pants'],
+   ["Women's Board Shorts", "Women's Board Shorts"],
+   ['Cargo Shorts', 'Cargo Shorts'],
+   ["Men's Underwear", "Men's Underwears"],
+   ['Burmuda Shorts', 'Burmuda Shorts'],
+   ["Women's Short Shorts", "Women's Short Shorts"],
+   ["Women's Jean Shorts", "Women's Jean Shorts"],
+   ['Panties', 'Panties'],
+   ['Skirt', 'Skirts'],
+   ['Jean Skirt', 'Jean Skirts'],
+   ['Maxi Skirt', 'Maxi Skirts'],
+   ['Midi Skirt', 'Midi Skirts'],
+   ['Sweatshirt', 'Sweatshirts'],
+   ['Wallet', 'Wallets'],
+   ['Ring', 'Rings'],
+   ['Mini Skirt', 'Mini Skirts',],
+   ['Umbrella', 'Umbrellas'],
+   ["Men's Watch", "Men's Watches"],
+   ["Men's Hat", "Men's Hats"],
+
+
+   //Colors
+
+]
 
 /*
      _______   ______  _____ 
@@ -154,6 +303,7 @@ let bottoms = [
    'Jean Skirt',
    'Maxi Skirt',
    'Midi Skirt',
+   'Mini Skirt',
 
 ]
 
@@ -184,6 +334,11 @@ let neither = [
    'Casual Dress',
    'Tankini',
    'Jumpsuit',
+   'Wallet',
+   'Ring',
+   'Umbrella',
+   "Men's Watch",
+   "Men's Hat",
 ]
 
 /*
@@ -235,6 +390,11 @@ let cold = [
    'Boyfriend Pants',
    'Tights',
    'Skinny Pants',
+   'Wallet',
+   'Ring',
+   'Umbrella',
+   "Men's Watch",
+   "Men's Hat",
 ]
 
 let moderate = [
@@ -307,6 +467,12 @@ let moderate = [
    'Jean Skirt',
    'Maxi Skirt',
    'Midi Skirt',
+   'Wallet',
+   'Ring',
+   'Mini Skirt',
+   'Umbrella',
+   "Men's Watch",
+   "Men's Hat",
 ]
 
 let hot = [
@@ -354,7 +520,24 @@ let hot = [
    'Jean Skirt',
    'Maxi Skirt',
    'Midi Skirt',
+   'Wallet',
+   'Ring',
+   'Mini Skirt',
+   "Men's Watch",
+   "Men's Hat",
 ]
+
+//Returns the plural of a concept
+export function pluralize (concept) {
+   // Parse through the list of plurals
+   for(let i = 0; i < plurals.length; i++) {
+      //Find the concept that matches
+      if(plurals[i][0] == concept) {
+         return plurals[i][1]
+      }
+   }
+   return 'Clothing'
+}
 
 //Returns whether a concept is a top or bottom
 export function topOrBottonm(concept) {
@@ -384,6 +567,44 @@ export function isThere (concept) {
    if(neither.includes(concept))
       return -1
    return (tops.includes(concept) || bottoms.includes(concept))
+}
+
+//Returns the name of the common color that corresponds to the given hex values of r, g, and b
+export function getColorName(r, g, b) {
+   r_approx = (int) (r/0x55)
+   g_approx = (int) (g/0x55)
+   b_approx = (int) (b/0x55)
+   console.log(r_approx, g_approx, b_approx)
+   return colorNames[r_approx][g_approx][b_approx]
+}
+
+// Returns an ordered array of the most prevelant colors, excluding flat black and white, given an array objects containing color info
+export function getPrimaryColors (colors) {
+   primaryColors = ['','','']
+   primaryColorValues[0,0,0]
+
+   //Find the most prevalent colors in order
+   for(let i = 0; i < colors.length; i++) {
+      if(colors[i].value > primaryColorValues[2]) {
+         if (colors[i].value > primaryColorValues[1]) {
+            if(colors[i].value > primaryColorValues[0]) {
+               primaryColors[0] = colors[i].raw_hex
+               primaryColorValues[0] = colors[i].value
+            }
+            else {
+               primaryColors[1] = colors[i].raw_hex
+               primaryColorValues[1] = colors[i].value
+            }
+         }
+         else {
+            primaryColors[2] = colors[i].raw_hex
+            primaryColorValues[2] = colors[i].value
+         }
+      }
+   }
+
+
+   //Go back for black/white
 }
 
 //Returns an array of length n of the most popular clothing worn
@@ -423,11 +644,12 @@ export const trendingAmongUsers = async (n) => {
    recommendations = []
 
    //Searching through all clothing and picking those that are being searched for
-   for(let i = 0, numAdded = 0; i < clothing.length || numAdded > n; i++) {
+   for(let i = 0, numAdded = 0; i < clothing.length && numAdded < n; i++) {
       if(typesToFind.includes(clothing[i].type)) {
          let newItem = {
             id: clothing[i].publicKey + '.png',
-            uri:  await Storage.get(clothing[i].publicKey, {level: 'public', download: false})
+            uri:  await Storage.get(clothing[i].publicKey, {level: 'public', download: false}),
+            type: clothing[i].type
          }
          recommendations.push(newItem)
          numAdded++

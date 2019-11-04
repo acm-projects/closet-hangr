@@ -13,7 +13,7 @@ Amplify.configure({
 //Stylesheet
 import styles from '../styles'
 //Backend
-import * as backendFunctions from '../back_end_functions'
+import * as backendFunctions from '../backend/back_end_functions'
 // Permissions
 import * as Permissions from 'expo-permissions'
 //Image Picker

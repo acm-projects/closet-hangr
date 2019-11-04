@@ -11,7 +11,7 @@ Amplify.configure({
   }
 });
 //Backend
-import * as backendFunctions from '../back_end_functions'
+import * as backendFunctions from '../backend/back_end_functions'
 //Font
 import * as Font from 'expo-font'
 //Stylesheet

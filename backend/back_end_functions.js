@@ -4,9 +4,9 @@ import * as FileSystem from 'expo-file-system';
 import {Storage} from 'aws-amplify'
 // AWS DynanamoDB
 import API, { graphqlOperation } from '@aws-amplify/api'
-import * as queries from './src/graphql/queries';
-import * as mutations from './src/graphql/mutations';
-import * as subscriptions from './src/graphql/subscriptions';
+import * as queries from '../src/graphql/queries';
+import * as mutations from '../src/graphql/mutations';
+import * as subscriptions from '../src/graphql/subscriptions';
 //Cognito
 import Auth from '@aws-amplify/auth'
 //Image classification
@@ -172,16 +172,16 @@ export const addImageToDatabase = async (
 		publicKey = response.key
 	} catch (err) {console.log('ERROR: While adding image to database, error storing in S3'), err}
 
-	//Classifying the image
+	//Instantiating the client for classifying the image
 	const app = new Clarifai.App({
 		apiKey: '7002f76de9544611a98bbd808fc4078a'
 	})
 
 	//Read the image in as base64
 	let image_file_b64 = await FileSystem.readAsStringAsync(uri, {encoding: FileSystem.EncodingType.Base64} )
-	// Create a new model
+	// Create a new model for classification by type
 	await app.models.initModel({id: Clarifai.APPAREL_MODEL, version: 'e0be3b9d6a454f0493ac3a30784001ff'})
-	// Predict the image
+	// Predict the image types
 	let prediction = await app.models.predict("e0be3b9d6a454f0493ac3a30784001ff", {base64: image_file_b64})
 	//Parse for predictions
 	let concepts = prediction.outputs[0].data.concepts
@@ -192,6 +192,16 @@ export const addImageToDatabase = async (
 		if(RecommendationEngine.isThere(concepts[i].name) == false)
 			console.log(concepts[i].name)
 	}
+
+	//Create a new model for classification by color
+	await app.models.initModel({id: Clarifai.COLOR_MODEL, version: 'eeed0b6733a644cea07cf4c60f87ebb7'})
+	//Predit the image colors
+	prediction  = await app.models.predict ('eeed0b6733a644cea07cf4c60f87ebb7', {base64: image_file_b64})
+	console.log((prediction.outputs[0]).data.colors)
+
+	
+	
+
 
 	// Insert the clothing in the database and connect to the current user
 	let user = await Auth.currentUserInfo()

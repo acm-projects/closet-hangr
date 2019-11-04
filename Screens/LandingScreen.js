@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, SafeAreaView } from 'react-native';
 
 // Back-end functions
-import * as backEndFunctions from '../back_end_functions'
+import * as backEndFunctions from '../backend/back_end_functions'
 
 //Font
 import * as Font from 'expo-font'

@@ -19,6 +19,7 @@ type Clothing @model {
   isForHot: Boolean
   primaryColor: String
   secondaryColor: String
+  colorName: String
   user: User @connection (name: "UserClothing")
   outfits: [OutfitClothing] @connection (name: "ClothingOutfit")
 }

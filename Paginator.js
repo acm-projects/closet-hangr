@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, View, Platform, Dimensions, Image } from "react-native";
-import * as backEndFunctions from './back_end_functions'
+import * as backEndFunctions from './backend/back_end_functions'
 import uuid from 'uuid/v4'
 
 export const ITEM_WIDTH = 1.0 * Dimensions.get('window').width * 3/4

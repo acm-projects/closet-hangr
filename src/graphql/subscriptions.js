@@ -20,6 +20,7 @@ export const onCreateUser = `subscription OnCreateUser {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -51,6 +52,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -82,6 +84,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
         isForHot
         primaryColor
         secondaryColor
+        colorName
       }
       nextToken
     }
@@ -106,6 +109,7 @@ export const onCreateClothing = `subscription OnCreateClothing {
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -140,6 +144,7 @@ export const onUpdateClothing = `subscription OnUpdateClothing {
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -174,6 +179,7 @@ export const onDeleteClothing = `subscription OnDeleteClothing {
     isForHot
     primaryColor
     secondaryColor
+    colorName
     user {
       id
       username
@@ -210,6 +216,7 @@ export const onCreateOutfitClothing = `subscription OnCreateOutfitClothing {
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username
@@ -251,6 +258,7 @@ export const onUpdateOutfitClothing = `subscription OnUpdateOutfitClothing {
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username
@@ -292,6 +300,7 @@ export const onDeleteOutfitClothing = `subscription OnDeleteOutfitClothing {
       isForHot
       primaryColor
       secondaryColor
+      colorName
       user {
         id
         username

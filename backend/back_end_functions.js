@@ -16,6 +16,10 @@ import * as RecommendationEngine from './recommendation_engine'
 //Clarifai api key: 7002f76de9544611a98bbd808fc4078a
 //TODO OUTDATED KEY
 //Removebg api key: ddmywF3gfzCLF3ebfmX1X9qD
+//Imagga key: acc_f321262d2df8ba7
+//Imagga secret key: 05a6515cda2c989c606a821f9caa4454
+
+
 
 
 
@@ -177,8 +181,10 @@ export const addImageToDatabase = async (
 		apiKey: '7002f76de9544611a98bbd808fc4078a'
 	})
 
+	
 	//Read the image in as base64
 	let image_file_b64 = await FileSystem.readAsStringAsync(uri, {encoding: FileSystem.EncodingType.Base64} )
+
 	// Create a new model for classification by type
 	await app.models.initModel({id: Clarifai.APPAREL_MODEL, version: 'e0be3b9d6a454f0493ac3a30784001ff'})
 	// Predict the image types
@@ -192,15 +198,27 @@ export const addImageToDatabase = async (
 		if(RecommendationEngine.isThere(concepts[i].name) == false)
 			console.log(concepts[i].name)
 	}
-
-	//Create a new model for classification by color
-	await app.models.initModel({id: Clarifai.COLOR_MODEL, version: 'eeed0b6733a644cea07cf4c60f87ebb7'})
-	//Predit the image colors
-	prediction  = await app.models.predict ('eeed0b6733a644cea07cf4c60f87ebb7', {base64: image_file_b64})
-	console.log((prediction.outputs[0]).data.colors)
-
 	
+/*
 	
+	let myHeaders = new Headers()
+	myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
+	myHeaders.append("Authorization", "Basic YWNjX2YzMjEyNjJkMmRmOGJhNzowNWE2NTE1Y2RhMmM5ODljNjA2YTgyMWY5Y2FhNDQ1NA==")
+
+	let urlencoded = new URLSearchParams()
+	urlencoded.append("image_base64", image_file_b64)
+	urlencoded.append("extract_overall_colors", "0")
+
+	let requestOptions = {
+		method: 'POST',
+		headers: myHeaders,
+		body: urlencoded,
+		redirect: 'follow'
+	 };
+	 
+	let response = await fetch('https://api.imagga.com/v2/colors', requestOptions)
+
+	console.log(await response.json())*/
 
 
 	// Insert the clothing in the database and connect to the current user
@@ -208,7 +226,7 @@ export const addImageToDatabase = async (
 	try {
 		await createNewClothing(user.username, key, publicKey, concepts[0].name, RecommendationEngine.topOrBottonm(concepts[0].name), RecommendationEngine.isForCold(concepts[0].name), RecommendationEngine.isForModerate(concepts[0].name),  RecommendationEngine.isForHot(concepts[0].name))
 		console.log('While adding image to database, successfully created clothing')
-	} catch (err) {console.log('ERROR: While adding image to databaes, error creating image in database',err)}
+	} catch (err) {console.log('ERROR: While adding image to database, error creating image in database',err)}
 }
 
 /*
@@ -275,6 +293,94 @@ export const retrieveAllBottoms = async (
 			bottoms.push(allClothing[i])
 	}
 	return bottoms
+}
+
+/*
+	Creates a new liked outfit from the 2 given clothing objects
+*/
+export const createNewOutfit = async (
+	top,
+	bottom,
+) => {
+	// Getting the username of the current user
+	let username = (await getCurrentUserInfo()).username
+
+	try {
+		//Creating the outfit
+		let newOutfit = await API.graphql(graphqlOperation(mutations.createOutfit, {input: 
+			{
+				outfitUserId: username
+			}
+		}))
+
+		//Connecting the top of the outfit
+		let test = await API.graphql(graphqlOperation(mutations.createOutfitClothing, {
+			input: {
+				outfitClothingOutfitId: newOutfit.data.createOutfit.id,
+				outfitClothingClothingId: top.id,
+			}
+		}))
+
+		//Connecting the bottom of the outfit
+		await API.graphql(graphqlOperation(mutations.createOutfitClothing, {
+			input: {
+				outfitClothingOutfitId: newOutfit.data.createOutfit.id,
+				outfitClothingClothingId: bottom.id,
+			}
+		}))
+		console.log("Successfully created outfit")
+	} catch (err) {console.log("ERROR: Error adding new clothing to database", err)}
+}
+
+/*
+	Gets all of the given user's liked outfits. Returns a list of objects that contain the top and bottom clothing objects under the top and bottom keys respectively
+*/
+export const retrieveAllOutfits = async (
+	u_name
+)=> {
+	let outfits = []
+	let userOutfits = (await API.graphql(graphqlOperation(queries.getUser, {id: u_name}))).data.getUser.outfits.items
+
+	//Generating the list of outfits
+	for(let i = 0; i < userOutfits.length; i++) {
+		let outfit = await API.graphql(graphqlOperation(queries.getOutfit, {id: userOutfits[i].id}))
+
+		let outfitClothingId0 = outfit.data.getOutfit.clothing.items[0].id
+		let outfitClothingId1 = outfit.data.getOutfit.clothing.items[1].id
+
+		//Finding out what id corresponds to the top and what id corresponds to the bottom
+		let outfitClothing0 = await API.graphql(graphqlOperation(queries.getOutfitClothing, {id: outfitClothingId0}))
+		let outfitClothing1 = await API.graphql(graphqlOperation(queries.getOutfitClothing, {id: outfitClothingId1}))
+
+		let clothing0 = outfitClothing0.data.getOutfitClothing.clothing
+		let clothing1 = outfitClothing1.data.getOutfitClothing.clothing
+
+		let top = {
+			id: clothing0.id,
+			uri: await Storage.get(clothing0.key, {level: 'private', download: false})
+		}
+		let bottom = {
+			id: clothing1.id,
+			uri: await Storage.get(clothing1.key, {level: 'private', download: false})
+		}
+
+		//Switching the top and bottom objects if they are not assigned to the correct key
+		if(clothing0.topOrBottom == 'bottom') {
+			let temp = top
+			top = bottom
+			bottom = temp
+		}
+
+		let outfitToPush = {
+			id: outfit.data.getOutfit.id,
+			top: top,
+			bottom: bottom,
+		}
+
+		outfits.push(outfitToPush)
+	}
+
+	return outfits
 }
 
  /*

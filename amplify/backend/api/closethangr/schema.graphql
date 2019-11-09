@@ -24,7 +24,7 @@ type Clothing @model {
   outfits: [OutfitClothing] @connection (name: "ClothingOutfit")
 }
 
-type OutfitClothing @model (queries: null) {
+type OutfitClothing @model {
   id: ID!
   clothing: Clothing @connection (name: "ClothingOutfit")
   outfit: Outfit @connection(name: "OutfitClothing")
@@ -34,4 +34,5 @@ type Outfit @model {
   id: ID!
   user: User @connection (name: "UserOutfits")
   clothing: [OutfitClothing] @connection (name: "OutfitClothing")
+  dummy: String
 }

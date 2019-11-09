@@ -6,6 +6,8 @@ const COLOR_TEXT = "#080808"
 const FONT_NORMAL = 'Avenir';
 const FONT_BOLD = '';
 const BORDER_RADIUS = 25;
+
+export const windowWidthHundredth = Dimensions.get('window').width/100.0
  
  export default styles = StyleSheet.create({
 	container: {
@@ -23,26 +25,52 @@ const BORDER_RADIUS = 25;
 		 width: 140,
 	  },
 	  menuIcon: {
-			height: Dimensions.get('window').height/25, 
-			width: Dimensions.get('window').height/25,
-			marginTop: Dimensions.get('window').height/25, 
-			marginLeft: Dimensions.get('window').height/60,
+			height: windowWidthHundredth*7, 
+			width: windowWidthHundredth*7,
+			marginTop: windowWidthHundredth*4, 
+			marginLeft: windowWidthHundredth*2,
 	  },
 	  heartIcon: {
-			height: Dimensions.get('window').height/25, 
-			width: Dimensions.get('window').height/25, 
-			marginTop: Dimensions.get('window').height/25,
-			marginRight: Dimensions.get('window').height/60, 
+			height: windowWidthHundredth*7, 
+			width: windowWidthHundredth*7,
+			marginTop: windowWidthHundredth*4, 
+			marginRight: windowWidthHundredth*2, 
 	  },
+	  addImageIcon: {
+			height: windowWidthHundredth*7, 
+			width: windowWidthHundredth*7,
+			marginBottom: windowWidthHundredth*4, 
+			marginLeft: windowWidthHundredth*2, 
+		},
+		addCameraIcon: {
+			height: windowWidthHundredth*7, 
+			width: windowWidthHundredth*7,
+			marginBottom: windowWidthHundredth*4, 
+			marginRight: windowWidthHundredth*2, 
+  		},
 	  title: {
-		 color: COLOR_TEXT,
-		 fontFamily: FONT_NORMAL,
-		 fontSize: 36,
-		 fontWeight: 'bold',
-		 marginTop: 20,
-		 width: 300,
-		 justifyContent: 'center',
-		 textAlign: 'center',
+			color: COLOR_TEXT,
+			fontFamily: FONT_NORMAL,
+			fontSize: 36,
+			fontWeight: 'bold',
+			marginTop: 20,
+			width: 300,
+			justifyContent: 'center',
+			textAlign: 'center',
+	  },
+	  heading1: {
+			fontSize: 24, 
+			fontWeight: '700', 
+			paddingHorizontal: 20, 
+			paddingTop: 10 ,
+			fontFamily: 'Avenir'
+	  },
+	  heading2: {
+			fontSize: 17, 
+			fontWeight: '700', 
+			paddingHorizontal: 20, 
+			paddingTop: 10 ,
+			fontFamily: 'Avenir'
 	  },
 	  fieldContainer: { 
 		 margin: 2,

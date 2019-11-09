@@ -27,6 +27,7 @@ export const getUser = `query GetUser($id: ID!) {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -124,6 +125,79 @@ export const listClothings = `query ListClothings(
   }
 }
 `;
+export const getOutfitClothing = `query GetOutfitClothing($id: ID!) {
+  getOutfitClothing(id: $id) {
+    id
+    clothing {
+      id
+      key
+      publicKey
+      type
+      topOrBottom
+      isForCold
+      isForModerate
+      isForHot
+      primaryColor
+      secondaryColor
+      colorName
+      user {
+        id
+        username
+        firstName
+        lastName
+        sex
+      }
+      outfits {
+        nextToken
+      }
+    }
+    outfit {
+      id
+      user {
+        id
+        username
+        firstName
+        lastName
+        sex
+      }
+      clothing {
+        nextToken
+      }
+      dummy
+    }
+  }
+}
+`;
+export const listOutfitClothings = `query ListOutfitClothings(
+  $filter: ModelOutfitClothingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOutfitClothings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      clothing {
+        id
+        key
+        publicKey
+        type
+        topOrBottom
+        isForCold
+        isForModerate
+        isForHot
+        primaryColor
+        secondaryColor
+        colorName
+      }
+      outfit {
+        id
+        dummy
+      }
+    }
+    nextToken
+  }
+}
+`;
 export const getOutfit = `query GetOutfit($id: ID!) {
   getOutfit(id: $id) {
     id
@@ -146,6 +220,7 @@ export const getOutfit = `query GetOutfit($id: ID!) {
       }
       nextToken
     }
+    dummy
   }
 }
 `;
@@ -167,6 +242,7 @@ export const listOutfits = `query ListOutfits(
       clothing {
         nextToken
       }
+      dummy
     }
     nextToken
   }

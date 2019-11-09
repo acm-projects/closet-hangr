@@ -1,9 +1,12 @@
 import React, { Component} from 'react';
-import {Text, View, TouchableOpacity, Image, TextInput, FlatList, Dimensions } from 'react-native';
+import {Text, View, TouchableOpacity, Image, TextInput, FlatList, Dimensions, SafeAreaView } from 'react-native';
 import styles from '../styles'
+import * as styleValues from '../styles'
 import * as backEndFunctions from '../backend/back_end_functions'
 import Paginator from '../Paginator'
 import * as PaginatorValues from '../Paginator'
+import * as Permissions from 'expo-permissions'
+import * as ImagePicker from 'expo-image-picker'
 
 
 
@@ -12,8 +15,57 @@ export default class HomeScreen extends React.PureComponent {
     super(props)
     this.state = {tops: [], bottoms: [], loaded: false}
     this.index = 0
+    this.topsList = React.createRef()
+    this.bottomsList = React.createRef()
   }
 
+  likeOutfit = async () => {
+    if(this.state.loaded) {
+      let topIndex = this.getCurrentListIndex(this.topsList.current.offset)
+      let bottomIndex = this.getCurrentListIndex(this.bottomsList.current.offset)
+      let top = this.state.tops[topIndex]
+      let bottom = this.state.bottoms[bottomIndex]
+
+      await backEndFunctions.createNewOutfit(top, bottom)
+    }
+  }
+
+  getCurrentListIndex(offset) {
+    let index = Math.round(offset/PaginatorValues.ITEM_TOTAL_SIZE)
+    return index
+  }
+
+
+	addFromImagePicker = async event => {
+		// ASKING FOR PERMISSION
+		const { status, permissions } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+		let response = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [1, 1],
+		});
+		if(response.cancelled != 'false') {
+			await backEndFunctions.addImageToDatabase(response.uri)
+		}
+  }
+
+  addFromCamera = async event => {	
+		//	ASKING FOR PERMISSION
+		const { status2, permissions2 } = await Permissions.askAsync(Permissions.CAMERA);
+
+		// Calling the Camera
+		let response = await ImagePicker.launchCameraAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [1,1],
+		})
+		if(response.cancelled != 'false') {
+			await backEndFunctions.addImageToDatabase(response.uri)
+		}
+	}
+
+   
   async componentDidMount() {
     let user = await backEndFunctions.getCurrentUserInfo()
     this.setState({
@@ -25,84 +77,56 @@ export default class HomeScreen extends React.PureComponent {
 
   render() {
     return (
-      <View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}>
-                <Image 
-                  style = {styles.menuIcon}
-                  source = {require('../assets/images/menu.png')}
-                />
+      <SafeAreaView style = {{flex: 1}}>
+        <View style = {{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.openDrawer()}>
+                  <Image 
+                    style = {styles.menuIcon}
+                    source = {require('../assets/images/menu.png')}
+                  />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => this.likeOutfit()}>
+                  <Image 
+                    style = {styles.heartIcon}
+                    source = {require('../assets/images/heart.png')}
+                  />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('LikedOutfitsScreen')}>
+                  <Image 
+                    style = {styles.heartIcon}
+                    source = {require('../assets/images/heart.png')}
+                  />
+              </TouchableOpacity>
+            </View>
+          <View>
+            <Paginator
+              data = {this.state.tops} 
+              ref = {this.topsList}
+              type = {"Tops"}
+            />
+            <Paginator
+              data = {this.state.bottoms} 
+              ref = {this.bottomsList}
+              type = {"Bottoms"}
+            />
+          </View>
+          <View style={{flexDirection: 'row',justifyContent: 'space-between', alignContent: 'flex-end'}}>
+            <TouchableOpacity onPress={this.addFromImagePicker} style = {styles.addImageIcon}>
+              <Image source={require('../assets/images/addImage.png')} style = {{width: styleValues.windowWidthHundredth * 10, height: styleValues.windowWidthHundredth*10}}/>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('LikedOutfitsScreen')}>
-                <Image 
-                  style = {styles.heartIcon}
-                  source = {require('../assets/images/heart.png')}
-                />
+            <TouchableOpacity onPress={this.addFromCamera} style={styles.addCameraIcon}>
+              <Image source={require('../assets/images/addCamera.png')} style = {{width: styleValues.windowWidthHundredth * 10, height: styleValues.windowWidthHundredth*10}}/>
             </TouchableOpacity>
           </View>
-        <View style={{marginTop: Dimensions.get('window').height/30}} >
-          <Tops tops = {this.state.tops} loaded = {this.state.loaded}/>
-          <Bottoms bottoms = {this.state.bottoms} loaded = {this.state.loaded}/>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
-
-class Tops extends Component {
-  constructor(props) {
-    super(props)
-  }
-  
-  render () {
-    if(this.props.tops.length > 0)
-      return (
-        <Paginator
-        data = {this.props.tops} 
-        />
-      )
-    else if (this.props.loaded == true) 
-      return (
-        <View style = {{width: Dimensions.get('window').width, height: PaginatorValues.ITEM_WIDTH, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style = {styles.promptText}>
-            Please Add Tops!
-          </Text>
-        </View>
-      )
-    else 
-      return (
-        <View >
-        </View>
-      )
-  }
-}
-
-class Bottoms extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render () {
-    if(this.props.bottoms.length > 0)
-    return (
-      <Paginator
-      data = {this.props.bottoms} 
-      />
-    )
-  else if(this.props.loaded == true) 
-    return (
-      <View style = {{width: Dimensions.get('window').width, height: PaginatorValues.ITEM_WIDTH, alignItems: 'center', justifyContent: 'center'}}>
-        <Text style = {styles.promptText}>
-          Please Add Bottoms!
-        </Text>
-      </View>
-    )
-  else 
-    return (
-      <View>
-      </View>
-    )
-  }
-}

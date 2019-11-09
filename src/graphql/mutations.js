@@ -27,6 +27,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -59,6 +60,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -91,6 +93,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -240,6 +243,7 @@ export const createOutfitClothing = `mutation CreateOutfitClothing($input: Creat
       clothing {
         nextToken
       }
+      dummy
     }
   }
 }
@@ -282,6 +286,7 @@ export const updateOutfitClothing = `mutation UpdateOutfitClothing($input: Updat
       clothing {
         nextToken
       }
+      dummy
     }
   }
 }
@@ -324,6 +329,7 @@ export const deleteOutfitClothing = `mutation DeleteOutfitClothing($input: Delet
       clothing {
         nextToken
       }
+      dummy
     }
   }
 }
@@ -350,6 +356,7 @@ export const createOutfit = `mutation CreateOutfit($input: CreateOutfitInput!) {
       }
       nextToken
     }
+    dummy
   }
 }
 `;
@@ -375,6 +382,7 @@ export const updateOutfit = `mutation UpdateOutfit($input: UpdateOutfitInput!) {
       }
       nextToken
     }
+    dummy
   }
 }
 `;
@@ -400,6 +408,7 @@ export const deleteOutfit = `mutation DeleteOutfit($input: DeleteOutfitInput!) {
       }
       nextToken
     }
+    dummy
   }
 }
 `;

@@ -62,7 +62,7 @@ export class LandingScreen extends Component {
   render() {
    if(this.state.fontsLoaded && this.state.imagesLoaded) {
       return (
-         <SafeAreaView>
+         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.container}>
                <Text style={styles.title}>
                   Closet-hangr
@@ -73,7 +73,7 @@ export class LandingScreen extends Component {
    }
    else {
       return (
-         <SafeAreaView>
+         <SafeAreaView style = {{flex: 1}}>
             <View style = {styles.container}>
                <Text style={styles.title}>
                   Closet-hangr

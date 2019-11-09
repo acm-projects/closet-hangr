@@ -27,6 +27,7 @@ export const onCreateUser = `subscription OnCreateUser {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -59,6 +60,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -91,6 +93,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
     outfits {
       items {
         id
+        dummy
       }
       nextToken
     }
@@ -240,6 +243,7 @@ export const onCreateOutfitClothing = `subscription OnCreateOutfitClothing {
       clothing {
         nextToken
       }
+      dummy
     }
   }
 }
@@ -282,6 +286,7 @@ export const onUpdateOutfitClothing = `subscription OnUpdateOutfitClothing {
       clothing {
         nextToken
       }
+      dummy
     }
   }
 }
@@ -324,6 +329,7 @@ export const onDeleteOutfitClothing = `subscription OnDeleteOutfitClothing {
       clothing {
         nextToken
       }
+      dummy
     }
   }
 }
@@ -350,6 +356,7 @@ export const onCreateOutfit = `subscription OnCreateOutfit {
       }
       nextToken
     }
+    dummy
   }
 }
 `;
@@ -375,6 +382,7 @@ export const onUpdateOutfit = `subscription OnUpdateOutfit {
       }
       nextToken
     }
+    dummy
   }
 }
 `;
@@ -400,6 +408,7 @@ export const onDeleteOutfit = `subscription OnDeleteOutfit {
       }
       nextToken
     }
+    dummy
   }
 }
 `;

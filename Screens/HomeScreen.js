@@ -10,6 +10,7 @@ import * as ImagePicker from 'expo-image-picker'
 
 
 
+
 export default class HomeScreen extends React.PureComponent {
   constructor (props) {
     super(props)
@@ -87,17 +88,13 @@ export default class HomeScreen extends React.PureComponent {
                     source = {require('../assets/images/menu.png')}
                   />
               </TouchableOpacity>
-
+              <View style = {{marginTop: -5, }}>
+                <Text style = {styles.homeTitle}>
+                  Closet-hangr
+                </Text>
+              </View>
               <TouchableOpacity
                 onPress={() => this.likeOutfit()}>
-                  <Image 
-                    style = {styles.heartIcon}
-                    source = {require('../assets/images/heart.png')}
-                  />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('LikedOutfitsScreen')}>
                   <Image 
                     style = {styles.heartIcon}
                     source = {require('../assets/images/heart.png')}
@@ -118,10 +115,10 @@ export default class HomeScreen extends React.PureComponent {
           </View>
           <View style={{flexDirection: 'row',justifyContent: 'space-between', alignContent: 'flex-end'}}>
             <TouchableOpacity onPress={this.addFromImagePicker} style = {styles.addImageIcon}>
-              <Image source={require('../assets/images/addImage.png')} style = {{width: styleValues.windowWidthHundredth * 10, height: styleValues.windowWidthHundredth*10}}/>
+              <Image source = {require('../assets/images/addFromPhotos.png')} style = {{width: styleValues.windowWidthHundredth * 7, height: styleValues.windowWidthHundredth * 7, marginLeft: styleValues.windowWidthHundredth * 1.5, marginTop: styleValues.windowWidthHundredth * 1.5}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={this.addFromCamera} style={styles.addCameraIcon}>
-              <Image source={require('../assets/images/addCamera.png')} style = {{width: styleValues.windowWidthHundredth * 10, height: styleValues.windowWidthHundredth*10}}/>
+              <Image source = {require('../assets/images/addFromCamera.png')} style = {{width: styleValues.windowWidthHundredth * 6, height: styleValues.windowWidthHundredth * 6, marginLeft: styleValues.windowWidthHundredth * 2, marginTop: styleValues.windowWidthHundredth * 2}}/>
             </TouchableOpacity>
           </View>
         </View>

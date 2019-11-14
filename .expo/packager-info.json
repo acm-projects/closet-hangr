@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 15028,
-  "expoServerNgrokUrl": "https://pa-jyn.noahagonzo.closethangr.exp.direct",
-  "packagerNgrokUrl": "https://packager.pa-jyn.noahagonzo.closethangr.exp.direct",
-  "ngrokPid": 2816,
+  "packagerPid": 23224,
+  "expoServerNgrokUrl": "https://ej-bb4.noahagonzo.closethangr.exp.direct",
+  "packagerNgrokUrl": "https://packager.ej-bb4.noahagonzo.closethangr.exp.direct",
+  "ngrokPid": 7160,
   "devToolsPort": 19002
 }

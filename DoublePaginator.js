@@ -8,8 +8,6 @@ export const ITEM_MARGINS = 1.0 * Dimensions.get('window').width/16
 export const ITEM_TOTAL_SIZE = ITEM_WIDTH + ITEM_MARGINS*2
 
 function Item({ topUri, bottomUri }) {
-  console.log(topUri)
-  console.log(bottomUri)
   return (
     <View>
       <Image source={{uri: topUri}} style = {{width: ITEM_WIDTH, height: ITEM_WIDTH, marginHorizontal: ITEM_MARGINS}}/>
@@ -153,6 +151,7 @@ render() {
         keyExtractor={item => item.id}
         initialNumToRender={1}
         marginHorizontal = {ITEM_MARGINS}
+        removeClippedSubviews = {true}
         
         onLayout={ ({nativeEvent}) => {
           const {width, height} = nativeEvent.layout;

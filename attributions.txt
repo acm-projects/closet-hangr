@@ -1,2 +1,4 @@
 Loading Icon:
 https://loading.io/spinner/ellipsis
+Camera Icon:
+Icons made by <a href="https://www.flaticon.com/authors/fjstudio" 

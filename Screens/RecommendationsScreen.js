@@ -7,7 +7,8 @@ import {
   Platform,
   ImageBackground,
   FlatList,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native';
 
 import * as backEndFunctions from '../backend/back_end_functions'
@@ -66,21 +67,32 @@ export default class RecommendationsScreen extends Component {
 
   render() {
     return (
-        <View>
-          <Text style={styles.heading1}>
-            Recommendations
-          </Text>
+      <View style = {{marginTop: 20}}>
+      <Text style={styles.heading1}>
+        Recommendations
+      </Text>
 
-          <TrendingTypesText trendingClothing = {this.state.images}/>
+      <TrendingTypesText trendingClothing = {this.state.images}/>
 
-          <View style={{ height: 160, marginTop: 10 }}>
-            <FlatList
-              data = {this.state.images} 
-              renderItem={({item})=><Item uri={item.uri}/> } 
-              keyExtractor={item => item.id} 
-              horizontal = {true} 
-            />
-          </View>
+      <View style={{ height: 160, marginTop: 10 }}>
+        <FlatList
+          data = {this.state.images} 
+          renderItem={({item})=><Item uri={item.uri}/> } 
+          keyExtractor={item => item.id} 
+          horizontal = {true} 
+        />
+      </View>
+    </View>
+
+    )
+  }
+}
+
+/*
+
+*/
+
+/*
 
           <Text style={styles.heading2}>
             Based on the weather...
@@ -119,7 +131,5 @@ export default class RecommendationsScreen extends Component {
               horizontal = {true} 
             />
           </View>
-        </View>
-    )
-  }
-}
+
+          */

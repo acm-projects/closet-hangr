@@ -36,7 +36,7 @@ import { SafeAreaView } from 'react-navigation';
 
 	render() {
 		return(
-			<SafeAreaView style={{flex: 1, justifyContent: 'space-between'}}>
+			<SafeAreaView style={{flex: 1}}>
 				<Text style={styles.heading1}>
          		 Liked Outfits
         		</Text>

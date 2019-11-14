@@ -18,7 +18,7 @@ function Item({ uri }) {
 class Paginator extends React.PureComponent {
 constructor(props) {  
   super(props);
-  this.flatList = null
+  this.flatList = null 
   this.offset = 0
 }
 
@@ -92,6 +92,7 @@ render() {
         keyExtractor={item => item.id}
         initialNumToRender={1}
         marginHorizontal = {ITEM_MARGINS}
+        removeClippedSubviews = {true}
         
         onLayout={ ({nativeEvent}) => {
           const {width, height} = nativeEvent.layout;

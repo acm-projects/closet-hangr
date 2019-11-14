@@ -199,11 +199,11 @@ export const addImageToDatabase = async (
 			console.log(concepts[i].name)
 	}
 	
-/*
 	
 	let myHeaders = new Headers()
 	myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
 	myHeaders.append("Authorization", "Basic YWNjX2YzMjEyNjJkMmRmOGJhNzowNWE2NTE1Y2RhMmM5ODljNjA2YTgyMWY5Y2FhNDQ1NA==")
+	/*
 
 	let urlencoded = new URLSearchParams()
 	urlencoded.append("image_base64", image_file_b64)
@@ -219,6 +219,25 @@ export const addImageToDatabase = async (
 	let response = await fetch('https://api.imagga.com/v2/colors', requestOptions)
 
 	console.log(await response.json())*/
+
+	let params = {
+		image_base64: image_file_b64,
+		extract_overall_colors: 0,
+	}
+
+	let formData = new FormData();
+	for(var k in params) {
+		formData.append(k, params[k])
+	}
+
+	let request = {
+			method: 'POST',
+			headers: myHeaders,
+			body: formData
+	}
+
+	let response = await fetch('https://api.imagga.com/v2/colors', request)
+	console.log(response.json())
 
 
 	// Insert the clothing in the database and connect to the current user

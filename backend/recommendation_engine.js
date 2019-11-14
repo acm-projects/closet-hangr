@@ -501,7 +501,6 @@ let hot = [
    'T-Shirt',
    'Dress',
    'Activewear T Shirt',
-   'Cardigan',
    'Spring Jacket',
    'Sports Bra',
    'Tube Top',

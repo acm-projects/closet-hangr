@@ -27,26 +27,36 @@ export const windowWidthHundredth = Dimensions.get('window').width/100.0
 	  menuIcon: {
 			height: windowWidthHundredth*7, 
 			width: windowWidthHundredth*7,
-			marginTop: windowWidthHundredth*4, 
 			marginLeft: windowWidthHundredth*2,
 	  },
 	  heartIcon: {
 			height: windowWidthHundredth*7, 
 			width: windowWidthHundredth*7,
-			marginTop: windowWidthHundredth*4, 
 			marginRight: windowWidthHundredth*2, 
 	  },
 	  addImageIcon: {
-			height: windowWidthHundredth*7, 
-			width: windowWidthHundredth*7,
+			width: windowWidthHundredth * 10,
+			height: windowWidthHundredth * 10,
 			marginBottom: windowWidthHundredth*4, 
 			marginLeft: windowWidthHundredth*2, 
+			backgroundColor: COLOR_SECONDARY,
+			borderRadius: 250,
+			shadowColor: '#222222',
+			shadowOffset: {width: 0, height: 4},
+			shadowOpacity: 1,
+			shadowRadius: 3,
 		},
 		addCameraIcon: {
-			height: windowWidthHundredth*7, 
-			width: windowWidthHundredth*7,
+			width: windowWidthHundredth * 10,
+			height: windowWidthHundredth * 10,
 			marginBottom: windowWidthHundredth*4, 
 			marginRight: windowWidthHundredth*2, 
+			backgroundColor: COLOR_SECONDARY,
+			borderRadius: 250,
+			shadowColor: '#222222',
+			shadowOffset: {width: 0, height: 4},
+			shadowOpacity: 1,
+			shadowRadius: 3,
   		},
 	  title: {
 			color: COLOR_TEXT,
@@ -58,11 +68,18 @@ export const windowWidthHundredth = Dimensions.get('window').width/100.0
 			justifyContent: 'center',
 			textAlign: 'center',
 	  },
+	  homeTitle: {
+			fontSize: 24, 
+			fontWeight: '700', 
+			paddingHorizontal: 20, 
+			fontFamily: 'Avenir',
+			textDecorationLine: 'underline'
+	  },
 	  heading1: {
 			fontSize: 24, 
 			fontWeight: '700', 
 			paddingHorizontal: 20, 
-			paddingTop: 10 ,
+			marginBottom: 10 ,
 			fontFamily: 'Avenir'
 	  },
 	  heading2: {
@@ -70,7 +87,8 @@ export const windowWidthHundredth = Dimensions.get('window').width/100.0
 			fontWeight: '700', 
 			paddingHorizontal: 20, 
 			paddingTop: 10 ,
-			fontFamily: 'Avenir'
+			fontFamily: 'Avenir',
+			marginBottom: 10 ,
 	  },
 	  fieldContainer: { 
 		 margin: 2,

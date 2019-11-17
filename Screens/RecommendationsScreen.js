@@ -51,6 +51,33 @@ function TrendingTypesText({trendingClothing}) {
   }
 }
 
+function TrendingColorsText({trendingColors}) {
+  if(trendingColors != undefined) {
+    colors = ''
+    // Retrieve the trending types from the array of clothing objects and make a list to display
+    for(let i = 0; i < trendingColors.length; i++) {
+      colors += recommendationEngine.pluralize(trendingColors[i].color)
+      if(i!=trendingColors.length-1)
+        colors += ', '
+    }
+    
+    if(types.length > 0) {
+      return (
+        <Text style={styles.heading2}>
+          Trending Colors: {colors}
+        </Text>
+      )
+    }
+  }
+  else {
+    return (
+      <Text style={styles.heading2}>
+        Trending Colors: 
+      </Text>
+    )
+  }
+}
+
 
 export default class RecommendationsScreen extends Component {
   constructor(props)
@@ -62,12 +89,15 @@ export default class RecommendationsScreen extends Component {
   async componentDidMount() {
     let user = await backEndFunctions.getCurrentUserInfo()
     //Get the typs of clothing that are trending among other users
-    this.setState({images: await recommendationEngine.trendingAmongUsers(3)})
+    this.setState({
+      images: await recommendationEngine.trendingAmongUsers(3),
+      colorRecommendations: await recommendationEngine.trendingColorsAmongUsers(3)
+    })
   }
 
   render() {
     return (
-      <View style = {{marginTop: 20}}>
+    <View style = {{marginTop: 20}}>
       <Text style={styles.heading1}>
         Recommendations
       </Text>
@@ -82,21 +112,26 @@ export default class RecommendationsScreen extends Component {
           horizontal = {true} 
         />
       </View>
-    </View>
 
+      <TrendingColorsText trendingColors = {this.state.colorRecommendations}/>
+
+      <View style={{ height: 160, marginTop: 10 }}>
+        <FlatList
+          data = {this.state.colorRecommendations} 
+          renderItem={({item})=><Item uri={item.uri}/> } 
+          keyExtractor={item => item.id} 
+          horizontal = {true} 
+        />
+      </View>
+    </View>     
     )
   }
 }
 
-/*
-
-*/
 
 /*
 
-          <Text style={styles.heading2}>
-            Based on the weather...
-          </Text>
+
           <View style={{ height: 160, marginTop: 10 }}>
                 <FlatList
                   data = {this.state.images} 

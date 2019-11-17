@@ -124,6 +124,9 @@ export const createNewClothing = async (
 	is_for_cold,
 	is_for_moderate,
 	is_for_hot,
+	colorN,
+	primaryColorHex,
+	secondaryColorHex,
 
 ) => {
 	const information = {
@@ -135,6 +138,8 @@ export const createNewClothing = async (
 		isForCold: is_for_cold,
 		isForModerate: is_for_moderate,
 		isForHot: is_for_hot,
+		colorName: colorN,
+		primaryColor: primaryColorHex,
 	}
 
 	try {
@@ -199,51 +204,31 @@ export const addImageToDatabase = async (
 			console.log(concepts[i].name)
 	}
 	
-	
+	//Make call for the classification for colors
 	let myHeaders = new Headers()
-	myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
+	myHeaders.append("Content-Type", "multipart/form-data")
 	myHeaders.append("Authorization", "Basic YWNjX2YzMjEyNjJkMmRmOGJhNzowNWE2NTE1Y2RhMmM5ODljNjA2YTgyMWY5Y2FhNDQ1NA==")
-	/*
-
-	let urlencoded = new URLSearchParams()
-	urlencoded.append("image_base64", image_file_b64)
-	urlencoded.append("extract_overall_colors", "0")
-
-	let requestOptions = {
-		method: 'POST',
-		headers: myHeaders,
-		body: urlencoded,
-		redirect: 'follow'
-	 };
-	 
-	let response = await fetch('https://api.imagga.com/v2/colors', requestOptions)
-
-	console.log(await response.json())*/
-
 	let params = {
 		image_base64: image_file_b64,
 		extract_overall_colors: 0,
 	}
-
 	let formData = new FormData();
 	for(var k in params) {
 		formData.append(k, params[k])
 	}
-
 	let request = {
 			method: 'POST',
 			headers: myHeaders,
 			body: formData
 	}
-
 	let response = await fetch('https://api.imagga.com/v2/colors', request)
-	console.log(response.json())
-
+	let responseJson = await response.json()
+	let colors = responseJson.result.colors.foreground_colors
 
 	// Insert the clothing in the database and connect to the current user
 	let user = await Auth.currentUserInfo()
 	try {
-		await createNewClothing(user.username, key, publicKey, concepts[0].name, RecommendationEngine.topOrBottonm(concepts[0].name), RecommendationEngine.isForCold(concepts[0].name), RecommendationEngine.isForModerate(concepts[0].name),  RecommendationEngine.isForHot(concepts[0].name))
+		await createNewClothing(user.username, key, publicKey, concepts[0].name, RecommendationEngine.topOrBottonm(concepts[0].name), RecommendationEngine.isForCold(concepts[0].name), RecommendationEngine.isForModerate(concepts[0].name),  RecommendationEngine.isForHot(concepts[0].name), RecommendationEngine.getColorName(colors[0].r, colors[0].g, colors[0].b), colors[0].closest_palette_color_html_code)
 		console.log('While adding image to database, successfully created clothing')
 	} catch (err) {console.log('ERROR: While adding image to database, error creating image in database',err)}
 }

@@ -80,7 +80,7 @@ export default class HomeScreen extends React.PureComponent {
     return (
       <SafeAreaView style = {{flex: 1}}>
         <View style = {{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between',}}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.openDrawer()}>
                   <Image 

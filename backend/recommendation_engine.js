@@ -102,7 +102,7 @@ let colorNames = [
    [
       [
          'Black', // 0 0 0
-         'Navy Blue', // 0 0 1
+         'Dark Blue', // 0 0 1
          'Blue', // 0 0 2
       ], 
       [
@@ -125,7 +125,7 @@ let colorNames = [
       [
          'Olive', // 1 1 0
          'Gray', // 1 1 1
-         'Pale Balue', // 1 1 2
+         'Pale Blue', // 1 1 2
       ],
       [
          'Lime', // 1 2 0
@@ -146,7 +146,7 @@ let colorNames = [
       ],
       [
          'Yellow', // 2 2 0
-         'Pale Yellow', // 2 2 1
+         'Tan', // 2 2 1
          'White', // 2 2 2
       ],
    ]
@@ -237,7 +237,32 @@ let plurals = [
 
 
    //Colors
-
+   ['Black', 'Blacks'],
+   ['Dark Blue', 'Dark Blues'],
+   ['Green','Greens'],
+   ['Teal','Teal'],
+   ['Azure','Azure'],
+   ['Chartreuse','Chartreuse'],
+   ['Aquamarine','Aquamarine'],
+   ['Cyan','Cyan'],
+   ['Maroon','Maroon'],
+   ['Plum','Plum'],
+   ['Indigo','Indigo'],
+   ['Olive','Olive'],
+   ['Gray','Grays'],
+   ['Pale Blue','Pale Blues'],
+   ['Lime','Lime'],
+   ['Light Green','Light Greens'],
+   ['Light Blue','Light Blues'],
+   ['Red','Reds'],
+   ['Deep Pink','Deep Pink'],
+   ['Magenta','Magenta'],
+   ['Orange','Oranges'],
+   ['Salmon','Salmon'],
+   ['Pink','Pinks'],
+   ['Yellow','Yellows'],
+   ['Tan','Tans'],
+   ['White','White'],
 ]
 
 /*
@@ -568,45 +593,17 @@ export function isThere (concept) {
    return (tops.includes(concept) || bottoms.includes(concept))
 }
 
+
 //Returns the name of the common color that corresponds to the given hex values of r, g, and b
 export function getColorName(r, g, b) {
-   r_approx = (int) (r/0x55)
-   g_approx = (int) (g/0x55)
-   b_approx = (int) (b/0x55)
+   r_approx = (Math.round(r/0x80)) 
+   g_approx = (Math.round(g/0x80))
+   b_approx = (Math.round(b/0x80))
    console.log(r_approx, g_approx, b_approx)
    return colorNames[r_approx][g_approx][b_approx]
 }
 
-// Returns an ordered array of the most prevelant colors, excluding flat black and white, given an array objects containing color info
-export function getPrimaryColors (colors) {
-   primaryColors = ['','','']
-   primaryColorValues[0,0,0]
-
-   //Find the most prevalent colors in order
-   for(let i = 0; i < colors.length; i++) {
-      if(colors[i].value > primaryColorValues[2]) {
-         if (colors[i].value > primaryColorValues[1]) {
-            if(colors[i].value > primaryColorValues[0]) {
-               primaryColors[0] = colors[i].raw_hex
-               primaryColorValues[0] = colors[i].value
-            }
-            else {
-               primaryColors[1] = colors[i].raw_hex
-               primaryColorValues[1] = colors[i].value
-            }
-         }
-         else {
-            primaryColors[2] = colors[i].raw_hex
-            primaryColorValues[2] = colors[i].value
-         }
-      }
-   }
-
-
-   //Go back for black/white
-}
-
-//Returns an array of length n of the most popular clothing worn
+//Returns an array of length n of the most popular type of clothing worn
 export const trendingAmongUsers = async (n) => {
    let popularity = new Map ([])
 
@@ -658,5 +655,55 @@ export const trendingAmongUsers = async (n) => {
    return recommendations
 }
 
+//Returns an array of length n of the most popular color
+export const trendingColorsAmongUsers = async (n) => {
+   let popularity = new Map ([])
 
+   //Getting all of the clothing in the database
+   let allClothing = await API.graphql(graphqlOperation(queries.listClothings, {input: {}}))
+   let clothing = allClothing.data.listClothings.items
 
+   for(let i = 0; i < clothing.length; i++) {
+      // Set a higher value for the amount of times a color is in the list or create a new set of key and value and set the popularity to 1
+      popularity.set(clothing[i].colorName, (popularity.has(clothing[i].colorName) ? (popularity.get(clothing[i].colorName)+1) : (1)))
+   }
+   
+   let popularityEntries = popularity.entries()
+   let typesToFind = []
+   let iterations = (popularity.size < n) ? (popularity.size) : (n)
+   
+   //find the most popular item, store it, and remove it, a max of n times (or less if there is not that many colors)
+   for(let i = 0; i < iterations; i++) {
+      let maxKey = 'Not a valid key!'
+      let max = 0
+      
+      for(var entry of popularityEntries) {
+         if(entry[1] > max) {
+            maxKey = entry[0]
+            max = entry[1]
+         }
+      }
+      
+      typesToFind.push(maxKey)
+      popularity.delete(maxKey)
+      popularityEntries = popularity.entries()
+   }
+
+   recommendations = []
+
+   //Searching through all clothing and picking those that are being searched for
+   for(let i = 0, numAdded = 0; i < clothing.length && numAdded < n; i++) {
+      if(typesToFind.includes(clothing[i].colorName)) {
+         let newItem = {
+            id: clothing[i].publicKey + '.png',
+            uri:  await Storage.get(clothing[i].publicKey, {level: 'public', download: false}),
+            type: clothing[i].type,
+            color: clothing[i].colorName
+         }
+         recommendations.push(newItem)
+         numAdded++
+      }
+   }
+
+   return recommendations
+}

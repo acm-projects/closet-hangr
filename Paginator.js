@@ -3,8 +3,8 @@ import { FlatList, View, Platform, Dimensions, Image, Text } from "react-native"
 import * as backEndFunctions from './backend/back_end_functions'
 import uuid from 'uuid/v4'
 
-export const ITEM_WIDTH = 1.0 * Dimensions.get('window').width * 3/4
-export const ITEM_MARGINS = 1.0 * Dimensions.get('window').width/16
+export const ITEM_WIDTH = 1.0 * Dimensions.get('window').width * 11/16
+export const ITEM_MARGINS = 1.0 * Dimensions.get('window').width*3/32
 export const ITEM_TOTAL_SIZE = ITEM_WIDTH + ITEM_MARGINS*2
 
 function Item({ uri }) {
@@ -24,7 +24,7 @@ constructor(props) {
 
 componentDidMount() {
   this.setState({
-    width: null, height: null
+    width: null, height: null 
   })
 }
 
@@ -91,12 +91,11 @@ render() {
         contentContainerStyle={this.props.contentContainerStyle} 
         keyExtractor={item => item.id}
         initialNumToRender={1}
-        marginHorizontal = {ITEM_MARGINS}
+        marginHorizontal = {(Dimensions.get('window').width - ITEM_TOTAL_SIZE)/2}
         removeClippedSubviews = {true}
         
         onLayout={ ({nativeEvent}) => {
-          const {width, height} = nativeEvent.layout;
-
+          const {width, height} = nativeEvent.layout
           this.setState({
             width, height
           })

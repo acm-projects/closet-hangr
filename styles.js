@@ -1,11 +1,11 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-const COLOR_PRIMARY = '#00bf7f';
-const COLOR_SECONDARY = '#1da4c2';
-const COLOR_TEXT = "#080808"
-const FONT_NORMAL = 'Avenir';
-const FONT_BOLD = '';
-const BORDER_RADIUS = 25;
+export const COLOR_PRIMARY = '#00bf7f';
+export const COLOR_SECONDARY = '#1da4c2';
+export const COLOR_TEXT = "#080808"
+export const FONT_NORMAL = 'Avenir';
+export const FONT_BOLD = '';
+export const BORDER_RADIUS = 25;
 
 export const windowWidthHundredth = Dimensions.get('window').width/100.0
  

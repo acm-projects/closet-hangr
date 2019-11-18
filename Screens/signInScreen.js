@@ -52,6 +52,7 @@ export class signInScreen extends Component {
 			<View style = {styles.logoContainer}>
 			  <Logo />
 			  	<Text style={styles.title}>
+					  Closet-Hangr
 			  </Text>
 			</View>
 			<View style = {styles.fieldContainer}>

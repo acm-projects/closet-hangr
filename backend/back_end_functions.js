@@ -14,13 +14,12 @@ import Clarifai from 'clarifai'
 import * as RecommendationEngine from './recommendation_engine'
 
 //Clarifai api key: 7002f76de9544611a98bbd808fc4078a
-//TODO OUTDATED KEY
-//Removebg api key: ddmywF3gfzCLF3ebfmX1X9qD
+//Removebg api key: dvnQFJDWLPH1V1uianGTkpY3
 //Imagga key: acc_f321262d2df8ba7
 //Imagga secret key: 05a6515cda2c989c606a821f9caa4454
 
-
-
+//Toggle whether the background should be removed
+let removeBG = true
 
 
 /*
@@ -64,7 +63,7 @@ export const removeBackground = async (
   let response = await fetch('https://api.remove.bg/v1.0/removebg', {  
 	  method: 'POST',
 	  headers: {
-		  'X-Api-Key': 'ddmywF3gfzCLF3ebfmX1X9qD',
+		  'X-Api-Key': 'dvnQFJDWLPH1V1uianGTkpY3',
 		  Accept: 'application/json',
 		  'Content-Type': 'application/json',
 	  },
@@ -163,10 +162,12 @@ export const addImageToDatabase = async (
 	} catch (err) {console.log('ERROR: While adding image to database, error creating png', err)}
 
 	//Remove the background from the image
-	//try {
-	//	await removeBackground(uri)
-	//	console.log('While adding image to database, successfully removed background')
-	//} catch (err) {console.log('ERROR: While adding image to databaes, error removing background', err)}
+	if(removeBG) {
+		try {
+			await removeBackground(uri)
+			console.log('While adding image to database, successfully removed background')
+		} catch (err) {console.log('ERROR: While adding image to databaes, error removing background', err)}
+	}
 
 	//Add to S3
 	try { //private

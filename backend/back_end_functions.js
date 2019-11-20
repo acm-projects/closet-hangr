@@ -17,6 +17,8 @@ import * as RecommendationEngine from './recommendation_engine'
 //Removebg api key: dvnQFJDWLPH1V1uianGTkpY3
 //Imagga key: acc_f321262d2df8ba7
 //Imagga secret key: 05a6515cda2c989c606a821f9caa4454
+//Weather API Key: 'f324d051137ba2c350b49e9be854ecf9'
+export const API_KEY = 'f324d051137ba2c350b49e9be854ecf9'
 
 //Toggle whether the background should be removed
 let removeBG = true
@@ -82,6 +84,11 @@ export function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+//Converts the given celcius temperature to fahrenheit
+export function convertCelciusToFahrenheit(value) {
+	return (1.8 * value) + 32;
+ }
+
 /*
   ______   ___   _    _    __  __  ___    ____  ____    _____ _   _ _   _  ____ _____ ___ ___  _   _ ____  
  |  _ \ \ / / \ | |  / \  |  \/  |/ _ \  |  _ \| __ )  |  ___| | | | \ | |/ ___|_   _|_ _/ _ \| \ | / ___| 
@@ -97,6 +104,7 @@ export function sleep(ms) {
 export const createNewUser = async (
    u_name = ""
 ) => {
+	console.log(u_name)
    //Create the object with the parameters for mutation
    const information = {
 		id: u_name,
@@ -460,6 +468,10 @@ export const signUp = async (
 		console.log('Successfully signed up')
 	} catch (err) {console.log('ERROR: Error signing up: ', err)}
 
+	try {
+		await Auth.signIn({username, password})
+		console.log('Successfully signed in')
+	} catch (err) {console.log('ERROR: Error Signing in: ', err)}
 	//Adding the user to the database
 	createNewUser(username)
 }

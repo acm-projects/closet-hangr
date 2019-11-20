@@ -610,6 +610,8 @@ export const trendingAmongUsers = async (n) => {
    //Getting all of the clothing in the database
    let allClothing = await API.graphql(graphqlOperation(queries.listClothings, {input: {}}))
    let clothing = allClothing.data.listClothings.items
+   //Randomizing the order of the clothing
+   clothing = randomizeList(clothing)
 
    for(let i = 0; i < clothing.length; i++) {
       // Set a higher value for the amount of times a type is in the list or create a new set of key and value and set the popularity to 1
@@ -662,6 +664,8 @@ export const trendingColorsAmongUsers = async (n) => {
    //Getting all of the clothing in the database
    let allClothing = await API.graphql(graphqlOperation(queries.listClothings, {input: {}}))
    let clothing = allClothing.data.listClothings.items
+   //Randomizing the order of the clothing
+   clothing = randomizeList(clothing)
 
    for(let i = 0; i < clothing.length; i++) {
       // Set a higher value for the amount of times a color is in the list or create a new set of key and value and set the popularity to 1
@@ -706,4 +710,56 @@ export const trendingColorsAmongUsers = async (n) => {
    }
 
    return recommendations
+}
+
+//Returns an array of length n of the clothing that is meant for the current weather
+export const weatherForUser = async (n, temp) => {
+
+   //Getting all of the clothing in the database
+   let allClothing = await API.graphql(graphqlOperation(queries.listClothings, {input: {}}))
+   let clothing = allClothing.data.listClothings.items
+   //Randomizing the order of the clothing
+   clothing = randomizeList(clothing)
+   
+   let temperatureDesc = ''
+   if(temp < 40) {
+      temperatureDesc = 'cold'
+   }
+   else if (temp < 90) {
+      temperatureDesc = 'moderate'
+   }
+   else {
+      temperatureDesc = 'hot'
+   }
+
+   recommendations = []
+
+   //Searching through all clothing and picking those that are being searched for
+   for(let i = 0, numAdded = 0; i < clothing.length && numAdded < n; i++) {
+      if((temperatureDesc == 'cold' && clothing[i].isForCold) || (temperatureDesc == 'moderate' && clothing[i].isForModerate) || (temperatureDesc == 'hot' && clothing[i].isForHot)) {
+         let newItem = {
+            id: clothing[i].publicKey + '.png',
+            uri:  await Storage.get(clothing[i].publicKey, {level: 'public', download: false}),
+            type: clothing[i].type,
+            color: clothing[i].colorName
+         }
+         recommendations.push(newItem)
+         numAdded++
+      }
+   }
+
+   return recommendations
+}
+
+//Given an array, randomizes the order of the elements in the array
+function randomizeList(list) {
+   for(let i = 0; i < list.length; i++)
+   {
+      let temp = list[i]
+      let randPos = Math.round(Math.random() * (list.length-1))
+      list[i] = list[randPos]
+      list[randPos] = temp
+   }
+
+   return list
 }

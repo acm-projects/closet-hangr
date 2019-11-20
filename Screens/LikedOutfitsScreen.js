@@ -37,13 +37,15 @@ import { SafeAreaView } from 'react-navigation';
 	render() {
 		return(
 			<SafeAreaView style={{flex: 1}}>
-				<Text style={styles.heading1}>
-         		 Liked Outfits
-        		</Text>
-				<View style={{flexDirection: 'column'}}>
-					<DoublePaginator 
-						data = {this.state.likedOutfits}
-					/>
+				<View style = {{marginTop: 5}}>
+					<Text style={styles.heading1}>
+						Liked Outfits
+					</Text>
+					<View style={{flexDirection: 'column'}}>
+						<DoublePaginator 
+							data = {this.state.likedOutfits}
+						/>
+					</View>
 				</View>
 			</SafeAreaView>
 		)

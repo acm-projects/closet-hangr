@@ -1,9 +1,9 @@
 {
+  "expoServerNgrokUrl": "https://3q-68q.noahagonzo.closethangr.exp.direct",
+  "packagerNgrokUrl": "https://packager.3q-68q.noahagonzo.closethangr.exp.direct",
+  "ngrokPid": 12628,
+  "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 14280,
-  "expoServerNgrokUrl": "https://9c-69s.noahagonzo.closethangr.exp.direct",
-  "packagerNgrokUrl": "https://packager.9c-69s.noahagonzo.closethangr.exp.direct",
-  "ngrokPid": 4028,
-  "devToolsPort": 19002
+  "packagerPid": 10972
 }

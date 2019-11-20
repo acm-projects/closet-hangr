@@ -64,22 +64,55 @@ export default class HomeScreen extends React.PureComponent {
 		if(response.cancelled != 'false') {
 			await backEndFunctions.addImageToDatabase(response.uri)
 		}
-	}
+  }
+  
+  fetchWeather(lat = 0, lon = 0) {
+    fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${backEndFunctions.API_KEY}&units=metric`
+    )
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          tops:this.state.tops,
+          bottoms: this.state.bottoms,
+          loaded: this.state.loaded,
+          temperature: Math.round(backEndFunctions.convertCelciusToFahrenheit(json.main.temp))
+        })
+      })
+  }
 
    
   async componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.fetchWeather(position.coords.latitude, position.coords.longitude);
+      },
+      error => {
+        this.setState({
+          error: 'Error Gettig Weather Condtions'
+        });
+      }
+    );
+
+
+    // let temperature = await backEndFunctions.fetchWeather(position.coords.latitude, position.coords.longitude)
     let user = await backEndFunctions.getCurrentUserInfo()
     this.setState({
       tops: await backEndFunctions.retrieveAllTops(user.username),
       bottoms: await backEndFunctions.retrieveAllBottoms(user.username),
-      loaded: true
+      loaded: true,
+      temperature: (this.state.temperature != undefined) ? (this.state.temperature) : (0),
     })
+
   }
+
+
+  
 
   render() {
     return (
       <SafeAreaView style = {{flex: 1}}>
-        <View style = {{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View style = {{flex: 1, flexDirection: 'column', justifyContent: 'space-between', marginTop: 10}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between',}}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.openDrawer()}>
@@ -113,10 +146,15 @@ export default class HomeScreen extends React.PureComponent {
               type = {"Bottoms"}
             />
           </View>
-          <View style={{flexDirection: 'row',justifyContent: 'space-between', alignContent: 'flex-end'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', marginBottom: styleValues.windowWidthHundredth*3}}>
             <TouchableOpacity onPress={this.addFromImagePicker} style = {styles.addImageIcon}>
               <Image source = {require('../assets/images/addFromPhotos.png')} style = {{width: styleValues.windowWidthHundredth * 7, height: styleValues.windowWidthHundredth * 7, marginLeft: styleValues.windowWidthHundredth * 1.5, marginTop: styleValues.windowWidthHundredth * 1.5}}/>
             </TouchableOpacity>
+            <View style = {styles.temperatureContainer}>
+              <Text style = {{fontSize: 30, fontFamily: 'Avenir'}}>
+                {this.state.temperature}°F
+              </Text>
+            </View>
             <TouchableOpacity onPress={this.addFromCamera} style={styles.addCameraIcon}>
               <Image source = {require('../assets/images/addFromCamera.png')} style = {{width: styleValues.windowWidthHundredth * 6, height: styleValues.windowWidthHundredth * 6, marginLeft: styleValues.windowWidthHundredth * 2, marginTop: styleValues.windowWidthHundredth * 2}}/>
             </TouchableOpacity>

@@ -91,13 +91,14 @@ export default class RecommendationsScreen extends Component {
     //Get the typs of clothing that are trending among other users
     this.setState({
       images: await recommendationEngine.trendingAmongUsers(3),
-      colorRecommendations: await recommendationEngine.trendingColorsAmongUsers(3)
+      colorRecommendations: await recommendationEngine.trendingColorsAmongUsers(3),
+      weatherRecommendations: await recommendationEngine.weatherForUser(3, 30)
     })
   }
 
   render() {
     return (
-    <View style = {{marginTop: 20}}>
+    <View style = {{marginTop: 25}}>
       <Text style={styles.heading1}>
         Recommendations
       </Text>
@@ -123,6 +124,21 @@ export default class RecommendationsScreen extends Component {
           horizontal = {true} 
         />
       </View>
+
+      <Text style={styles.heading2}>
+        Recommended Based on Weather:
+      </Text>
+
+      <View style={{ height: 160, marginTop: 10 }}>
+        <FlatList
+          data = {this.state.weatherRecommendations} 
+          renderItem={({item})=><Item uri={item.uri}/> } 
+          keyExtractor={item => item.id} 
+          horizontal = {true} 
+        />
+      </View>
+
+
     </View>     
     )
   }
